@@ -1,0 +1,28 @@
+﻿Compilación iniciada a las 1/22/2015 12:08:11 AM.
+     1>Proyecto "C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Test3\Test3.vcxproj" en el nodo 2 (Build destinos).
+     1>CustomBuild:
+         Moc'ing window.h...
+         Moc'ing mainwindow.h...
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I. /IE:\QtInstallx64\5.4\msvc2013_64_opengl\include /I.\GeneratedFiles\Debug /IE:\QtInstallx64\5.4\msvc2013_64_opengl\include\QtCore /IE:\QtInstallx64\5.4\msvc2013_64_opengl\include\QtGui /IE:\QtInstallx64\5.4\msvc2013_64_opengl\include\QtOpenGL /IE:\QtInstallx64\5.4\msvc2013_64_opengl\include\QtWidgets /Zi /nologo /W1 /WX- /Od /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt GeneratedFiles\Debug\moc_mainwindow.cpp GeneratedFiles\Debug\moc_window.cpp logo.cpp main.cpp mainwindow.cpp window.cpp
+         moc_mainwindow.cpp
+         moc_window.cpp
+         logo.cpp
+         main.cpp
+         mainwindow.cpp
+         window.cpp
+         Generando código...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\x64\Debug\\Test3.exe" /NOLOGO /LIBPATH:E:\QtInstallx64\5.4\msvc2013_64_opengl\lib qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5OpenGLd.lib opengl32.lib glu32.lib Qt5Widgetsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\x64\Debug\Test3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\x64\Debug\Test3.lib" /MACHINE:X64 x64\Debug\moc_mainwindow.obj
+         x64\Debug\moc_window.obj
+         x64\Debug\logo.obj
+         x64\Debug\main.obj
+         x64\Debug\mainwindow.obj
+         x64\Debug\window.obj
+     1>window.obj : error LNK2019: símbolo externo "public: __cdecl GLWidget::GLWidget(class QWidget *)" (??0GLWidget@@QEAA@PEAVQWidget@@@Z) sin resolver al que se hace referencia en la función "public: __cdecl Window::Window(class MainWindow *)" (??0Window@@QEAA@PEAVMainWindow@@@Z)
+     1>C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\x64\Debug\\Test3.exe : fatal error LNK1120: 1 externos sin resolver
+     1>Compilación del proyecto terminada "C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Test3\Test3.vcxproj" (Build destinos) -- ERROR.
+
+ERROR al compilar.
+
+Tiempo transcurrido 00:00:07.22

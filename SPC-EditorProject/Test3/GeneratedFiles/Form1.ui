@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>772</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>SPC TFG</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>90</y>
+      <width>291</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayoutXX">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>772</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuCosa">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionMenu_Item_1"/>
+    <addaction name="separator"/>
+    <addaction name="actionMenu_Item2"/>
+   </widget>
+   <addaction name="menuCosa"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionMenu_Item_1">
+   <property name="text">
+    <string>Menu Item 1</string>
+   </property>
+  </action>
+  <action name="actionMenu_Item2">
+   <property name="text">
+    <string>Menu Item2</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

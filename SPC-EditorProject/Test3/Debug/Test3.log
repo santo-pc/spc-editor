@@ -1,0 +1,31 @@
+﻿Compilación iniciada a las 2/18/2015 1:50:43 PM.
+     1>Proyecto "C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Test3\Test3.vcxproj" en el nodo 2 (Build destinos).
+     1>CustomBuild:
+         Moc'ing glwidget.h...
+         Moc'ing window.h...
+         Moc'ing mainwindow.h...
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /IE:\QtInstallx86\5.4\msvc2013_opengl\include /I.\GeneratedFiles\Debug /IE:\QtInstallx86\5.4\msvc2013_opengl\include\QtCore /IE:\QtInstallx86\5.4\msvc2013_opengl\include\QtGui /IE:\QtInstallx86\5.4\msvc2013_opengl\include\QtOpenGL /IE:\QtInstallx86\5.4\msvc2013_opengl\include\QtWidgets /Zi /nologo /W1 /WX- /Od /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt GeneratedFiles\Debug\moc_glwidget.cpp GeneratedFiles\Debug\moc_mainwindow.cpp GeneratedFiles\Debug\moc_window.cpp glwidget.cpp main.cpp mainwindow.cpp window.cpp
+         moc_glwidget.cpp
+         moc_mainwindow.cpp
+         moc_window.cpp
+         glwidget.cpp
+         main.cpp
+         mainwindow.cpp
+         window.cpp
+         Generando código...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Win32\Debug\\Test3.exe" /NOLOGO /LIBPATH:E:\QtInstallx86\5.4\msvc2013_opengl\lib qtmaind.lib Qt5Cored.lib Qt5Guid.lib Qt5OpenGLd.lib opengl32.lib glu32.lib Qt5Widgetsd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Win32\Debug\Test3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Win32\Debug\Test3.lib" /MACHINE:X86 /SAFESEH Debug\moc_glwidget.obj
+         Debug\moc_mainwindow.obj
+         Debug\moc_window.obj
+         Debug\glwidget.obj
+         Debug\logo.obj
+         Debug\main.obj
+         Debug\mainwindow.obj
+         Debug\window.obj
+         Test3.vcxproj -> C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Win32\Debug\Test3.exe
+     1>Compilación del proyecto terminada "C:\Dev\TFGSvn\trunk\Qt_ASSIMP\Test3\Test3\Test3.vcxproj" (Build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:13.78
