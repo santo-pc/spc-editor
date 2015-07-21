@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 	mainWindow.resize(mainWindow.sizeHint());	
 	mainWindow.showMaximized();*/
 	Form1 form;
-	form.resize(form.sizeHint());
+	//form.resize(form.sizeHint());
 	form.showMaximized();
 	
 

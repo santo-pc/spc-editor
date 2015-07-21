@@ -35,6 +35,32 @@
      </property>
     </layout>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>370</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -45,15 +71,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuCosa">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionMenu_Item_1"/>
-    <addaction name="separator"/>
-    <addaction name="actionMenu_Item2"/>
-   </widget>
-   <addaction name="menuCosa"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -65,17 +82,27 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
-  <action name="actionMenu_Item_1">
-   <property name="text">
-    <string>Menu Item 1</string>
-   </property>
-  </action>
-  <action name="actionMenu_Item2">
-   <property name="text">
-    <string>Menu Item2</string>
-   </property>
-  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>522</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>567</x>
+     <y>396</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_button_clicked()</slot>
+ </slots>
 </ui>

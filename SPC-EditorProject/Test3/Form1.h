@@ -6,7 +6,7 @@
 #include <qgraphicsview.h>
 #include "GeneratedFiles\ui_Form2.h"
 #include "qnodeseditor.h"
-
+#include "QNEditorNodes.h"
 
 class Form1 : public QMainWindow
 {
@@ -17,11 +17,16 @@ class Form1 : public QMainWindow
 		~Form1();
 	
 	private:
+		
 		Ui::MainWindow *ui;
 
-		QNodesEditor *nodesEditor;
+		QNMainNode * mainNode;
+		QNodesEditor * nodesEditor;
 		QMenu *fileMenu;
 		QGraphicsView *view;
 		QGraphicsScene *scene;
+
+		private slots:
+			void on_button_clicked();
 };
 

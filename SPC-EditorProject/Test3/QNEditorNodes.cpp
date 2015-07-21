@@ -1,6 +1,33 @@
 #include "QNEditorNodes.h"
 #include "qneport.h"
+#include <qmessagebox.h>
 #include  <iostream>
+
+/************************** MAIN NODE **************************/
+QNMainNode::QNMainNode(QGraphicsItem *parent) : QNEBlock(parent)
+{
+}
+
+void QNMainNode::Init()
+{
+	addPort("Main Node", false, QNEPort::NamePort);
+	ColorBasePort = addInputPort("Color");
+	SpecularPort = addInputPort("Specular");
+	NormalPort = addInputPort("Normal");
+	AlphaPort = addInputPort("Alpha");
+	
+}
+void QNMainNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Main Node Resolve");
+	msgBox.exec();
+}
+
+QNMainNode ::~QNMainNode()
+{
+}
+
 
 /************************** CONST FLOAT NODE **************************/
 QNConstFloatNode::QNConstFloatNode(QGraphicsItem *parent) : QNEBlock(parent)

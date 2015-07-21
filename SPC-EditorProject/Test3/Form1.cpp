@@ -5,6 +5,9 @@
 #include "qneport.h"
 #include "QNEditorNodes.h"
 #include <iostream>
+
+
+
 Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	
@@ -22,6 +25,18 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	nodesEditor = new QNodesEditor(this);
 	nodesEditor->install(scene);
 	
+
+	/*connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_button_clicked()));*/
+	
+
+
+	// NODES
+	
+	mainNode = new QNMainNode(0);
+	scene->addItem(mainNode);
+	mainNode->Init();
+
+
 
 
 	QNEBlock * nodeVector3 = new QNVector3DNode(0);
@@ -93,7 +108,7 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 
 
 	
-
+	mainNode->setPos(0, 0);
 	nodeVector3->setPos(0, 50);
 	nodeFloat->setPos(150, 100);
 	nodeVector2->setPos(0, 150);
@@ -116,4 +131,9 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 Form1::~Form1()
 {
 	delete ui;
+}
+
+void Form1::on_button_clicked()
+{
+	mainNode->Resolve();
 }

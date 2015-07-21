@@ -7,6 +7,22 @@
 
 */
 
+/************************** MAIN NODE **************************/
+class QNMainNode : public QNEBlock
+{
+public:
+	QNEPort * ColorBasePort;
+	QNEPort * SpecularPort;
+	QNEPort * NormalPort;
+	QNEPort * AlphaPort;
+
+	QNMainNode(QGraphicsItem *parent = 0);
+	~QNMainNode();
+	void Init();
+	void Resolve();
+};
+
+
 /************************** CONST VALUE NODE **************************/
 class QNConstFloatNode : public QNEBlock
 {
@@ -14,6 +30,7 @@ public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);
 	~QNConstFloatNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** VECTOR 2 NODE **************************/
@@ -23,6 +40,7 @@ public:
 	QNVector2DNode(QGraphicsItem *parent = 0);
 	~QNVector2DNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** VECTOR 3 NODE **************************/
@@ -32,6 +50,7 @@ class QNVector3DNode : public QNEBlock
 		QNVector3DNode(QGraphicsItem *parent = 0);
 		~QNVector3DNode();
 		void Init();
+		void Resolve(){};
 };
 
 /************************** VECTOR 4 NODE **************************/
@@ -41,6 +60,7 @@ public:
 	QNVector4DNode(QGraphicsItem *parent = 0);
 	~QNVector4DNode();
 	void Init();
+	void Resolve(){};
 };
 
 
@@ -51,6 +71,7 @@ public:
 	QNTextureNode(QGraphicsItem *parent = 0);
 	~QNTextureNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** ADD **************************/
@@ -60,6 +81,7 @@ public:
 	QNAddNode(QGraphicsItem *parent = 0);
 	~QNAddNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** SUBTRACT **************************/
@@ -69,6 +91,7 @@ public:
 	QNSubtractNode(QGraphicsItem *parent = 0);
 	~QNSubtractNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** MULTIPLY **************************/
@@ -78,6 +101,7 @@ public:
 	QNMultiplyNode(QGraphicsItem *parent = 0);
 	~QNMultiplyNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** POWER **************************/
@@ -87,6 +111,7 @@ public:
 	QNPowerNode(QGraphicsItem *parent = 0);
 	~QNPowerNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** SQRT **************************/
@@ -96,6 +121,7 @@ public:
 	QNSqrtNode(QGraphicsItem *parent = 0);
 	~QNSqrtNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** LOG **************************/
@@ -105,6 +131,7 @@ public:
 	QNLogNode(QGraphicsItem *parent = 0);
 	~QNLogNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** MIN **************************/
@@ -114,6 +141,7 @@ public:
 	QNMinNode(QGraphicsItem *parent = 0);
 	~QNMinNode();
 	void Init();
+	void Resolve(){};
 };
 	
 /************************** MAX **************************/
@@ -123,6 +151,7 @@ public:
 	QNMaxNode(QGraphicsItem *parent = 0);
 	~QNMaxNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** ABS **************************/
@@ -132,6 +161,7 @@ public:
 	QNAbsNode(QGraphicsItem *parent = 0);
 	~QNAbsNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** SIGN **************************/
@@ -141,6 +171,7 @@ public:
 	QNSignNode(QGraphicsItem *parent = 0);
 	~QNSignNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** MOD **************************/
@@ -150,6 +181,7 @@ public:
 	QNModNode(QGraphicsItem *parent = 0);
 	~QNModNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** CLAMP **************************/
@@ -159,6 +191,7 @@ public:
 	QNClampNode(QGraphicsItem *parent = 0);
 	~QNClampNode();
 	void Init();
+	void Resolve(){};
 };
 
 /************************** LERP **************************/
@@ -168,4 +201,5 @@ public:
 	QNLerpNode(QGraphicsItem *parent = 0);
 	~QNLerpNode();
 	void Init();
+	void Resolve(){};
 };
