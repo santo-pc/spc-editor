@@ -52,7 +52,7 @@ public:
 	int type() const { return Type; }
 	virtual void Init();
 	virtual void Resolve();
-	QString  titulo
+	//QString  titulo
 
 
 protected:
