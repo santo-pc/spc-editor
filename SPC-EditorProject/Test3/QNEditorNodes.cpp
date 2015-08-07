@@ -2,10 +2,12 @@
 #include "qneport.h"
 #include <qmessagebox.h>
 #include  <iostream>
+#include <qneconnection.h>
 
 /************************** MAIN NODE **************************/
 QNMainNode::QNMainNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Main Node";
 }
 
 void QNMainNode::Init()
@@ -22,6 +24,21 @@ void QNMainNode::Resolve()
 	QMessageBox msgBox;
 	msgBox.setText("Main Node Resolve");
 	msgBox.exec();
+
+	
+	for (int i = 0; i < ColorBasePort->connections().size(); ++i)
+	{
+		QNEConnection*auxCon = ColorBasePort->connections().at(i);
+		
+
+		QString text = "Conexion " + QString::number(i) + " hacia nodo " + auxCon->port1()->block()->titulo;
+		msgBox.setText(text);
+		msgBox.exec();
+
+		
+	}
+	
+
 }
 
 QNMainNode ::~QNMainNode()
@@ -32,6 +49,7 @@ QNMainNode ::~QNMainNode()
 /************************** CONST FLOAT NODE **************************/
 QNConstFloatNode::QNConstFloatNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNConstFloatNode";
 }
 
 void QNConstFloatNode::Init()
@@ -48,6 +66,7 @@ QNConstFloatNode ::~QNConstFloatNode()
 /************************** VECTOR 2 NODE **************************/
 QNVector2DNode::QNVector2DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNVector2DNode";
 }
 
 void QNVector2DNode::Init()

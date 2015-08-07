@@ -40,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
 	std::cout << "Creating Block" << std::endl;
+	titulo = "Block Parent";
 	QPainterPath p;
 	p.addRoundedRect(-50, -15, 100, 30, 5, 5);
 	setPath(p);
