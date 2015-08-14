@@ -5,15 +5,15 @@
 #include "qneport.h"
 #include "QNEditorNodes.h"
 #include <iostream>
-
+#include "StringsAndDefines.h"
 
 
 Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	
 	ui->setupUi(this);
-	GLWidget * widget = new GLWidget();
-	ui->verticalLayoutXX->addWidget(widget);
+	glwidget = new GLWidget();
+	ui->verticalLayoutXX->addWidget(glwidget);
 	
 	scene = new QGraphicsScene();
 	
@@ -136,4 +136,10 @@ Form1::~Form1()
 void Form1::on_button_clicked()
 {
 	mainNode->Resolve();
+	string cadenaX = STRINGDEFINES->SampleFragmet();
+	cout << "Pintando cadena\n\n" << cadenaX << endl;
+
+	glwidget->RebuildShader(STRINGDEFINES->SampleFragmet());
+
+	cout << "FIN BUTTON" << endl;
 }

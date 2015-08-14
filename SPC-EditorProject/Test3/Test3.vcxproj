@@ -191,6 +191,8 @@
     <ClCompile Include="QNEditorNodes.cpp" />
     <ClCompile Include="qneport.cpp" />
     <ClCompile Include="qnodeseditor.cpp" />
+    <ClCompile Include="ShaderManufacter.cpp" />
+    <ClCompile Include="StringsAndDefines.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.c" />
@@ -200,6 +202,8 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="ShaderManufacter.h" />
+    <ClInclude Include="Utils.h" />
     <CustomBuild Include="Form1.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing Form1.h...</Message>
@@ -243,6 +247,7 @@
     <ClInclude Include="qneconnection.h" />
     <ClInclude Include="QNEditorNodes.h" />
     <ClInclude Include="qneport.h" />
+    <ClInclude Include="StringsAndDefines.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />

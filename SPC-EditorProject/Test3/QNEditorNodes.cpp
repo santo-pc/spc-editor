@@ -19,7 +19,7 @@ void QNMainNode::Init()
 	AlphaPort = addInputPort("Alpha");
 	
 }
-void QNMainNode::Resolve()
+std::string QNMainNode::Resolve()
 {
 	QMessageBox msgBox;
 	msgBox.setText("Main Node Resolve");
@@ -37,6 +37,8 @@ void QNMainNode::Resolve()
 
 		
 	}
+
+	return "";
 	
 
 }

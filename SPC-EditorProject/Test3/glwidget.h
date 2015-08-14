@@ -34,6 +34,8 @@ public slots:
 	void setYRotation(int angle);
 	void setZRotation(int angle);
 	void cleanup();
+	void RebuildShader(const std::string & fragment);
+
 
 signals:
 	void xRotationChanged(int angle);
@@ -72,6 +74,7 @@ private:
 
 	Mesh * mesh = new Mesh();
 	Shader * shader;
+	Shader * errorShader;
 	
 };
 

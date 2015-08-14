@@ -7,6 +7,7 @@
 #include "GeneratedFiles\ui_Form2.h"
 #include "qnodeseditor.h"
 #include "QNEditorNodes.h"
+#include "glwidget.h"
 
 class Form1 : public QMainWindow
 {
@@ -20,6 +21,8 @@ class Form1 : public QMainWindow
 		
 		Ui::MainWindow *ui;
 
+
+		GLWidget * glwidget;
 		QNMainNode * mainNode;
 		QNodesEditor * nodesEditor;
 		QMenu *fileMenu;

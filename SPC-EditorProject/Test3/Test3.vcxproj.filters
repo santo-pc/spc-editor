@@ -129,6 +129,12 @@
     <ClCompile Include="QNEditorNodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StringsAndDefines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManufacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="logo.h">
@@ -171,6 +177,15 @@
       <Filter>Source Files\NodeEditor</Filter>
     </ClInclude>
     <ClInclude Include="QNEditorNodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StringsAndDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManufacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

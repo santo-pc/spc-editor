@@ -19,7 +19,7 @@ public:
 	QNMainNode(QGraphicsItem *parent = 0);
 	~QNMainNode();
 	void Init();
-	void Resolve();
+	std::string Resolve();
 };
 
 
@@ -30,7 +30,7 @@ public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);
 	~QNConstFloatNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** VECTOR 2 NODE **************************/
@@ -40,7 +40,7 @@ public:
 	QNVector2DNode(QGraphicsItem *parent = 0);
 	~QNVector2DNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** VECTOR 3 NODE **************************/
@@ -50,7 +50,7 @@ class QNVector3DNode : public QNEBlock
 		QNVector3DNode(QGraphicsItem *parent = 0);
 		~QNVector3DNode();
 		void Init();
-		void Resolve(){};
+		std::string Resolve(){ return ""; };
 };
 
 /************************** VECTOR 4 NODE **************************/
@@ -60,7 +60,7 @@ public:
 	QNVector4DNode(QGraphicsItem *parent = 0);
 	~QNVector4DNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 
@@ -71,7 +71,7 @@ public:
 	QNTextureNode(QGraphicsItem *parent = 0);
 	~QNTextureNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** ADD **************************/
@@ -81,7 +81,7 @@ public:
 	QNAddNode(QGraphicsItem *parent = 0);
 	~QNAddNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** SUBTRACT **************************/
@@ -91,7 +91,7 @@ public:
 	QNSubtractNode(QGraphicsItem *parent = 0);
 	~QNSubtractNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** MULTIPLY **************************/
@@ -101,7 +101,7 @@ public:
 	QNMultiplyNode(QGraphicsItem *parent = 0);
 	~QNMultiplyNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** POWER **************************/
@@ -111,7 +111,7 @@ public:
 	QNPowerNode(QGraphicsItem *parent = 0);
 	~QNPowerNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** SQRT **************************/
@@ -121,7 +121,7 @@ public:
 	QNSqrtNode(QGraphicsItem *parent = 0);
 	~QNSqrtNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** LOG **************************/
@@ -131,7 +131,7 @@ public:
 	QNLogNode(QGraphicsItem *parent = 0);
 	~QNLogNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** MIN **************************/
@@ -141,7 +141,7 @@ public:
 	QNMinNode(QGraphicsItem *parent = 0);
 	~QNMinNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 	
 /************************** MAX **************************/
@@ -151,7 +151,7 @@ public:
 	QNMaxNode(QGraphicsItem *parent = 0);
 	~QNMaxNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** ABS **************************/
@@ -161,7 +161,7 @@ public:
 	QNAbsNode(QGraphicsItem *parent = 0);
 	~QNAbsNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** SIGN **************************/
@@ -171,7 +171,7 @@ public:
 	QNSignNode(QGraphicsItem *parent = 0);
 	~QNSignNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** MOD **************************/
@@ -181,7 +181,7 @@ public:
 	QNModNode(QGraphicsItem *parent = 0);
 	~QNModNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** CLAMP **************************/
@@ -191,7 +191,7 @@ public:
 	QNClampNode(QGraphicsItem *parent = 0);
 	~QNClampNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };
 
 /************************** LERP **************************/
@@ -201,5 +201,5 @@ public:
 	QNLerpNode(QGraphicsItem *parent = 0);
 	~QNLerpNode();
 	void Init();
-	void Resolve(){};
+	std::string Resolve(){ return ""; };
 };

@@ -231,8 +231,8 @@ void QNEBlock::Init()
 
 }
 
-void QNEBlock::Resolve()
+std::string QNEBlock::Resolve()
 {
-
+	return "";
 }
 

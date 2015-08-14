@@ -46,7 +46,7 @@
 Logo::Logo(): m_count(0)
 {
 	
-	system("PAUSE");
+	//system("PAUSE");
 	//Mesh * mesh = new Mesh();
 	//mesh->LoadMesh("../../Resources/Models/torus3DMax.obj");
 	printf("Hello Logo");

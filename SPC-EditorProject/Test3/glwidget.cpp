@@ -5,6 +5,7 @@
 #include <math.h>
 #include <iostream>
 #include "Mesh.h"
+#include "qmessagebox.h"
 
 
 
@@ -116,9 +117,9 @@ void GLWidget::initializeGL()
 	glCullFace(GL_BACK);
 	
 	GLOBAL_CONTAIER->GlobalShader = new Shader("../../Resources/Shaders/phongNormalShader");
-	system("PAUSE");
+	GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");
 	mesh->LoadMesh("../../Resources/Models/sphere.obj");
-	//mesh->LoadMesh("../../Resources/Models/torus3DMax.obj");
+	
 	
 
 
@@ -153,6 +154,9 @@ void GLWidget::resizeGL(int w, int h)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
 	//m_lastPos = event->pos();
+	QMessageBox msgBox;
+	msgBox.setText("MoousePress");
+	msgBox.exec();
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
@@ -169,3 +173,33 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 	}
 	m_lastPos = event->pos();*/
 }
+
+
+void GLWidget::RebuildShader(const std::string & fragment)
+{
+	
+	QMessageBox msgBox;
+
+	QString fragmentCode(fragment.c_str());
+
+	
+	msgBox.setText("Borrando");
+	msgBox.exec();
+
+	delete GLOBAL_CONTAIER->GlobalShader;
+
+
+	/*msgBox.setText("Creando");
+	msgBox.exec();
+*/
+	cout << "Pintando fragment: " << endl;
+	cout << fragment << endl;
+
+
+	cout << "Creando Shader desde widget: " << endl;
+	GLOBAL_CONTAIER->GlobalShader = new Shader(fragment, true);
+	
+
+}
+
+

@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 //#include <QGraphicsPathItem>
 #include <qgraphicsitem.h>
 #include <qstring.h>
+#include <string>
 
 class QNEPort;
 class QNEBlock : public QGraphicsPathItem
@@ -51,7 +52,7 @@ public:
 
 	int type() const { return Type; }
 	virtual void Init();
-	virtual void Resolve();
+	virtual std::string Resolve();
 	QString  titulo;
 
 
