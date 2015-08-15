@@ -137,6 +137,7 @@ void Form1::on_button_clicked()
 {
 	mainNode->Resolve();
 	string cadenaX = STRINGDEFINES->SampleFragmet();
+
 	cout << "Pintando cadena\n\n" << cadenaX << endl;
 
 	glwidget->RebuildShader(STRINGDEFINES->SampleFragmet());

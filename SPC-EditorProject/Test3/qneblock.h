@@ -53,7 +53,7 @@ public:
 	int type() const { return Type; }
 	virtual void Init();
 	virtual std::string Resolve();
-	QString  titulo;
+	std::string  titulo;
 	void SetId(int val);
 	void SetGruopId(int val);
 	int GetId();

@@ -7,6 +7,9 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <iomanip>
+#include <locale>
+#include <sstream>
 
 
 using namespace std;
@@ -34,4 +37,13 @@ static std::string LoadShader(const std::string& fileName)
 	}
 
 	return output;
+}
+
+static std::string ConvertIntToString(int i)
+{
+	stringstream convert;   // stream used for the conversion
+
+	convert << i;      // insert the textual representation of 'Number' in the characters in the stream
+
+	return convert.str();
 }

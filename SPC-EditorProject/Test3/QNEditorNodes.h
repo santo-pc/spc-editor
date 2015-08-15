@@ -1,5 +1,6 @@
 #pragma once
 #include "qneblock.h"
+#include "glm\glm.hpp"
 
 /*
 	HERE ARE DECLARED ALL THE NODES THAT COMPOUND THE 
@@ -34,21 +35,27 @@ public:
 /************************** CONST VALUE NODE **************************/
 class QNConstFloatNode : public QNEBlock
 {
+private:
+	glm::vec3 value;
+
 public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);
 	~QNConstFloatNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** VECTOR 2 NODE **************************/
 class QNVector2DNode : public QNEBlock
 {
+private:
+	glm::vec2 value;
+
 public:
 	QNVector2DNode(QGraphicsItem *parent = 0);
 	~QNVector2DNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** VECTOR 3 NODE **************************/

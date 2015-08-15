@@ -29,20 +29,39 @@ std::string QNMainNode::Resolve()
 	msgBox.setText("Main Node Resolve");
 	msgBox.exec();
 
+	string colorValueString;
+	string specularValueString;
+	string normalValueString;
+	string alphaValueString;
 	
-	for (int i = 0; i < ColorBasePort->connections().size(); ++i)
+	// Para las conexiones
+	QNEConnection	* auxCon = NULL;
+	QNEBlock		* auxNode = NULL;
+
+	// Para COLOR
+	// Get the first edge conector
+	auxCon = ColorBasePort->connections().at(0);		
+	if (auxCon)
 	{
-		QNEConnection*auxCon = ColorBasePort->connections().at(i);
-		
+		auxNode = auxCon->port1()->block();
 
-		QString text = "Conexion " + QString::number(i) + " hacia nodo " + auxCon->port1()->block()->titulo;
-		msgBox.setText(text);
-		msgBox.exec();
-
-		
+		if (auxNode)
+		{
+			colorValueString = auxNode->Resolve();
+		}
 	}
 
-	return "";
+	
+	string result =
+		"vec4 colorBase = " + colorValueString + ";\n"
+		"vec4 specular = " + specularValueString + ";\n"
+		"vec4 normal = " + normalValueString + ";\n"
+		"vec4 alpha = " + alphaValueString + ";\n"
+		;
+
+
+		
+	return result;
 	
 
 }
@@ -65,9 +84,18 @@ void QNConstFloatNode::Init()
 	addOutputPort("Value");
 }
 
+std::string QNConstFloatNode::Resolve()
+{
+
+
+	return "";
+}
+
 QNConstFloatNode ::~QNConstFloatNode()
 {
 }
+
+
 
 
 /************************** VECTOR 2 NODE **************************/
@@ -84,6 +112,10 @@ void QNVector2DNode::Init()
 	addOutputPort("G");
 }
 
+std::string QNVector2DNode::Resolve()
+{
+	return "";
+}
 QNVector2DNode ::~QNVector2DNode()
 {
 }

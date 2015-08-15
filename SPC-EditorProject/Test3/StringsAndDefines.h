@@ -23,6 +23,8 @@ class StringsAndDefines
 
 };
 
+
+
 static const int ID_TYPE_SPMainNode = 1;
 static const int ID_TYPE_SPConstFloatNode = 2;
 static const int ID_TYPE_SPVector2DNode = 3;
@@ -42,3 +44,5 @@ static const int ID_TYPE_SPSignNode = 16;
 static const int ID_TYPE_SPModNode = 17;
 static const int ID_TYPE_SPClampNode = 18;
 static const int ID_TYPE_SPLerpNode = 19;
+
+static const int TOTAL_TYPES_NODES = 19;
