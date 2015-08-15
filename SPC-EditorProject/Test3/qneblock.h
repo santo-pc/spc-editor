@@ -54,9 +54,15 @@ public:
 	virtual void Init();
 	virtual std::string Resolve();
 	QString  titulo;
-
+	void SetId(int val);
+	void SetGruopId(int val);
+	int GetId();
+	int GetType();
 
 protected:
+	int m_type = 0;
+	int m_id;
+
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 	int horzMargin;
 	int vertMargin;

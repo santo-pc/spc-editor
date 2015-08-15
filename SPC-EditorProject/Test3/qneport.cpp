@@ -75,19 +75,15 @@ void QNEPort::setName(const QString &n)
 
 void QNEPort::setIsOutput(bool o)
 {
-	std::cout << "SetIsOutPut() 1 " << std::endl;
 	isOutput_ = o;
 	//QFont font("times", 12);
 	QFontMetrics fm(scene()->font());
-	std::cout << "SetIsOutPut() 2 " << std::endl;
 	QRect r = fm.boundingRect(name);
-	std::cout << "SetIsOutPut() 3 " << std::endl;
 
 	if (isOutput_)
 		label->setPos(-radius_ - margin - label->boundingRect().width(), -label->boundingRect().height()/2);
 	else
 		label->setPos(radius_ + margin, -label->boundingRect().height()/2);
-	std::cout << "SetIsOutPut() 4 " << std::endl;
 }
 
 int QNEPort::radius()

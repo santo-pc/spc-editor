@@ -36,6 +36,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneport.h"
 #include <iostream>
+#include "NodesManager.h"
+
 
 QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 {
@@ -52,25 +54,25 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 	vertMargin = 5;
 	width = horzMargin;
 	height = vertMargin;
+	
+	MANAGER->RegisterNode(this);
 	std::cout << "Creating Block Completed" << std::endl;
+
+	
+
+
+
 }
 
 QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int ptr)
 {
-	std::cout << "Port1" << std::endl;
 	QNEPort *port = new QNEPort(this);
-	std::cout << "Port11" << std::endl;
 	port->setName(name);
-	std::cout << "Port111" << std::endl;
 	port->setIsOutput(isOutput);
-	std::cout << "Port1111" << std::endl;
 	port->setNEBlock(this);
-	std::cout << "Port11111" << std::endl;
 	port->setPortFlags(flags);
-	std::cout << "Port1111111" << std::endl;
 	port->setPtr(ptr);
-	std::cout << "Port2" << std::endl;
-	if (!scene()) std::cout << "scene IS NULL" << std::endl; else std::cout << "scene EXIST" << std::endl;
+	if (!scene()) std::cout << "Scene is Null" << std::endl; 
 	QFontMetrics fm(scene()->font());
 	int w = fm.width(name);
 	int h = fm.height();
@@ -78,11 +80,9 @@ QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int pt
 	if (w > width - horzMargin)
 		width = w + horzMargin;
 	height += h;
-	std::cout << "Port3" << std::endl;
 	QPainterPath p;
 	p.addRoundedRect(-width/2, -height/2, width, height, 5, 5);
 	setPath(p);
-	std::cout << "Port4" << std::endl;
 	int y = -height / 2 + vertMargin + port->radius();
 	foreach(QGraphicsItem *port_, childItems()) {
 		if (port_->type() != QNEPort::Type)
@@ -95,7 +95,6 @@ QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int pt
 			port->setPos(-width/2 - port->radius(), y);
 		y += h;
 	}
-	std::cout << "Port5 Fin" << std::endl;
 	return port;
 }
 
@@ -236,3 +235,21 @@ std::string QNEBlock::Resolve()
 	return "";
 }
 
+void QNEBlock::SetId(int val)
+{
+	m_id = val;
+}
+void QNEBlock::SetGruopId(int val)
+{
+	m_type = val;
+}
+
+int QNEBlock::GetId()
+{
+	return m_id;
+}
+
+int QNEBlock::GetType()
+{
+	return m_type;
+}

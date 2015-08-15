@@ -135,6 +135,9 @@
     <ClCompile Include="ShaderManufacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NodesManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="logo.h">
@@ -186,6 +189,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderManufacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

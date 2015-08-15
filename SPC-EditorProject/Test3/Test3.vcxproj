@@ -185,6 +185,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="NodesManager.cpp" />
     <ClCompile Include="obj_loader.cpp" />
     <ClCompile Include="qneblock.cpp" />
     <ClCompile Include="qneconnection.cpp" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="NodesManager.h" />
     <ClInclude Include="ShaderManufacter.h" />
     <ClInclude Include="Utils.h" />
     <CustomBuild Include="Form1.h">

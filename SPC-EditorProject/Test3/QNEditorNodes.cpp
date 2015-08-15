@@ -3,11 +3,15 @@
 #include <qmessagebox.h>
 #include  <iostream>
 #include <qneconnection.h>
+#include "StringsAndDefines.h"
 
 /************************** MAIN NODE **************************/
 QNMainNode::QNMainNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
 	titulo = "Main Node";
+	m_type = ID_TYPE_SPMainNode;
+	
+
 }
 
 void QNMainNode::Init()
@@ -52,6 +56,7 @@ QNMainNode ::~QNMainNode()
 QNConstFloatNode::QNConstFloatNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
 	titulo = "QNConstFloatNode";
+	m_type = ID_TYPE_SPConstFloatNode;
 }
 
 void QNConstFloatNode::Init()
@@ -69,6 +74,7 @@ QNConstFloatNode ::~QNConstFloatNode()
 QNVector2DNode::QNVector2DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
 	titulo = "QNVector2DNode";
+	m_type = ID_TYPE_SPVector2DNode;
 }
 
 void QNVector2DNode::Init()
@@ -86,6 +92,8 @@ QNVector2DNode ::~QNVector2DNode()
 /************************** VECTOR 3 NODE **************************/
 QNVector3DNode::QNVector3DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNVector3DNode";
+	m_type = ID_TYPE_SPVector3DNode;
 }
 
 void QNVector3DNode::Init()
@@ -104,6 +112,8 @@ QNVector3DNode ::~QNVector3DNode()
 /************************** VECTOR 4 NODE **************************/
 QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNVector4DNode";
+	m_type = ID_TYPE_SPVector4DNode;
 }
 
 void QNVector4DNode::Init()
@@ -123,6 +133,8 @@ QNVector4DNode ::~QNVector4DNode()
 /************************** TEXTURE NODE **************************/
 QNTextureNode::QNTextureNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNTextureNode";
+	m_type = ID_TYPE_SPTextureNode;
 }
 
 void QNTextureNode::Init()
@@ -142,6 +154,8 @@ QNTextureNode ::~QNTextureNode()
 /************************** ADD NODE **************************/
 QNAddNode::QNAddNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNAddNode";
+	m_type = ID_TYPE_SPAddNode;
 }
 
 void QNAddNode::Init()
@@ -162,6 +176,8 @@ QNAddNode ::~QNAddNode()
 /************************** SUBTRACT NODE **************************/
 QNSubtractNode::QNSubtractNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNSubstract";
+	m_type = ID_TYPE_SPSubtractNode;
 }
 
 void QNSubtractNode::Init()
@@ -182,6 +198,8 @@ QNSubtractNode ::~QNSubtractNode()
 /************************** MULTIPLY NODE **************************/
 QNMultiplyNode::QNMultiplyNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Multiply";
+	m_type = ID_TYPE_SPMultiplyNode;
 }
 
 void QNMultiplyNode::Init()
@@ -200,6 +218,8 @@ QNMultiplyNode ::~QNMultiplyNode()
 /************************** POWER NODE **************************/
 QNPowerNode::QNPowerNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "QNPowerNode";
+	m_type = ID_TYPE_SPPowerNode;
 }
 
 void QNPowerNode::Init()
@@ -219,6 +239,8 @@ QNPowerNode ::~QNPowerNode()
 /************************** SQRT NODE **************************/
 QNSqrtNode::QNSqrtNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Sqrt";
+	m_type = ID_TYPE_SPSqrtNode;
 }
 
 void QNSqrtNode::Init()
@@ -235,6 +257,8 @@ QNSqrtNode ::~QNSqrtNode()
 /************************** LOG NODE **************************/
 QNLogNode::QNLogNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Log";
+	m_type = ID_TYPE_SPLogNode;
 }
 
 void QNLogNode::Init()
@@ -252,6 +276,8 @@ QNLogNode ::~QNLogNode()
 /************************** MIN NODE **************************/
 QNMinNode::QNMinNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Min";
+	m_type = ID_TYPE_SPMinNode;
 }
 
 void QNMinNode::Init()
@@ -269,6 +295,8 @@ QNMinNode ::~QNMinNode()
 /************************** MAX NODE **************************/
 QNMaxNode::QNMaxNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Max";
+	m_type = ID_TYPE_SPMaxNode;
 }
 
 void QNMaxNode::Init()
@@ -286,6 +314,8 @@ QNMaxNode ::~QNMaxNode()
 /************************** ABS NODE **************************/
 QNAbsNode::QNAbsNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Abs";
+	m_type = ID_TYPE_SPAbsNode;
 }
 
 void QNAbsNode::Init()
@@ -302,6 +332,8 @@ QNAbsNode ::~QNAbsNode()
 /************************** SIGN NODE **************************/
 QNSignNode::QNSignNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Sign";
+	m_type = ID_TYPE_SPSignNode;
 }
 
 void QNSignNode::Init()
@@ -319,6 +351,8 @@ QNSignNode ::~QNSignNode()
 /************************** MOD NODE **************************/
 QNModNode::QNModNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Mod";
+	m_type = ID_TYPE_SPModNode;
 }
 
 void QNModNode::Init()
@@ -337,6 +371,8 @@ QNModNode ::~QNModNode()
 /************************** CLAMP NODE **************************/
 QNClampNode::QNClampNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Clamp";
+	m_type = ID_TYPE_SPClampNode;
 }
 
 void QNClampNode::Init()
@@ -357,6 +393,8 @@ QNClampNode ::~QNClampNode()
 /************************** LERP NODE **************************/
 QNLerpNode::QNLerpNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
+	titulo = "Lerp";
+	m_type = ID_TYPE_SPLerpNode;
 }
 
 void QNLerpNode::Init()

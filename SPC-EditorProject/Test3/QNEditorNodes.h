@@ -7,6 +7,14 @@
 
 */
 
+class SPNodesManager
+{
+	private:
+	public:
+
+};
+
+
 /************************** MAIN NODE **************************/
 class QNMainNode : public QNEBlock
 {
