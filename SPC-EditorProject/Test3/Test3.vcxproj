@@ -192,7 +192,7 @@
     <ClCompile Include="QNEditorNodes.cpp" />
     <ClCompile Include="qneport.cpp" />
     <ClCompile Include="qnodeseditor.cpp" />
-    <ClCompile Include="ShaderManufacter.cpp" />
+    <ClCompile Include="ShaderComposer.cpp" />
     <ClCompile Include="StringsAndDefines.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -204,7 +204,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="NodesManager.h" />
-    <ClInclude Include="ShaderManufacter.h" />
+    <ClInclude Include="ShaderComposer.h" />
     <ClInclude Include="Utils.h" />
     <CustomBuild Include="Form1.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

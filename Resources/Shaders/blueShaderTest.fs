@@ -19,7 +19,6 @@ uniform int LightsCount;  // actual number of lights
 uniform float AtteConstantTest;
 uniform float AtteLinearTest;
 uniform float AtteExpTest;
-uniform PointLightInfo Light[MAX_NUM_LIGHTS];
 
 struct PointLightInfo 
 {
@@ -32,7 +31,7 @@ struct PointLightInfo
 	float AtteExp;
 };
 
-
+uniform PointLightInfo Light[MAX_NUM_LIGHTS];
 
 struct MaterialInfo 
 {

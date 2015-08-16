@@ -178,14 +178,14 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::RebuildShader(const std::string & fragment)
 {
 	
-	QMessageBox msgBox;
+	//QMessageBox msgBox;
 
 	QString fragmentCode(fragment.c_str());
 
 	
-	msgBox.setText("Borrando");
+	/*msgBox.setText("Borrando");
 	msgBox.exec();
-
+*/
 	delete GLOBAL_CONTAIER->GlobalShader;
 
 

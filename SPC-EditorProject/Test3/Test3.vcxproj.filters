@@ -132,10 +132,10 @@
     <ClCompile Include="StringsAndDefines.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManufacter.cpp">
+    <ClCompile Include="NodesManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NodesManager.cpp">
+    <ClCompile Include="ShaderComposer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,10 +188,10 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManufacter.h">
+    <ClInclude Include="NodesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NodesManager.h">
+    <ClInclude Include="ShaderComposer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

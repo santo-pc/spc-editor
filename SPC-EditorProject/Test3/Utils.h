@@ -41,9 +41,9 @@ static std::string LoadShader(const std::string& fileName)
 
 static std::string ConvertIntToString(int i)
 {
-	stringstream convert;   // stream used for the conversion
+	stringstream convert;
 
-	convert << i;      // insert the textual representation of 'Number' in the characters in the stream
+	convert << i;      
 
 	return convert.str();
 }

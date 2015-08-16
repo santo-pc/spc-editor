@@ -36,7 +36,7 @@ public:
 class QNConstFloatNode : public QNEBlock
 {
 private:
-	glm::vec3 value;
+	float value = 9.5;
 
 public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);

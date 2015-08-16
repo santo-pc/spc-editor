@@ -4,6 +4,7 @@
 #include  <iostream>
 #include <qneconnection.h>
 #include "StringsAndDefines.h"
+#include "ShaderComposer.h"
 
 /************************** MAIN NODE **************************/
 QNMainNode::QNMainNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -29,10 +30,10 @@ std::string QNMainNode::Resolve()
 	msgBox.setText("Main Node Resolve");
 	msgBox.exec();
 
-	string colorValueString;
-	string specularValueString;
-	string normalValueString;
-	string alphaValueString;
+	string colorValueString = "";
+	string specularValueString = "";
+	string normalValueString = "";
+	string alphaValueString = "";
 	
 	// Para las conexiones
 	QNEConnection	* auxCon = NULL;
@@ -53,10 +54,13 @@ std::string QNMainNode::Resolve()
 
 	
 	string result =
-		"vec4 colorBase = " + colorValueString + ";\n"
-		"vec4 specular = " + specularValueString + ";\n"
-		"vec4 normal = " + normalValueString + ";\n"
-		"vec4 alpha = " + alphaValueString + ";\n"
+		"vec3 SPMainNode()\n"
+		"{"
+		"	vec4 colorBase = " + colorValueString + ";\n"
+		"	vec4 specular = " + specularValueString + ";\n"
+		"	vec4 normal = " + normalValueString + ";\n"
+		"	vec4 alpha = " + alphaValueString + ";\n"
+		"}"
 		;
 
 
@@ -86,9 +90,25 @@ void QNConstFloatNode::Init()
 
 std::string QNConstFloatNode::Resolve()
 {
+	QMessageBox msgBox;
+	msgBox.setText("ConstFloatNode Resolve");
+	msgBox.exec();
+	
+	string result;
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	string valueString = ConvertIntToString(value);	
+	
+	// 2. Componer su condigo
+	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
+	result = "const float " + nameMember + " = " + valueString + ";\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeConst(this, result); // en este caso a AppendCodeConst
 
 
-	return "";
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 QNConstFloatNode ::~QNConstFloatNode()

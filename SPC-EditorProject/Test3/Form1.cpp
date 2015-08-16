@@ -6,6 +6,7 @@
 #include "QNEditorNodes.h"
 #include <iostream>
 #include "StringsAndDefines.h"
+#include "ShaderComposer.h"
 
 
 Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
@@ -141,6 +142,10 @@ void Form1::on_button_clicked()
 	cout << "Pintando cadena\n\n" << cadenaX << endl;
 
 	glwidget->RebuildShader(STRINGDEFINES->SampleFragmet());
+
+	std::string result =  SHADER_COMPOSER->Compose();
+
+	
 
 	cout << "FIN BUTTON" << endl;
 }
