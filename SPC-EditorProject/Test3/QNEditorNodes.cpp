@@ -6,6 +6,58 @@
 #include "StringsAndDefines.h"
 #include "ShaderComposer.h"
 
+static std::string GetSuffixByNodeType(int type)
+{
+	string suffix = "";
+	switch (type)
+	{
+		// const values case
+		case ID_TYPE_SPConstFloatNode:
+		case ID_TYPE_SPVector2DNode:
+		case ID_TYPE_SPVector3DNode:
+		case ID_TYPE_SPVector4DNode:
+			suffix = "";
+			break;
+
+		default: // Default Case for Functions
+			suffix = "()";
+			break;
+	}
+
+	return suffix;
+}
+
+// Util Function, used for get the name of the conected member by a certain port of a node
+static std::string GetMemberStringByPort(QNEPort * port)
+{
+	std::string memberNameResult = "ERROR GETTIG CONECTION MEMBER'S NAME";
+	
+	if (!port) 
+		return memberNameResult;
+
+	QNEConnection	* auxCon = NULL;	// Edge connection
+	QNEBlock		* auxNode = NULL;	// Node connected 
+
+	// Get the first edge conector
+	auxCon = port->connections().at(0);
+	if (auxCon)
+	{
+		auxNode = auxCon->port1()->block();
+
+		if (auxNode)
+		{
+			memberNameResult = auxNode->Resolve();
+			std::string suffix = GetSuffixByNodeType(auxNode->GetType());
+			memberNameResult += suffix;
+
+			return memberNameResult;
+		}
+	}
+
+	return "NO CONNECTION MADE";
+
+}
+
 /************************** MAIN NODE **************************/
 QNMainNode::QNMainNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -30,28 +82,10 @@ std::string QNMainNode::Resolve()
 	msgBox.setText("Main Node Resolve");
 	msgBox.exec();
 
-	string colorValueString = "";
-	string specularValueString = "";
-	string normalValueString = "";
-	string alphaValueString = "";
-	
-	// Para las conexiones
-	QNEConnection	* auxCon = NULL;
-	QNEBlock		* auxNode = NULL;
-
-	// Para COLOR
-	// Get the first edge conector
-	auxCon = ColorBasePort->connections().at(0);		
-	if (auxCon)
-	{
-		auxNode = auxCon->port1()->block();
-
-		if (auxNode)
-		{
-			colorValueString = auxNode->Resolve();
-		}
-	}
-
+	string colorValueString = GetMemberStringByPort(ColorBasePort);
+	string specularValueString = GetMemberStringByPort(SpecularPort);
+	string normalValueString = GetMemberStringByPort(NormalPort);
+	string alphaValueString = GetMemberStringByPort(AlphaPort);
 	
 	string result =
 		"vec3 SPMainNode()\n"
@@ -94,18 +128,17 @@ std::string QNConstFloatNode::Resolve()
 	msgBox.setText("ConstFloatNode Resolve");
 	msgBox.exec();
 	
-	string result;
+	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
 	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
 	string valueString = ConvertIntToString(value);	
 	
-	// 2. Componer su condigo
+	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
-	result = "const float " + nameMember + " = " + valueString + ";\n";
+	codeDefinition = "const float " + nameMember + " = " + valueString + ";\n";
 
 	// 3.Registrar el codigo a la lista que le corresponde
-	SHADER_COMPOSER->AppendCodeConst(this, result); // en este caso a AppendCodeConst
-
+	SHADER_COMPOSER->AppendCodeConst(this, codeDefinition); // en este caso a AppendCodeConst
 
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
@@ -134,7 +167,21 @@ void QNVector2DNode::Init()
 
 std::string QNVector2DNode::Resolve()
 {
-	return "";
+	string codeDefinition;
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	string rValueString = ConvertIntToString(value.r);
+	string gValueString = ConvertIntToString(value.g);
+
+	// 2. Componer el codigo de este nodo
+	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
+	codeDefinition = "const vec2 " + nameMember + " = vec2(" + rValueString + ", " + gValueString + ");\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeConst(this, codeDefinition); // en este caso a AppendCodeConst
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 QNVector2DNode ::~QNVector2DNode()
 {
@@ -160,6 +207,30 @@ QNVector3DNode ::~QNVector3DNode()
 {
 }
 
+std::string QNVector3DNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNVector3DNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	string rValueString = ConvertIntToString(value.r);
+	string gValueString = ConvertIntToString(value.g);
+	string bValueString = ConvertIntToString(value.b);
+
+	// 2. Componer el codigo de este nodo
+	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
+	codeDefinition = "const vec3 " + nameMember + " = vec3(" + rValueString + ", " + gValueString + ", " + bValueString + ");\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeConst(this, codeDefinition); // en este caso a AppendCodeConst
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
+
 
 /************************** VECTOR 4 NODE **************************/
 QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -181,6 +252,30 @@ QNVector4DNode ::~QNVector4DNode()
 {
 }
 
+std::string QNVector4DNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNVector4DNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	string rValueString = ConvertIntToString(value.r);
+	string gValueString = ConvertIntToString(value.g);
+	string bValueString = ConvertIntToString(value.b);
+	string aValueString = ConvertIntToString(value.a);
+
+	// 2. Componer el codigo de este nodo
+	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
+	codeDefinition = "const vec4 " + nameMember + " = vec4(" + rValueString + ", " + gValueString + ", " + bValueString + ", " + aValueString + ");\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeConst(this, codeDefinition); // en este caso a AppendCodeConst
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
 
 /************************** TEXTURE NODE **************************/
 QNTextureNode::QNTextureNode(QGraphicsItem *parent) : QNEBlock(parent)

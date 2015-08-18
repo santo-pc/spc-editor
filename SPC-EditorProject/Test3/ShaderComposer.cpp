@@ -36,7 +36,7 @@ std::string ShaderComposer::RegistrarMiembro(QNEBlock * node)
 		
 
 
-		std::string resultName = node->titulo + ConvertIntToString(nameIndex) + "()";
+		std::string resultName = node->titulo + ConvertIntToString(nameIndex);
 		
 		// Guardar en la lista
 		GuardarEnLista(node->GetId(), resultName);

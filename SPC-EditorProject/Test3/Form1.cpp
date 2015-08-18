@@ -51,6 +51,11 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	QNEBlock * nodeVector2 = new QNVector2DNode(0);
 	scene->addItem(nodeVector2);
 	nodeVector2->Init();
+
+	QNEBlock * nodeVector4 = new QNVector4DNode(0);
+	scene->addItem(nodeVector4);
+	nodeVector4->Init();
+
 	
 	QNEBlock * nodeAdd = new QNAddNode(0);
 	scene->addItem(nodeAdd);
@@ -108,7 +113,7 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	lerpNode->Init();
 
 
-	
+	nodeVector4->setPos(10, 10);
 	mainNode->setPos(0, 0);
 	nodeVector3->setPos(0, 50);
 	nodeFloat->setPos(150, 100);

@@ -61,21 +61,27 @@ public:
 /************************** VECTOR 3 NODE **************************/
 class QNVector3DNode : public QNEBlock
 {
+	private:
+		glm::vec3 value;
+
 	public:
 		QNVector3DNode(QGraphicsItem *parent = 0);
 		~QNVector3DNode();
 		void Init();
-		std::string Resolve(){ return ""; };
+		std::string Resolve();
 };
 
 /************************** VECTOR 4 NODE **************************/
 class QNVector4DNode : public QNEBlock
 {
+	private:
+		glm::vec4 value;
+
 public:
 	QNVector4DNode(QGraphicsItem *parent = 0);
 	~QNVector4DNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 
