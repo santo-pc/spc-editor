@@ -56,18 +56,20 @@ void Form1::on_button_clicked()
 {
 	SHADER_COMPOSER->ClearAll();
 
-	mainNode->Resolve();
+	string mainString = mainNode->Resolve();
 
 	string cadenaX = STRINGDEFINES->SampleFragmet();
 
-	cout << "Pintando cadena\n\n" << cadenaX << endl;
+	cout << "Pintando cadena\n\n" << cadenaX << endl;	
 
-	glwidget->RebuildShader(STRINGDEFINES->SampleFragmet());	
+	std::string result = SHADER_COMPOSER->Compose(mainString);
 
-	std::string result =  SHADER_COMPOSER->Compose();	
+	glwidget->RebuildShader(result);
+
+	SaveShaderToFile(result, "shaderResult.fs");
 
 	cout << "FIN BUTTON" << endl;
-	//ShowContextMenu(QPoint(500, 500));
+	
 }
 
 

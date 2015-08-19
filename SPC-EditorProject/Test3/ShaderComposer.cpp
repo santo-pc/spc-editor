@@ -107,37 +107,34 @@ bool ShaderComposer::AppendCodeTexture(QNEBlock * node, std::string code)
 }
 
 
-string ShaderComposer::Compose()
+string ShaderComposer::Compose(string mainString)
 {
-	string result = "#version 400 \n\n";
+	string result = GetHeaderStandard();
 
 
-	result += "\n// CONSTS SECTION\n";
+	
+	result += "\n// Const Section\n";
 	for (std::map<int, std::string>::const_iterator it = listNodeCodeConst.begin(); it != listNodeCodeConst.end(); ++it)
 	{
 		result += (*it).second + "\n";
 	}
 
-	result += "\n// TEXTURE SECTION\n";
+	result += "\n// Textures Section\n";
 
 	for (std::map<int, std::string>::const_iterator it = listNodeCodeTexture.begin(); it != listNodeCodeTexture.end(); ++it)
 	{
 		result += (*it).second + "\n";
 	}
 
-	result += "\n// FUNCTIONS SECTION\n";
+	result += "\n// Functions Section\n";
 
 	for (std::map<int, std::string>::const_iterator it = listNodeCodeFunction.begin(); it != listNodeCodeFunction.end(); ++it)
 	{
 		result += (*it).second + "\n";
 	}
 
-
-	result +=	"void main()\n"
-				"{\n"
-				"	// THIS IS THE MAIN\n"
-				"}\n"
-				;
+	result += GetBlinnPhongStandard();
+	result += mainString;
 
 	cout << result;
 
@@ -165,32 +162,64 @@ void ShaderComposer::ClearAll()
 }
 string ShaderComposer::GetHeaderStandard()
 {
-	return "#version 400"
+	return "#version 400\n"
 
-		"const int MAX_NUM_LIGHTS = 8; // max number of lights"
+		"const int MAX_NUM_LIGHTS = 8; // max number of lights\n"
 		"\n"
-		"in vec3 LightDir[MAX_NUM_LIGHTS];"
-		"in vec3 VexterPosEye;"
-		"in vec2 TexCoord;"
-		"in vec3 ViewDir;"
-		"in vec3 LightDirStaticTan;"
+		"in vec3 LightDir[MAX_NUM_LIGHTS];\n"
+		"in vec3 VexterPosEye;\n"
+		"in vec2 TexCoord;\n"
+		"in vec3 ViewDir;\n"
+		"in vec3 LightDirStaticTan;\n"
 		"\n"
-		"uniform sampler2D ColorTex;"
-		"uniform sampler2D NormalMapTex;"
-		"uniform sampler2D SpecularMapTex;"
+		"uniform sampler2D ColorTex;\n"
+		"uniform sampler2D NormalMapTex;\n"
+		"uniform sampler2D SpecularMapTex;\n"
 		"\n"
-		"uniform int Model;"
-		"uniform int LightsCount;  // actual number of lights "
+		"uniform int Model;\n"
+		"uniform int LightsCount;  // actual number of lights \n"
 		"\n"
 		"\n"
-		"struct MaterialInfo"
-		"{"
-		"	vec3 Ka;            // Ambient reflectivity"
-		"	vec3 Ks;            // Specular reflectivity"
-		"	float Shininess;    // Specular shininess factor"
-		"};"
-		"//uniform MaterialInfo Material;"
-		""
-		"layout(location = 0) out vec4 FragColor;";
+		"struct MaterialInfo\n"
+		"{\n" 
+		"	vec3 Ka;            // Ambient reflectivity\n"
+		"	vec3 Ks;            // Specular reflectivity\n"
+		"	float Shininess;    // Specular shininess factor\n"
+		"};\n"
+		"//uniform MaterialInfo Material;\n"
+		"\n"
+		"layout(location = 0) out vec4 FragColor;\n";
+
+}
+
+string ShaderComposer::GetBlinnPhongStandard()
+{
+	return "\nvec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)\n"
+	"{\n"
+	"	MaterialInfo Material;\n"
+	"	Material.Ka = vec3(0.3);\n"
+	"	Material.Ks = vec3(0.2);\n"
+	"	Material.Shininess = 25;\n"
+	""
+	"	float diffuseIntensity = 0.50;\n"
+	"	float ambientIntensity = 0.52;\n"
+	"	vec3 lighColor = vec3(0.7, 0.7, 0.7);\n"
+	"\n"
+	"	// this is blinn phong\n"
+	"	vec3 h = normalize(LightDirStaticTan + ViewDir);\n"
+	"\n"
+	"	vec3 ambient = (ambientIntensity *  lighColor) * Material.Ka;\n"
+	"\n"
+	"	float sDotN = max(dot(LightDirStaticTan, norm), 0.0);\n"
+	"\n"
+	"	vec3 diffuse = (diffuseIntensity *  lighColor) * diffuseRef * sDotN;\n"
+	"\n"
+	"	vec3 spec = vec3(0.0);\n"
+	"\n"
+	"	if (sDotN > 0.0)\n"
+	"		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Material.Shininess);\n"
+	"\n"
+	"	return ambient + diffuse + spec;\n"
+	"}\n";
 
 }

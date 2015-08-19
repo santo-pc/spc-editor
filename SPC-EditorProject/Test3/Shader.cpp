@@ -10,6 +10,7 @@ static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 static GLuint CreateShader(const std::string& text, GLenum type);
 
 
+
 static GLuint CreateShader(const std::string& text, GLenum type)
 {
 	GLuint shader = glCreateShader(type);
@@ -107,8 +108,8 @@ Shader::Shader(const std::string& fragmentCode, bool usingCode)
 	std::string vertexFile = "../../Resources/Shaders/phongNormalShader.vs";
 
 	std::cout << "CREANDO SHADER2" << endl;
-	m_shaders[0] = CreateShader(LoadShader(vertexFile), GL_VERTEX_SHADER);	// carga el standar VS
-	m_shaders[1] = CreateShader(fragmentCode , GL_FRAGMENT_SHADER);					// carga solo el frament
+	m_shaders[0] = CreateShader(LoadShader(vertexFile), GL_VERTEX_SHADER);			// carga el standard VS
+	m_shaders[1] = CreateShader(fragmentCode , GL_FRAGMENT_SHADER);					// carga solo el fragment
 
 	std::cout << "CREANDO SHADER 3" << endl;
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)

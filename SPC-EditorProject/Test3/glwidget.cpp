@@ -178,25 +178,10 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 void GLWidget::RebuildShader(const std::string & fragment)
 {
 	
-	//QMessageBox msgBox;
-
 	QString fragmentCode(fragment.c_str());
 
-	
-	/*msgBox.setText("Borrando");
-	msgBox.exec();
-*/
 	delete GLOBAL_CONTAIER->GlobalShader;
 
-
-	/*msgBox.setText("Creando");
-	msgBox.exec();
-*/
-	cout << "Pintando fragment: " << endl;
-	cout << fragment << endl;
-
-
-	cout << "Creando Shader desde widget: " << endl;
 	GLOBAL_CONTAIER->GlobalShader = new Shader(fragment, true);
 	
 

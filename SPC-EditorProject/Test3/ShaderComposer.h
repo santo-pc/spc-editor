@@ -30,12 +30,13 @@ class ShaderComposer
 		bool AppendCodeFunction(QNEBlock * node, std::string code);
 		bool AppendCodeConst(QNEBlock * node, std::string code);
 		bool AppendCodeTexture(QNEBlock * node, std::string code);
-		string Compose();
+		string Compose(string mainString);
 		void ClearAll();
 
 
 
 private :
 	std::string GetHeaderStandard();
+	std::string GetBlinnPhongStandard();
 };
 

@@ -88,13 +88,23 @@ std::string QNMainNode::Resolve()
 	string alphaValueString = GetMemberStringByPort(AlphaPort);
 	
 	string result =
-		"vec3 SPMainNode()\n"
+		"void main() \n"
 		"{"
-		"	vec4 colorBase = " + colorValueString + ";\n"
-		"	vec4 specular = " + specularValueString + ";\n"
-		"	vec4 normal = " + normalValueString + ";\n"
-		"	vec4 alpha = " + alphaValueString + ";\n"
-		"}"
+		"	vec4 colorBase = vec4(" + colorValueString + ");\n"
+		"	vec4 specularLvl = vec4(" + specularValueString + ");\n"
+		"	vec4 normal = vec4(" + normalValueString + ");\n"
+		"	vec4 alpha = vec4(" + alphaValueString + ");\n"
+		"	vec4 lightIntensity = vec4(0.0);"
+		"\n"
+		"	vec4 colorAux = vec4(0.0);\n"
+		"\n"
+		"	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb);\n"
+		"\n"
+		"	FragColor = lightIntensity;\n"
+		"\n"
+		"	FragColor.a = alpha.a;\n"
+		"\n"
+		"}\n"
 		;
 
 

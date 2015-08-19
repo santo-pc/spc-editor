@@ -47,3 +47,23 @@ static std::string ConvertIntToString(int i)
 
 	return convert.str();
 }
+
+static bool SaveShaderToFile(std::string text, std::string fileName)
+{
+
+	cout << "Guardando Shader Strings: " << fileName << endl;
+	ofstream myfile("../../Resources/Shaders/" + fileName, ios::out | ios::trunc);
+
+	cout << "Saving File Path:" << "../../Resources/Shaders/" + fileName << endl;
+	
+	if (myfile.is_open())
+	{
+		myfile << text;		
+		myfile.close();
+		return true;
+	}
+	
+	cout << "Unable to open file";
+	return false;
+	
+}

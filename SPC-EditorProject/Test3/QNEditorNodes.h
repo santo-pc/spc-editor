@@ -36,7 +36,7 @@ public:
 class QNConstFloatNode : public QNEBlock
 {
 private:
-	float value = 9.5;
+	float value = 0.3;
 
 public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);
