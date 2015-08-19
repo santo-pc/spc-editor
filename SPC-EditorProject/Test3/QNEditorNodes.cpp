@@ -309,14 +309,46 @@ void QNAddNode::Init()
 {
 	addPort("Add", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
+	
 	
 	
 }
 
 QNAddNode ::~QNAddNode()
 {
+}
+
+std::string QNAddNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNAddNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+	
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+	
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return A + B;\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 
@@ -331,8 +363,8 @@ void QNSubtractNode::Init()
 {
 	addPort("Subs", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
 
 
 }
@@ -340,6 +372,38 @@ void QNSubtractNode::Init()
 QNSubtractNode ::~QNSubtractNode()
 {
 }
+
+std::string QNSubtractNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNSubtractNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return A - B;\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
+
 
 
 /************************** MULTIPLY NODE **************************/
@@ -353,13 +417,43 @@ void QNMultiplyNode::Init()
 {
 	addPort("Multiply", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
 
 }
 
 QNMultiplyNode ::~QNMultiplyNode()
 {
+}
+std::string QNMultiplyNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNMultiplyNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return A * B;\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 /************************** POWER NODE **************************/
@@ -373,13 +467,44 @@ void QNPowerNode::Init()
 {
 	addPort("Power", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
-	addInputPort("Exp");
+	ValuePort =  addInputPort("Val");
+	ExpPort = addInputPort("Exp");
 
 }
 
 QNPowerNode ::~QNPowerNode()
 {
+}
+
+std::string QNPowerNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNMultiplyNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string ValueString = GetMemberStringByPort(ValuePort);
+	string ExpValueString = GetMemberStringByPort(ExpPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 val = " + ValueString + ";\n"
+		"	vec4 exp = " + ExpValueString + ";\n"
+		"	return vec4(pow(val.r, exp), pow(val.g, exp), pow(val.b, exp),pow(val.a, exp)) ;\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 
@@ -394,12 +519,43 @@ void QNSqrtNode::Init()
 {
 	addPort("Sqrt", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
+	ValPort = addInputPort("Val");
 }
 
 QNSqrtNode ::~QNSqrtNode()
 {
 }
+
+std::string QNSqrtNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNSqrtNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string ValueString = GetMemberStringByPort(ValPort);
+	
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 val = " + ValueString + ";\n"		
+		"	return vec4(sqrt(val));\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
+
 
 /************************** LOG NODE **************************/
 QNLogNode::QNLogNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -412,11 +568,41 @@ void QNLogNode::Init()
 {
 	addPort("Log", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
+	ValPort = addInputPort("Val");
 }
 
 QNLogNode ::~QNLogNode()
 {
+}
+
+std::string QNLogNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNLogNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string ValueString = GetMemberStringByPort(ValPort);
+
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 val = " + ValueString + ";\n"
+		"	return vec4(log(val));\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 
@@ -431,14 +617,44 @@ void QNMinNode::Init()
 {
 	addPort("Min", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
 }
 
 QNMinNode ::~QNMinNode()
 {
 }
 
+std::string QNMinNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNMinNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return min(A, B) ;\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
 /************************** MAX NODE **************************/
 QNMaxNode::QNMaxNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -450,12 +666,43 @@ void QNMaxNode::Init()
 {
 	addPort("Max", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
 }
 
 QNMaxNode ::~QNMaxNode()
 {
+}
+
+std::string QNMaxNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNMaxNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return max(A, B);\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 /************************** ABS NODE **************************/
@@ -469,11 +716,41 @@ void QNAbsNode::Init()
 {
 	addPort("Abs", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
+	ValPort = addInputPort("Val");
 }
 
 QNAbsNode ::~QNAbsNode()
 {
+}
+
+std::string QNAbsNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNAbsNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string ValueString = GetMemberStringByPort(ValPort);
+
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 val = " + ValueString + ";\n"
+		"	return vec4(abs(val));\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 /************************** SIGN NODE **************************/
@@ -487,11 +764,42 @@ void QNSignNode::Init()
 {
 	addPort("Sign", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
+	ValPort = addInputPort("Val");
 }
 
 QNSignNode ::~QNSignNode()
 {
+}
+
+std::string QNSignNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNSignNode Resolve");
+	msgBox.exec();
+	cout << "sign resolve1" << endl;
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+	cout << "sign resolve2" << endl;
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string ValueString = GetMemberStringByPort(ValPort);
+
+	cout << "sign resolve3" << endl;
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 val = " + ValueString + ";\n"
+		"	return vec4(sign(val));\n"
+		"}\n";
+
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+	cout << "sign resolve4" << endl;
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 
@@ -506,14 +814,44 @@ void QNModNode::Init()
 {
 	addPort("Mod", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
+	APort = addInputPort("A");
+	BPort = addInputPort("B");
 }
 
 QNModNode ::~QNModNode()
 {
 }
 
+std::string QNModNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNModNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string aValueString = GetMemberStringByPort(APort);
+	string bValueString = GetMemberStringByPort(BPort);
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 A = " + aValueString + ";\n"
+		"	vec4 B = " + bValueString + ";\n"
+		"	return mod(A, B);\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
 
 /************************** CLAMP NODE **************************/
 QNClampNode::QNClampNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -526,14 +864,50 @@ void QNClampNode::Init()
 {
 	addPort("Clamp", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("Val");
-	addInputPort("Min");
-	addInputPort("Max");
+
+
+	ValPort = addInputPort("Val");
+	MinPort = addInputPort("Min");
+	MaxPort = addInputPort("Max");
 
 }
 
 QNClampNode ::~QNClampNode()
 {
+}
+
+std::string QNClampNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNClampNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string valValueString = GetMemberStringByPort(ValPort);
+	string minValueString = GetMemberStringByPort(MinPort);
+	string maxValueString = GetMemberStringByPort(MaxPort);
+
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 Val = " + valValueString + ";\n"
+		"	vec4 Min = " + minValueString + ";\n"
+		"	vec4 Max = " + maxValueString + ";\n"
+		"	return clamp(Val, Min, Max);\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 
@@ -548,14 +922,49 @@ void QNLerpNode::Init()
 {
 	addPort("Lerp", false, QNEPort::NamePort);
 	addOutputPort("");
-	addInputPort("A");
-	addInputPort("B");
-	addInputPort("T");
+	
+	ValXPort = addInputPort("A");
+	ValYPort = addInputPort("B");
+	TPort = addInputPort("T");
 
 }
 
 QNLerpNode ::~QNLerpNode()
 {
+}
+
+std::string QNLerpNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QNLerpNode Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+
+
+	// 2. Componer el codigo de este nodo
+	// Para cada puerto obtengo el nombre de los conectados
+	string valXValueString = GetMemberStringByPort(ValXPort);
+	string valYValueString = GetMemberStringByPort(ValYPort);
+	string tValueString = GetMemberStringByPort(TPort);
+
+
+	codeDefinition = "vec4 " + nameMember + "()\n"
+		"{\n"
+		"	vec4 ValX = " + valXValueString + ";\n"
+		"	vec4 Valy = " + valYValueString + ";\n"
+		"	vec4 t = " + tValueString + ";\n"
+		"	return mix(ValX, Valy, t);\n"
+		"}\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeFunction(this, codeDefinition); // en este caso a AppendCodeFunction
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
 }
 
 

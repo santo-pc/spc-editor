@@ -98,129 +98,166 @@ public:
 /************************** ADD **************************/
 class QNAddNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNAddNode(QGraphicsItem *parent = 0);
 	~QNAddNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** SUBTRACT **************************/
 class QNSubtractNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNSubtractNode(QGraphicsItem *parent = 0);
 	~QNSubtractNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** MULTIPLY **************************/
 class QNMultiplyNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNMultiplyNode(QGraphicsItem *parent = 0);
 	~QNMultiplyNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** POWER **************************/
 class QNPowerNode : public QNEBlock
 {
+private:
+	QNEPort * ValuePort;
+	QNEPort * ExpPort;
 public:
 	QNPowerNode(QGraphicsItem *parent = 0);
 	~QNPowerNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** SQRT **************************/
 class QNSqrtNode : public QNEBlock
 {
+private:
+	QNEPort * ValPort;
 public:
 	QNSqrtNode(QGraphicsItem *parent = 0);
 	~QNSqrtNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** LOG **************************/
 class QNLogNode : public QNEBlock
 {
+private:
+	QNEPort * ValPort;
 public:
 	QNLogNode(QGraphicsItem *parent = 0);
 	~QNLogNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** MIN **************************/
 class QNMinNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNMinNode(QGraphicsItem *parent = 0);
 	~QNMinNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 	
 /************************** MAX **************************/
 class QNMaxNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNMaxNode(QGraphicsItem *parent = 0);
 	~QNMaxNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** ABS **************************/
 class QNAbsNode : public QNEBlock
 {
+private:
+	QNEPort * ValPort;
 public:
 	QNAbsNode(QGraphicsItem *parent = 0);
 	~QNAbsNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** SIGN **************************/
 class QNSignNode : public QNEBlock
 {
+private:
+	QNEPort * ValPort;
 public:
 	QNSignNode(QGraphicsItem *parent = 0);
 	~QNSignNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** MOD **************************/
 class QNModNode : public QNEBlock
 {
+private:
+	QNEPort * APort;
+	QNEPort * BPort;
 public:
 	QNModNode(QGraphicsItem *parent = 0);
 	~QNModNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** CLAMP **************************/
 class QNClampNode : public QNEBlock
 {
+private:
+	QNEPort * ValPort;
+	QNEPort * MinPort;
+	QNEPort * MaxPort;
 public:
 	QNClampNode(QGraphicsItem *parent = 0);
 	~QNClampNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };
 
 /************************** LERP **************************/
 class QNLerpNode : public QNEBlock
 {
+private:
+	QNEPort * ValXPort;
+	QNEPort * ValYPort;
+	QNEPort * TPort;
 public:
 	QNLerpNode(QGraphicsItem *parent = 0);
 	~QNLerpNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 };

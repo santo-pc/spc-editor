@@ -14,7 +14,7 @@ class ShaderComposer
 	private:
 		int membersCounter[TOTAL_TYPES_NODES];
 
-		std::map<int, std::string> listNodeMemberString;
+		std::map<int, std::string> listNodeMemberNamesString;
 		std::map<int, std::string> listNodeCodeFunction;
 		std::map<int, std::string> listNodeCodeConst;
 		std::map<int, std::string> listNodeCodeTexture;
@@ -31,6 +31,11 @@ class ShaderComposer
 		bool AppendCodeConst(QNEBlock * node, std::string code);
 		bool AppendCodeTexture(QNEBlock * node, std::string code);
 		string Compose();
+		void ClearAll();
 
+
+
+private :
+	std::string GetHeaderStandard();
 };
 

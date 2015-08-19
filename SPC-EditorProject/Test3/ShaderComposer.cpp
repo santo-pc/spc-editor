@@ -21,11 +21,11 @@ ShaderComposer::~ShaderComposer()
 
 std::string ShaderComposer::RegistrarMiembro(QNEBlock * node)
 {
-	std::map<int, std::string>::const_iterator it = listNodeMemberString.find(node->GetId());
+	std::map<int, std::string>::const_iterator it = listNodeMemberNamesString.find(node->GetId());
 	assert((it != listNodeMemberString.end()) && "<Node::NodeFromId>: invalid ID");
 	
 	// Existe devuelvo su nombre
-	if ((it != listNodeMemberString.end()))
+	if ((it != listNodeMemberNamesString.end()))
 	{
 		return (*it).second;
 	}
@@ -55,7 +55,7 @@ std::string ShaderComposer::RegistrarMiembro(QNEBlock * node)
 
 void ShaderComposer::GuardarEnLista(int nodeId, std::string memberString)
 {
-	listNodeMemberString.insert(std::pair<int, std::string>(nodeId, memberString));
+	listNodeMemberNamesString.insert(std::pair<int, std::string>(nodeId, memberString));
 }
 
 
@@ -65,7 +65,7 @@ bool ShaderComposer::AppendCodeFunction(QNEBlock * node, std::string code)
 	assert((it != listNodeCodeFunction.end()) && "<Node::NodeFromId>: invalid ID");
 
 	// Existe devuelvo su nombre
-	if ((it != listNodeCodeFunction.end()))
+	if ((it == listNodeCodeFunction.end()))
 	{
 		listNodeCodeFunction.insert(std::pair<int, std::string>(node->GetId(), code));
 		return true;
@@ -94,7 +94,7 @@ bool ShaderComposer::AppendCodeConst(QNEBlock * node, std::string code)
 bool ShaderComposer::AppendCodeTexture(QNEBlock * node, std::string code)
 {
 	std::map<int, std::string>::const_iterator it = listNodeCodeTexture.find(node->GetId());
-	assert((it != listNodeCodeTexture.end()) && "<Node::NodeFromId>: invalid ID");
+	assert((it == listNodeCodeTexture.end()) && "<Node::NodeFromId>: invalid ID");
 
 	// Existe devuelvo su nombre
 	if ((it != listNodeCodeTexture.end()))
@@ -145,3 +145,52 @@ string ShaderComposer::Compose()
 
 }
 
+
+void ShaderComposer::ClearAll()
+{
+	// Reiniciar la cuenta
+	for (int i = 0; i < TOTAL_TYPES_NODES; i++)
+		membersCounter[i] = 0;
+
+
+
+	// Limpiar las listas
+	listNodeMemberNamesString.clear();
+	listNodeCodeConst.clear();
+	listNodeCodeTexture.clear();
+	listNodeCodeFunction.clear();
+	
+
+	
+}
+string ShaderComposer::GetHeaderStandard()
+{
+	return "#version 400"
+
+		"const int MAX_NUM_LIGHTS = 8; // max number of lights"
+		"\n"
+		"in vec3 LightDir[MAX_NUM_LIGHTS];"
+		"in vec3 VexterPosEye;"
+		"in vec2 TexCoord;"
+		"in vec3 ViewDir;"
+		"in vec3 LightDirStaticTan;"
+		"\n"
+		"uniform sampler2D ColorTex;"
+		"uniform sampler2D NormalMapTex;"
+		"uniform sampler2D SpecularMapTex;"
+		"\n"
+		"uniform int Model;"
+		"uniform int LightsCount;  // actual number of lights "
+		"\n"
+		"\n"
+		"struct MaterialInfo"
+		"{"
+		"	vec3 Ka;            // Ambient reflectivity"
+		"	vec3 Ks;            // Specular reflectivity"
+		"	float Shininess;    // Specular shininess factor"
+		"};"
+		"//uniform MaterialInfo Material;"
+		""
+		"layout(location = 0) out vec4 FragColor;";
+
+}
