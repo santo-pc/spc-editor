@@ -17,9 +17,9 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -28,61 +28,91 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionNew;
     QWidget *centralwidget;
+    QMenuBar *menubar;
+    QStatusBar *statusbar;
+    QDockWidget *dockNodeEditor;
+    QWidget *dockWidgetContents;
+    QDockWidget *dock3DViewer;
+    QWidget *dockWidgetContents_2;
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayoutXX;
     QPushButton *pushButton;
-    QPlainTextEdit *plainTextEdit;
-    QMenuBar *menubar;
-    QStatusBar *statusbar;
-    QDockWidget *dockWidget;
-    QWidget *dockWidgetContents;
+    QToolBar *toolBar;
+    QDockWidget *dockWidgetProperties;
+    QWidget *dockWidgetContents_6;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(772, 600);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        MainWindow->resize(1066, 768);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        actionNew = new QAction(MainWindow);
+        actionNew->setObjectName(QStringLiteral("actionNew"));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/SPTFG/document_new.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionNew->setIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        verticalLayoutWidget = new QWidget(centralwidget);
-        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(10, 0, 291, 281));
-        verticalLayoutXX = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayoutXX->setObjectName(QStringLiteral("verticalLayoutXX"));
-        verticalLayoutXX->setSizeConstraint(QLayout::SetDefaultConstraint);
-        verticalLayoutXX->setContentsMargins(0, 0, 0, 0);
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(10, 290, 75, 23));
-        plainTextEdit = new QPlainTextEdit(centralwidget);
-        plainTextEdit->setObjectName(QStringLiteral("plainTextEdit"));
-        plainTextEdit->setGeometry(QRect(10, 320, 291, 241));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 772, 21));
+        menubar->setGeometry(QRect(0, 0, 1066, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         MainWindow->setStatusBar(statusbar);
-        dockWidget = new QDockWidget(MainWindow);
-        dockWidget->setObjectName(QStringLiteral("dockWidget"));
-        QSizePolicy sizePolicy1(QSizePolicy::Maximum, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(dockWidget->sizePolicy().hasHeightForWidth());
-        dockWidget->setSizePolicy(sizePolicy1);
-        dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        dockNodeEditor = new QDockWidget(MainWindow);
+        dockNodeEditor->setObjectName(QStringLiteral("dockNodeEditor"));
+        dockNodeEditor->setAutoFillBackground(true);
+        dockNodeEditor->setFloating(false);
+        dockNodeEditor->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        dockNodeEditor->setAllowedAreas(Qt::AllDockWidgetAreas);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
-        dockWidget->setWidget(dockWidgetContents);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget);
+        dockNodeEditor->setWidget(dockWidgetContents);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockNodeEditor);
+        dock3DViewer = new QDockWidget(MainWindow);
+        dock3DViewer->setObjectName(QStringLiteral("dock3DViewer"));
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(1);
+        sizePolicy1.setVerticalStretch(1);
+        sizePolicy1.setHeightForWidth(dock3DViewer->sizePolicy().hasHeightForWidth());
+        dock3DViewer->setSizePolicy(sizePolicy1);
+        dock3DViewer->setAutoFillBackground(true);
+        dock3DViewer->setFloating(false);
+        dock3DViewer->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        dockWidgetContents_2 = new QWidget();
+        dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
+        verticalLayoutWidget = new QWidget(dockWidgetContents_2);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(10, 10, 271, 271));
+        verticalLayoutXX = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayoutXX->setObjectName(QStringLiteral("verticalLayoutXX"));
+        verticalLayoutXX->setSizeConstraint(QLayout::SetDefaultConstraint);
+        verticalLayoutXX->setContentsMargins(0, 0, 0, 0);
+        pushButton = new QPushButton(dockWidgetContents_2);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(10, 290, 71, 23));
+        dock3DViewer->setWidget(dockWidgetContents_2);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dock3DViewer);
+        toolBar = new QToolBar(MainWindow);
+        toolBar->setObjectName(QStringLiteral("toolBar"));
+        MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
+        dockWidgetProperties = new QDockWidget(MainWindow);
+        dockWidgetProperties->setObjectName(QStringLiteral("dockWidgetProperties"));
+        dockWidgetContents_6 = new QWidget();
+        dockWidgetContents_6->setObjectName(QStringLiteral("dockWidgetContents_6"));
+        dockWidgetProperties->setWidget(dockWidgetContents_6);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidgetProperties);
+
+        toolBar->addAction(actionNew);
 
         retranslateUi(MainWindow);
         QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(on_button_clicked()));
@@ -92,8 +122,16 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "SPC TFG", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "SP Material Editor - Shader Composer", 0));
+        actionNew->setText(QApplication::translate("MainWindow", "New", 0));
+#ifndef QT_NO_TOOLTIP
+        actionNew->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Create New Material</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        dockNodeEditor->setWindowTitle(QApplication::translate("MainWindow", "Node Editor", 0));
+        dock3DViewer->setWindowTitle(QApplication::translate("MainWindow", "3D Viewer", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Test", 0));
+        toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0));
+        dockWidgetProperties->setWindowTitle(QApplication::translate("MainWindow", "Dock Nuevo", 0));
     } // retranslateUi
 
 };

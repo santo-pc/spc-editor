@@ -15,6 +15,7 @@
 #include "logo.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include <qevent.h>
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
@@ -48,17 +49,26 @@ protected:
 	void resizeGL(int width, int height) Q_DECL_OVERRIDE;
 	void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
 
 private:
+	glm::vec3 initialCameraPos;
+	glm::vec3 initialCameraTarget;
+	float  fov;
+	float aspecRatio;
+	
 	Transform transform; 
+	Camera camera;
 	float rotZ = 0.0;
 	void setupVertexAttribs();
-
-	/*bool m_core;
+	QPoint m_lastPos;
 	int m_xRot;
 	int m_yRot;
 	int m_zRot;
-	QPoint m_lastPos;
+
+	/*bool m_core;
+	
+	
 	Logo m_logo;
 	QOpenGLVertexArrayObject m_vao;
 	QOpenGLBuffer m_logoVbo;

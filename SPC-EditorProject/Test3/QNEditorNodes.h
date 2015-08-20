@@ -2,6 +2,8 @@
 #include "qneblock.h"
 #include "glm\glm.hpp"
 
+class Form1;
+
 /*
 	HERE ARE DECLARED ALL THE NODES THAT COMPOUND THE 
 	NODE-BASED MATERIAL EDITOR.

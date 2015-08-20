@@ -181,13 +181,12 @@ void Shader::Bind()
 
 void Shader::Update(const Transform& transform, const Camera& camera)
 {
-	Transform transform2;
-	//Camera camera2(glm::vec3(0.0f, 0.0f, -10.0f), 90.0f, (float)400 / (float)300, 0.1f, 1500.0f);
 	
 	
-	glm::mat4 MVP = transform2.GetMVP(camera);
-	glm::mat4 ModelView = camera.GetView() * transform2.GetModel();
-	glm::mat4 Normal = transform2.GetModel();
+	
+	glm::mat4 MVP = transform.GetMVP(camera);
+	glm::mat4 ModelView = camera.GetView() * transform.GetModel();
+	glm::mat4 Normal = transform.GetModel();
 	glm::mat4 P = camera.GetProjection();
 
 	SetUniform("MVP", MVP);

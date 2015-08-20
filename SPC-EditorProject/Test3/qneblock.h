@@ -30,7 +30,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <qgraphicsitem.h>
 #include <qstring.h>
 #include <string>
+#include <qboxlayout.h>
 
+class Form1;
 class QNEPort;
 class QNEBlock : public QGraphicsPathItem
 {
@@ -57,9 +59,12 @@ public:
 	void SetId(int val);
 	void SetGruopId(int val);
 	int GetId();
-	int GetType();
+	int GetType();	
+	void SetForm1(Form1 * form1);
+	QVBoxLayout * GetPropertiesForm();
 
 protected:
+	Form1 *  form1 = NULL;
 	int m_type = 0;
 	int m_id;
 

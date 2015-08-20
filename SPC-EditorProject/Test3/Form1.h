@@ -7,11 +7,13 @@
 #include <qgraphicssceneevent.h>
 #include <qgraphicsview.h>
 #include "GeneratedFiles\ui_Form2.h"
+
 #include "qnodeseditor.h"
 #include "QNEditorNodes.h"
 #include "SPGraphicsScene.h"
 #include "glwidget.h"
 
+class QNEBlock;
 class SPGraphicsScene;
 class SPGraphicsView;
 class Form1 : public QMainWindow
@@ -23,6 +25,7 @@ class Form1 : public QMainWindow
 		~Form1();
 		
 		int ShowContextMenu(const QPoint& pos);
+		int ShowNodeMenu(QNEBlock *node);
 	
 	private:
 		

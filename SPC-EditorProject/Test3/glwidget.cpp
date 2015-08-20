@@ -9,11 +9,12 @@
 
 
 
-GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent)//,
-	/*  m_xRot(0),
-	  m_yRot(0),
-	  m_zRot(0),
-	  m_program(0)*/
+GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent),//,
+/*  m_xRot(0),
+  m_yRot(0),
+  m_zRot(0),
+  m_program(0)*/
+  camera(glm::vec3(), 0, 0, 0, 0)
 {
 	//m_core = QCoreApplication::arguments().contains(QStringLiteral("--coreprofile"));
 	//// --transparent causes the clear color to be transparent. Therefore, on systems that
@@ -53,32 +54,41 @@ static void qNormalizeAngle(int &angle)
 
 void GLWidget::setXRotation(int angle)
 {
-	/*qNormalizeAngle(angle);
-	if (angle != m_xRot) {
+	qNormalizeAngle(angle);
+	if (angle != m_xRot)
+	{
 		m_xRot = angle;
+		glm::vec3 vecRot = glm::vec3(angle, transform.GetRot()->y, transform.GetRot()->z);
+		transform.SetRot(vecRot);
 		emit xRotationChanged(angle);
 		update();
-	}*/
+	}
 }
 
 void GLWidget::setYRotation(int angle)
 {
-	/*qNormalizeAngle(angle);
-	if (angle != m_yRot) {
+	qNormalizeAngle(angle);
+	if (angle != m_yRot) 
+	{
 		m_yRot = angle;
+		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, angle, transform.GetRot()->z);
+		transform.SetRot(vecRot);
 		emit yRotationChanged(angle);
 		update();
-	}*/
+	}
 }
 
 void GLWidget::setZRotation(int angle)
 {
-	/*qNormalizeAngle(angle);
-	if (angle != m_zRot) {
+	qNormalizeAngle(angle);
+	if (angle != m_zRot) 
+	{
 		m_zRot = angle;
+		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, transform.GetRot()->y, angle);
+		transform.SetRot(vecRot);
 		emit zRotationChanged(angle);
 		update();
-	}*/
+	}
 }
 
 void GLWidget::cleanup()
@@ -120,7 +130,11 @@ void GLWidget::initializeGL()
 	GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");
 	mesh->LoadMesh("../../Resources/Models/sphere.obj");
 	
-	
+	initialCameraPos = glm::vec3(0.0, 0.0, -6.0);
+	fov = 80;
+	aspecRatio = 16 / 9;
+
+	camera = Camera(initialCameraPos, fov, aspecRatio, 0.1, 1000);
 
 
 }
@@ -137,9 +151,8 @@ void GLWidget::paintGL()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-	rotZ += 30.f;
-	transform.SetRot(glm::vec3(0.0, 0.0, rotZ));
-	GLOBAL_CONTAIER->GlobalShader->Update(transform, Camera(glm::vec3(0.0, 0.0, -6.0), 80, 16 / 9, 0.1, 1000));
+	
+	GLOBAL_CONTAIER->GlobalShader->Update(transform, camera);
 	GLOBAL_CONTAIER->GlobalShader->Bind();
 	mesh->Render();
 	std::cout << "End Paint" << std::endl;
@@ -154,24 +167,52 @@ void GLWidget::resizeGL(int w, int h)
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
 	//m_lastPos = event->pos();
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("MoousePress");
-	msgBox.exec();
+	msgBox.exec();*/
 }
 
 void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-	/*int dx = event->x() - m_lastPos.x();
+	int dx = event->x() - m_lastPos.x();
 	int dy = event->y() - m_lastPos.y();
+	int speedFactor = 4;
 
-	if (event->buttons() & Qt::LeftButton) {
-		setXRotation(m_xRot + 8 * dy);
-		setYRotation(m_yRot + 8 * dx);
-	} else if (event->buttons() & Qt::RightButton) {
-		setXRotation(m_xRot + 8 * dy);
-		setZRotation(m_zRot + 8 * dx);
+	if (event->buttons() & Qt::LeftButton) 
+	{
+		setXRotation(m_xRot + speedFactor * dy);
+		setYRotation(m_yRot + speedFactor * dx);
+	} 
+	else if (event->buttons() & Qt::RightButton) 
+	{
+		//setXRotation(m_xRot + speedFactor * dy);
+		//setZRotation(m_zRot + speedFactor * dx);
+		if (abs(dy) > 50)  dy = glm::sign(dy) * 1;
+
+		float value = camera.GetPos().z + 0.02 * dy;
+		
+		/*if (abs(value) >= 3.0)
+			value = camera.GetPos().z;*/
+
+		//cout << "Value = " << value << endl;
+		camera.SetPos(glm::vec3(camera.GetPos().x, camera.GetPos().y, value));
+		update();
 	}
-	m_lastPos = event->pos();*/
+	cout << "DX = "<< dx << endl;
+	m_lastPos = event->pos();
+}
+
+void GLWidget::wheelEvent(QWheelEvent * event)
+{
+	int numDegrees = event->delta() / 8;
+	int numSteps = numDegrees / 15;
+
+	camera.SetFov(camera.GetFov() + numSteps);
+	update();
+	cout << "Num Steps= " << numSteps << endl;
+	
+
+	event->accept();
 }
 
 

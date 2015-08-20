@@ -7,8 +7,11 @@
 #include <iostream>
 #include "StringsAndDefines.h"
 #include "ShaderComposer.h"
+#include "qapplication.h"
+#include "qmessagebox.h"
 
 
+#include "qneblock.h"
 
 Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -21,17 +24,41 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	scene->SetForm1(this);
 	//scene = new QGraphicsScene();
 
-	view = new QGraphicsView(ui->dockWidget);
+	view = new QGraphicsView(ui->dockNodeEditor);
 	//view = new SPGraphicsView();
 	//view->setParent(ui->dockWidget);
 	//view->SetForm1(this);
 	view->setScene(scene);
 	view->setRenderHint(QPainter::Antialiasing, true);
-
-	ui->dockWidget->setWidget(view);
+	ui->dockNodeEditor->setWidget(view);
 	nodesEditor = new QNodesEditor(this);
 	nodesEditor->install(scene);
 	
+	QSize rec = this->size();
+	float height = rec.height();
+	float width = rec.width();
+
+
+	string sizeString = ConvertIntToString(width) + " " + ConvertIntToString(height);
+	
+	
+	QMessageBox msgBox;
+	msgBox.setText(QString( sizeString.c_str() ));
+	msgBox.exec();
+
+
+	//view->resize(width * 0.75, height);
+	//view->setMinimumSize(QSize(width * 0.75, height-250));
+	//ui->verticalLayoutXX->minimumSize
+	/*ui->dock3DViewer*/
+	//ui->verticalLayoutXX->minimumSize( );
+
+	//ui->dockNodeEditor->resize(width * 0.75, height);
+	
+
+	//ui->verticalLayoutXX->widget()->setBaseSize(QSize(w*.25f, h*0.5f));
+	
+
 
 	/*connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_button_clicked()));*/
 	
@@ -42,8 +69,8 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	mainNode = new QNMainNode(0);
 	scene->addItem(mainNode);
 	mainNode->Init();
-
 	mainNode->setPos(0, 0);
+	mainNode->SetForm1(this);
 }
 
 
@@ -144,7 +171,8 @@ int Form1::ShowContextMenu(const QPoint& pos)
 
 void Form1::CreateNodeByType(int typeId, QPoint pos)
 {
-	QNEBlock * node = new QNVector3DNode(0);
+	QNEBlock * node;
+	
 	switch (typeId)
 	{
 		case ID_TYPE_SPConstFloatNode:
@@ -223,9 +251,43 @@ void Form1::CreateNodeByType(int typeId, QPoint pos)
 	scene->addItem(node);
 	node->Init();
 	node->setPos(pos.x(), pos.y());
+	node->SetForm1(this);
 
 
 	
 }
 
+
+int Form1::ShowNodeMenu(QNEBlock *node)
+{
+	QMessageBox msgBox;
+	msgBox.setText("Show Menu");
+	msgBox.exec();
+	
+	//QVBoxLayout * layout = node->GetPropertiesForm();
+	
+	QPushButton * button1 = new QPushButton("Button 1");
+	QPushButton * button2 = new QPushButton("Button 2");
+	QPushButton * button3 = new QPushButton("Button 3");
+	QPushButton * button4 = new QPushButton("Button 4");
+	
+
+
+
+	QVBoxLayout * propForm = new QVBoxLayout();
+
+	propForm->addWidget(button1);
+	propForm->addWidget(button2);
+	propForm->addWidget(button3);
+	propForm->addWidget(button4);
+	propForm->addWidget(button1);
+
+	/*propForm->setParent(ui->dockProperties);
+	ui->dockProperties->setLayout(propForm);*/
+	ui->dockWidgetProperties->widget()->setLayout(propForm);
+	//ui->dockProperties1->*/
+	/*ui->d*/
+	//ui->dock
+	return true;
+}
 
