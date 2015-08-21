@@ -40,6 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <iostream>
 #include "NodesManager.h"
 #include "Form1.h"
+#include <qlabel.h>
+#include <qtextedit.h>
 
 
 
@@ -279,24 +281,14 @@ void QNEBlock::SetForm1(Form1 * form1)
 {
 	this->form1 = form1;
 }
-QVBoxLayout *  QNEBlock::GetPropertiesForm()
+
+QGridLayout * QNEBlock::GetPropertiesForm()
 {
-	
-
-	QPushButton * button1 = new QPushButton("Button 1");
-	QPushButton * button2 = new QPushButton("Button 2");
-	QPushButton * button3 = new QPushButton("Button 3");
-	QPushButton * button4 = new QPushButton("Button 4");
-	
-	QVBoxLayout * propForm = new QVBoxLayout();
-
-	propForm->addWidget(button1);
-	propForm->addWidget(button2);
-	propForm->addWidget(button3);
-	propForm->addWidget(button4);
-	propForm->addWidget(button1);
+	return NULL;
+}
 
 
-	return propForm;
-
+void  QNEBlock::HandleLostFocusMembers()
+{
+	// do nothig
 }

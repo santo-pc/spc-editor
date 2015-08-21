@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1066</width>
+    <width>821</width>
     <height>768</height>
    </rect>
   </property>
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1066</width>
+     <width>821</width>
      <height>21</height>
     </rect>
    </property>
@@ -58,6 +58,12 @@
      <horstretch>1</horstretch>
      <verstretch>1</verstretch>
     </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>40</width>
+     <height>250</height>
+    </size>
    </property>
    <property name="autoFillBackground">
     <bool>true</bool>
@@ -120,14 +126,17 @@
    </attribute>
    <addaction name="actionNew"/>
   </widget>
-  <widget class="QDockWidget" name="dockWidgetProperties">
-   <property name="windowTitle">
-    <string>Dock Nuevo</string>
+  <widget class="QDockWidget" name="dockWidgetProperties_3">
+   <property name="minimumSize">
+    <size>
+     <width>80</width>
+     <height>250</height>
+    </size>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents_6"/>
+   <widget class="QWidget" name="dockWidgetContents_4"/>
   </widget>
   <action name="actionNew">
    <property name="icon">

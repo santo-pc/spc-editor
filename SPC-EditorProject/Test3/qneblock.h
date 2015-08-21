@@ -31,10 +31,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <qstring.h>
 #include <string>
 #include <qboxlayout.h>
+#include <qgridlayout.h>
+#include <qtextedit.h>
 
 class Form1;
 class QNEPort;
-class QNEBlock : public QGraphicsPathItem
+class QNEBlock : public QGraphicsPathItem, public QObject
 {
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
@@ -52,16 +54,24 @@ public:
 	QNEBlock* clone();
 	QVector<QNEPort*> ports();
 
+
+	QTextEdit * descTextEdit;
 	int type() const { return Type; }
 	virtual void Init();
 	virtual std::string Resolve();
 	std::string  titulo;
+	std::string  description;
 	void SetId(int val);
 	void SetGruopId(int val);
 	int GetId();
 	int GetType();	
 	void SetForm1(Form1 * form1);
-	QVBoxLayout * GetPropertiesForm();
+	virtual QGridLayout * GetPropertiesForm();
+	virtual void HandleLostFocusMembers();
+
+	QSizePolicy * policy = new QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	QSize minSizeField = QSize(150, 25); QSize maxSizeField = QSize(200, 25);
+	QSize minSizeLabel = QSize(50, 25);	QSize maxSizeLabel = QSize(50, 25);
 
 protected:
 	Form1 *  form1 = NULL;

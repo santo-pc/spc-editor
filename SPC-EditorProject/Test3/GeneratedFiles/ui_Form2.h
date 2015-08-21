@@ -40,14 +40,14 @@ public:
     QVBoxLayout *verticalLayoutXX;
     QPushButton *pushButton;
     QToolBar *toolBar;
-    QDockWidget *dockWidgetProperties;
-    QWidget *dockWidgetContents_6;
+    QDockWidget *dockWidgetProperties_3;
+    QWidget *dockWidgetContents_4;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1066, 768);
+        MainWindow->resize(821, 768);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -63,7 +63,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1066, 21));
+        menubar->setGeometry(QRect(0, 0, 821, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -85,6 +85,7 @@ public:
         sizePolicy1.setVerticalStretch(1);
         sizePolicy1.setHeightForWidth(dock3DViewer->sizePolicy().hasHeightForWidth());
         dock3DViewer->setSizePolicy(sizePolicy1);
+        dock3DViewer->setMinimumSize(QSize(40, 250));
         dock3DViewer->setAutoFillBackground(true);
         dock3DViewer->setFloating(false);
         dock3DViewer->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -105,12 +106,13 @@ public:
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName(QStringLiteral("toolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
-        dockWidgetProperties = new QDockWidget(MainWindow);
-        dockWidgetProperties->setObjectName(QStringLiteral("dockWidgetProperties"));
-        dockWidgetContents_6 = new QWidget();
-        dockWidgetContents_6->setObjectName(QStringLiteral("dockWidgetContents_6"));
-        dockWidgetProperties->setWidget(dockWidgetContents_6);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidgetProperties);
+        dockWidgetProperties_3 = new QDockWidget(MainWindow);
+        dockWidgetProperties_3->setObjectName(QStringLiteral("dockWidgetProperties_3"));
+        dockWidgetProperties_3->setMinimumSize(QSize(80, 250));
+        dockWidgetContents_4 = new QWidget();
+        dockWidgetContents_4->setObjectName(QStringLiteral("dockWidgetContents_4"));
+        dockWidgetProperties_3->setWidget(dockWidgetContents_4);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dockWidgetProperties_3);
 
         toolBar->addAction(actionNew);
 
@@ -131,7 +133,6 @@ public:
         dock3DViewer->setWindowTitle(QApplication::translate("MainWindow", "3D Viewer", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Test", 0));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0));
-        dockWidgetProperties->setWindowTitle(QApplication::translate("MainWindow", "Dock Nuevo", 0));
     } // retranslateUi
 
 };

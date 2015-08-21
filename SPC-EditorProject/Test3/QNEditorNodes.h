@@ -1,6 +1,10 @@
 #pragma once
 #include "qneblock.h"
 #include "glm\glm.hpp"
+#include <qtextedit.h>
+#include <qpushbutton.h>
+#include <qgridlayout.h>
+#include <qlabel.h>
 
 class Form1;
 
@@ -21,6 +25,9 @@ class SPNodesManager
 /************************** MAIN NODE **************************/
 class QNMainNode : public QNEBlock
 {
+private:
+	QTextEdit * valueTextEdit;
+
 public:
 	QNEPort * ColorBasePort;
 	QNEPort * SpecularPort;
@@ -31,6 +38,8 @@ public:
 	~QNMainNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 
@@ -39,12 +48,18 @@ class QNConstFloatNode : public QNEBlock
 {
 private:
 	float value = 0.3;
+	
+	QTextEdit * descTextEdit;
+	QTextEdit * valueTextEdit;	
+
 
 public:
 	QNConstFloatNode(QGraphicsItem *parent = 0);
 	~QNConstFloatNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** VECTOR 2 NODE **************************/
@@ -52,12 +67,16 @@ class QNVector2DNode : public QNEBlock
 {
 private:
 	glm::vec2 value;
-
+	QTextEdit * rValueTextEdit;
+	QTextEdit * gValueTextEdit;
+	
 public:
 	QNVector2DNode(QGraphicsItem *parent = 0);
 	~QNVector2DNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** VECTOR 3 NODE **************************/
@@ -65,12 +84,17 @@ class QNVector3DNode : public QNEBlock
 {
 	private:
 		glm::vec3 value;
+		QTextEdit * rValueTextEdit;
+		QTextEdit * gValueTextEdit;
+		QTextEdit * bValueTextEdit;
 
 	public:
 		QNVector3DNode(QGraphicsItem *parent = 0);
 		~QNVector3DNode();
 		void Init();
 		std::string Resolve();
+		QGridLayout *  GetPropertiesForm();
+		void HandleLostFocusMembers();
 };
 
 /************************** VECTOR 4 NODE **************************/
@@ -78,12 +102,18 @@ class QNVector4DNode : public QNEBlock
 {
 	private:
 		glm::vec4 value;
+		QTextEdit * rValueTextEdit;
+		QTextEdit * gValueTextEdit;
+		QTextEdit * bValueTextEdit;
+		QTextEdit * aValueTextEdit;
 
 public:
 	QNVector4DNode(QGraphicsItem *parent = 0);
 	~QNVector4DNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 
@@ -95,6 +125,8 @@ public:
 	~QNTextureNode();
 	void Init();
 	std::string Resolve(){ return ""; };
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** ADD **************************/
@@ -108,6 +140,8 @@ public:
 	~QNAddNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** SUBTRACT **************************/
@@ -121,6 +155,8 @@ public:
 	~QNSubtractNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** MULTIPLY **************************/
@@ -134,6 +170,8 @@ public:
 	~QNMultiplyNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** POWER **************************/
@@ -147,6 +185,8 @@ public:
 	~QNPowerNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** SQRT **************************/
@@ -159,6 +199,8 @@ public:
 	~QNSqrtNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** LOG **************************/
@@ -171,6 +213,8 @@ public:
 	~QNLogNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** MIN **************************/
@@ -184,6 +228,8 @@ public:
 	~QNMinNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 	
 /************************** MAX **************************/
@@ -197,6 +243,8 @@ public:
 	~QNMaxNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** ABS **************************/
@@ -209,6 +257,8 @@ public:
 	~QNAbsNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** SIGN **************************/
@@ -221,6 +271,8 @@ public:
 	~QNSignNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** MOD **************************/
@@ -234,6 +286,8 @@ public:
 	~QNModNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** CLAMP **************************/
@@ -248,6 +302,8 @@ public:
 	~QNClampNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };
 
 /************************** LERP **************************/
@@ -262,4 +318,6 @@ public:
 	~QNLerpNode();
 	void Init();
 	std::string Resolve();
+	QGridLayout *  GetPropertiesForm();
+	void HandleLostFocusMembers();
 };

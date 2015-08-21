@@ -26,10 +26,21 @@ struct MaterialInfo
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
+const float QNConstFloatNode0 = 0;
+
+const vec2 QNVector2DNode0 = vec2(0, 0);
+
 
 // Textures Section
 
 // Functions Section
+vec4 QNAddNode0()
+{
+	vec4 A = QNConstFloatNode0;
+	vec4 B = QNVector2DNode0;
+	return A + B;
+}
+
 
 vec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)
 {
@@ -58,7 +69,7 @@ vec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)
 	return ambient + diffuse + spec;
 }
 void main() 
-{	vec4 colorBase = vec4(NO CONNECTION MADE);
+{	vec4 colorBase = vec4(QNAddNode0());
 	vec4 specularLvl = vec4(NO CONNECTION MADE);
 	vec4 normal = vec4(NO CONNECTION MADE);
 	vec4 alpha = vec4(NO CONNECTION MADE);

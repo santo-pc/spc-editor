@@ -5,6 +5,10 @@
 #include <qneconnection.h>
 #include "StringsAndDefines.h"
 #include "ShaderComposer.h"
+#include <qtextedit.h>
+#include <qpushbutton.h>
+#include <qgridlayout.h>
+#include <qlabel.h>
 
 static std::string GetSuffixByNodeType(int type)
 {
@@ -118,6 +122,56 @@ QNMainNode ::~QNMainNode()
 {
 }
 
+QGridLayout *  QNMainNode::GetPropertiesForm()
+{
+
+	QSizePolicy * policy = new QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	QSize minSizeField = QSize(150, 25); QSize maxSizeField = QSize(200, 25);
+	QSize minSizeLabel = QSize(50, 25);	QSize maxSizeLabel = QSize(50, 25);
+	
+
+	QTextEdit * button1 = new QTextEdit("Button 1"); button1->setSizePolicy(*policy); button1->setMinimumSize(minSizeField); button1->setMaximumSize(maxSizeField);
+	QTextEdit * button2 = new QTextEdit("Button 2"); button2->setSizePolicy(*policy); button2->setMinimumSize(minSizeField); button2->setMaximumSize(maxSizeField);
+	QTextEdit * button3 = new QTextEdit("Button 3"); button3->setSizePolicy(*policy); button3->setMinimumSize(minSizeField); button3->setMaximumSize(maxSizeField);
+	QTextEdit * button4 = new QTextEdit("Button 4"); button4->setSizePolicy(*policy); button4->setMinimumSize(minSizeField); button4->setMaximumSize(maxSizeField);
+
+	QObject::connect(button1, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(button2, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(button3, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(button4, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Field1"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	QLabel * label2 = new QLabel("Field2");	label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	QLabel * label3 = new QLabel("Field3");	label3->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
+	QLabel * label4 = new QLabel("Field4");	label4->setMinimumSize(minSizeLabel); label4->setMaximumSize(maxSizeLabel);
+
+	QGridLayout * propForm = new QGridLayout(); 
+
+	propForm->addWidget(label1, 0, 0);	propForm->addWidget(label2, 1, 0);
+	propForm->addWidget(label3, 2, 0);	propForm->addWidget(label4, 3, 0);
+
+	propForm->addWidget(button1, 0, 1); propForm->addWidget(button2, 1, 1);
+	propForm->addWidget(button3, 2, 1);	propForm->addWidget(button4, 3, 1);
+	
+	
+	// Para que la 4 fila ocupe el resto del layout
+	propForm->setRowStretch(4, 1);
+	propForm->setMargin(10);	
+	propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNMainNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
 
 /************************** CONST FLOAT NODE **************************/
 QNConstFloatNode::QNConstFloatNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -158,6 +212,49 @@ QNConstFloatNode ::~QNConstFloatNode()
 {
 }
 
+QGridLayout *  QNConstFloatNode::GetPropertiesForm()
+{
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	valueTextEdit = new QTextEdit(""); valueTextEdit->setSizePolicy(*policy); valueTextEdit->setMinimumSize(minSizeField); valueTextEdit->setMaximumSize(maxSizeField);
+	
+
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(valueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	QLabel * label2 = new QLabel("Value:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0); 	propForm->addWidget(label2, 1, 0);
+
+
+	propForm->addWidget(descTextEdit, 0, 1);
+	propForm->addWidget(valueTextEdit, 1, 1);
+	
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNConstFloatNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+	
+	description = descTextEdit->placeholderText().toStdString();
+	value = valueTextEdit->toPlainText().toFloat();
+
+}
+
+
 
 
 
@@ -196,6 +293,52 @@ std::string QNVector2DNode::Resolve()
 QNVector2DNode ::~QNVector2DNode()
 {
 }
+
+
+QGridLayout *  QNVector2DNode::GetPropertiesForm()
+{
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
+	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
+	
+
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
+	
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0); 	propForm->addWidget(label2, 1, 0);
+	propForm->addWidget(label3, 2, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+	propForm->addWidget(rValueTextEdit, 1, 1);
+	propForm->addWidget(gValueTextEdit, 2, 1);
+	
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+	
+
+}
+
+void QNVector2DNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
 
 
 /************************** VECTOR 3 NODE **************************/
@@ -240,6 +383,61 @@ std::string QNVector3DNode::Resolve()
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
 }
+
+QGridLayout *  QNVector3DNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
+	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
+	bValueTextEdit = new QTextEdit(""); bValueTextEdit->setSizePolicy(*policy); bValueTextEdit->setMinimumSize(minSizeField); bValueTextEdit->setMaximumSize(maxSizeField);
+	
+
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(bValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
+	QLabel * label4 = new QLabel("B:"); label2->setMinimumSize(minSizeLabel); label4->setMaximumSize(maxSizeLabel);
+	
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0); 	propForm->addWidget(label2, 1, 0);
+	propForm->addWidget(label3, 2, 0);	propForm->addWidget(label4, 3, 0);
+	
+
+	propForm->addWidget(descTextEdit, 0, 1);
+	propForm->addWidget(rValueTextEdit, 1, 1);
+	propForm->addWidget(gValueTextEdit, 2, 1);
+	propForm->addWidget(bValueTextEdit, 3, 1);
+	
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNVector3DNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
 
 
 /************************** VECTOR 4 NODE **************************/
@@ -287,6 +485,59 @@ std::string QNVector4DNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNVector4DNode::GetPropertiesForm()
+{
+	
+	// 1. Create Controls
+	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
+	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
+	bValueTextEdit = new QTextEdit(""); bValueTextEdit->setSizePolicy(*policy); bValueTextEdit->setMinimumSize(minSizeField); bValueTextEdit->setMaximumSize(maxSizeField);
+	aValueTextEdit = new QTextEdit(""); aValueTextEdit->setSizePolicy(*policy); aValueTextEdit->setMinimumSize(minSizeField); aValueTextEdit->setMaximumSize(maxSizeField);
+	
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(bValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(aValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
+	QLabel * label4 = new QLabel("B:"); label2->setMinimumSize(minSizeLabel); label4->setMaximumSize(maxSizeLabel);
+	QLabel * label5 = new QLabel("A:"); label2->setMinimumSize(minSizeLabel); label5->setMaximumSize(maxSizeLabel);
+	     
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0); 	propForm->addWidget(label2, 1, 0);
+	propForm->addWidget(label3, 2, 0);	propForm->addWidget(label4, 3, 0);
+	propForm->addWidget(label5, 4, 0);
+
+	propForm->addWidget(descTextEdit, 0, 1);
+	propForm->addWidget(rValueTextEdit, 1, 1);
+	propForm->addWidget(gValueTextEdit, 2, 1);
+	propForm->addWidget(bValueTextEdit, 3, 1);
+	propForm->addWidget(aValueTextEdit, 4, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNVector4DNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 /************************** TEXTURE NODE **************************/
 QNTextureNode::QNTextureNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -305,6 +556,40 @@ void QNTextureNode::Init()
 
 QNTextureNode ::~QNTextureNode()
 {
+}
+
+QGridLayout *  QNTextureNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNTextureNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
 }
 
 
@@ -361,6 +646,41 @@ std::string QNAddNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNAddNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNAddNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 
 /************************** SUBTRACT NODE **************************/
 QNSubtractNode::QNSubtractNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -412,6 +732,40 @@ std::string QNSubtractNode::Resolve()
 
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
+}
+
+QGridLayout *  QNSubtractNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNSubtractNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
 }
 
 
@@ -466,6 +820,41 @@ std::string QNMultiplyNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNMultiplyNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNMultiplyNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 /************************** POWER NODE **************************/
 QNPowerNode::QNPowerNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -517,6 +906,42 @@ std::string QNPowerNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNPowerNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNPowerNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
+
 
 /************************** SQRT NODE **************************/
 QNSqrtNode::QNSqrtNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -564,6 +989,40 @@ std::string QNSqrtNode::Resolve()
 
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
+}
+
+QGridLayout *  QNSqrtNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNSqrtNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
 }
 
 
@@ -615,6 +1074,41 @@ std::string QNLogNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNLogNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNLogNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 
 /************************** MIN NODE **************************/
 QNMinNode::QNMinNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -665,6 +1159,43 @@ std::string QNMinNode::Resolve()
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
 }
+
+QGridLayout *  QNMinNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNMinNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
+
 /************************** MAX NODE **************************/
 QNMaxNode::QNMaxNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -715,6 +1246,40 @@ std::string QNMaxNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNMaxNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNMaxNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
 /************************** ABS NODE **************************/
 QNAbsNode::QNAbsNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
@@ -762,6 +1327,42 @@ std::string QNAbsNode::Resolve()
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
 }
+
+QGridLayout *  QNAbsNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNAbsNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 
 /************************** SIGN NODE **************************/
 QNSignNode::QNSignNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -812,6 +1413,40 @@ std::string QNSignNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNSignNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNSignNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+
+}
 
 /************************** MOD NODE **************************/
 QNModNode::QNModNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -862,6 +1497,40 @@ std::string QNModNode::Resolve()
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
 }
+
+QGridLayout *  QNModNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNModNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+}
+
+
 
 /************************** CLAMP NODE **************************/
 QNClampNode::QNClampNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -920,6 +1589,41 @@ std::string QNClampNode::Resolve()
 	return nameMember;
 }
 
+QGridLayout *  QNClampNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNClampNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+	
+	description = descTextEdit->placeholderText().toStdString();
+}
+
+
 
 /************************** LERP NODE **************************/
 QNLerpNode::QNLerpNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -976,6 +1680,41 @@ std::string QNLerpNode::Resolve()
 	// 4. Devolver siempre el nombre le miembro
 	return nameMember;
 }
+
+QGridLayout *  QNLerpNode::GetPropertiesForm()
+{
+
+
+
+	// 1. Create Controls
+	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
+	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+
+	// 2. Create LayOut
+	QGridLayout * propForm = new QGridLayout();
+
+	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(descTextEdit, 0, 1);
+
+	// Para que la ultima fila ocupe el resto del layout
+	propForm->setRowStretch(propForm->rowCount(), 1);
+	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	return propForm;
+
+}
+
+void QNLerpNode::HandleLostFocusMembers()
+{
+	QMessageBox msgBox;
+	msgBox.setText("Se ha modificado el valor");
+	msgBox.exec();
+
+	description = descTextEdit->placeholderText().toStdString();
+}
+
 
 
 

@@ -41,6 +41,10 @@ class Form1 : public QMainWindow
 		SPGraphicsScene *scene;
 		//QGraphicsScene * scene;
 		void CreateNodeByType(int typeId, QPoint pos);
+		QGridLayout  * oldPropLayout = NULL;
+		void ClearLayout(QLayout* layout, bool deleteWidgets);
+
+		bool fistTime = true;
 
 		private slots:
 			void on_button_clicked();
@@ -91,3 +95,14 @@ public:
 	//	}*/
 	//};
 };
+
+//class SPTextEdit : public QTextEdit
+//{
+//
+//private:
+//	QNEBlock * node;
+//public:
+//	SPTextEdit(QNEBlock * node);
+//	
+//
+//};

@@ -10,7 +10,7 @@
 #include "qapplication.h"
 #include "qmessagebox.h"
 
-
+#include <qgridlayout.h>
 #include "qneblock.h"
 
 Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
@@ -260,34 +260,43 @@ void Form1::CreateNodeByType(int typeId, QPoint pos)
 
 int Form1::ShowNodeMenu(QNEBlock *node)
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Show Menu");
-	msgBox.exec();
+	msgBox.exec();*/
 	
-	//QVBoxLayout * layout = node->GetPropertiesForm();
+	// Limpiar si toca
+	if (oldPropLayout)
+	{
+		ClearLayout(oldPropLayout, true);
+		delete oldPropLayout;
+		oldPropLayout = NULL;
+	}
 	
-	QPushButton * button1 = new QPushButton("Button 1");
-	QPushButton * button2 = new QPushButton("Button 2");
-	QPushButton * button3 = new QPushButton("Button 3");
-	QPushButton * button4 = new QPushButton("Button 4");
-	
-
-
-
-	QVBoxLayout * propForm = new QVBoxLayout();
-
-	propForm->addWidget(button1);
-	propForm->addWidget(button2);
-	propForm->addWidget(button3);
-	propForm->addWidget(button4);
-	propForm->addWidget(button1);
-
+	// Obtener el formulario en forma de QGridLayOut que el nodo responde
+	oldPropLayout = node->GetPropertiesForm();
+		
 	/*propForm->setParent(ui->dockProperties);
 	ui->dockProperties->setLayout(propForm);*/
-	ui->dockWidgetProperties->widget()->setLayout(propForm);
+	ui->dockWidgetProperties_3->widget()->setLayout(oldPropLayout);
 	//ui->dockProperties1->*/
 	/*ui->d*/
 	//ui->dock
 	return true;
 }
 
+void Form1::ClearLayout(QLayout* layout, bool deleteWidgets = true)
+{
+	while (QLayoutItem* item = layout->takeAt(0))
+	{
+		if (deleteWidgets)
+		{
+			if (QWidget* widget = item->widget())
+				delete widget;
+		}
+		
+		if (QLayout* childLayout = item->layout())
+			ClearLayout(childLayout, deleteWidgets);
+		
+		delete item;
+	}
+}
