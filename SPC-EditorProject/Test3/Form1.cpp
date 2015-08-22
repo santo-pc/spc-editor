@@ -22,14 +22,20 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	
 	scene = new SPGraphicsScene();
 	scene->SetForm1(this);
+
+	QFont * fontType = new QFont("Arial", 12, QFont::Light, true);
+
+	scene->setFont(*fontType);
 	//scene = new QGraphicsScene();
 
-	view = new QGraphicsView(ui->dockNodeEditor);
-	//view = new SPGraphicsView();
+	//view = new QGraphicsView(ui->dockNodeEditor);
+	view = new SPGraphicsView();
 	//view->setParent(ui->dockWidget);
 	//view->SetForm1(this);
 	view->setScene(scene);
 	view->setRenderHint(QPainter::Antialiasing, true);
+	view->setBackgroundBrush(QBrush(QColor(27, 36, 46)));
+
 	ui->dockNodeEditor->setWidget(view);
 	nodesEditor = new QNodesEditor(this);
 	nodesEditor->install(scene);

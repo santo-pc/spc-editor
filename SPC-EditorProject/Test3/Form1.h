@@ -36,8 +36,8 @@ class Form1 : public QMainWindow
 		QNMainNode * mainNode;
 		QNodesEditor * nodesEditor;
 		QMenu *fileMenu;
-		QGraphicsView *view;
-		//SPGraphicsView * view;
+		//QGraphicsView *view;
+		SPGraphicsView * view;
 		SPGraphicsScene *scene;
 		//QGraphicsScene * scene;
 		void CreateNodeByType(int typeId, QPoint pos);
@@ -82,27 +82,12 @@ public:
 
 	void SetForm1(Form1 * form) { this->form1 = form; };
 
-	//void mousePressEvent(QMouseEvent * e)
-	//{
-	//	
-	///*	cout << "SPGraphicsView Mouse Pressed Event " << e->pos().x() << ", " << e->pos().y() << endl;
-
-	//	if (e->button() == Qt::RightButton)
-	//		form1->ShowContextMenu(e->pos());
-	//	else
-	//	{
-
-	//	}*/
-	//};
+	void wheelEvent(QWheelEvent * event)
+	{
+		if (event->delta() < 0)
+			this->scale(0.8, 0.8);
+		else if (event->delta() > 0)
+			this->scale(1.2, 1.2);
+	}
 };
 
-//class SPTextEdit : public QTextEdit
-//{
-//
-//private:
-//	QNEBlock * node;
-//public:
-//	SPTextEdit(QNEBlock * node);
-//	
-//
-//};

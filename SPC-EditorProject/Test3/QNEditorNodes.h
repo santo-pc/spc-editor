@@ -5,6 +5,7 @@
 #include <qpushbutton.h>
 #include <qgridlayout.h>
 #include <qlabel.h>
+#include <qlineedit.h>
 
 class Form1;
 
@@ -49,8 +50,8 @@ class QNConstFloatNode : public QNEBlock
 private:
 	float value = 0.3;
 	
-	QTextEdit * descTextEdit;
-	QTextEdit * valueTextEdit;	
+	QLineEdit * valueTextEdit;
+	//QTextEdit * valueTextEdit;	
 
 
 public:
@@ -67,8 +68,8 @@ class QNVector2DNode : public QNEBlock
 {
 private:
 	glm::vec2 value;
-	QTextEdit * rValueTextEdit;
-	QTextEdit * gValueTextEdit;
+	QLineEdit * rValueLineEdit;
+	QLineEdit * gValueLineEdit;
 	
 public:
 	QNVector2DNode(QGraphicsItem *parent = 0);
@@ -84,9 +85,9 @@ class QNVector3DNode : public QNEBlock
 {
 	private:
 		glm::vec3 value;
-		QTextEdit * rValueTextEdit;
-		QTextEdit * gValueTextEdit;
-		QTextEdit * bValueTextEdit;
+		QLineEdit * rValueLineEdit;
+		QLineEdit * gValueLineEdit;
+		QLineEdit * bValueLineEdit;
 
 	public:
 		QNVector3DNode(QGraphicsItem *parent = 0);
@@ -102,10 +103,10 @@ class QNVector4DNode : public QNEBlock
 {
 	private:
 		glm::vec4 value;
-		QTextEdit * rValueTextEdit;
-		QTextEdit * gValueTextEdit;
-		QTextEdit * bValueTextEdit;
-		QTextEdit * aValueTextEdit;
+		QLineEdit * rValueLineEdit;
+		QLineEdit * gValueLineEdit;
+		QLineEdit * bValueLineEdit;
+		QLineEdit * aValueLineEdit;
 
 public:
 	QNVector4DNode(QGraphicsItem *parent = 0);

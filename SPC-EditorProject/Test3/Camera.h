@@ -41,11 +41,12 @@ struct Camera
 		}
 		inline void SetFov(float fov)
 		{
-			this->fov = fov;
+			this->fov = glm::clamp(fov, 30.0f, 180.0f);;
 			this->projection = glm::perspective(fov, aspect, zNear, zFar);
 		}
 		inline float GetFov()
 		{
+			
 			return fov;
 		}
 

@@ -9,8 +9,22 @@
 #include <qpushbutton.h>
 #include <qgridlayout.h>
 #include <qlabel.h>
+#include <qvalidator.h>
 
-static std::string GetSuffixByNodeType(int type)
+static QLineEdit * CreateMyNumericLineEdit(float value, QNEBlock * nodeOwner)
+{
+	QLineEdit * lineEdit = new QLineEdit(ConvertFloatToString(value).c_str()); 
+	lineEdit->setSizePolicy(*nodeOwner->policy);
+	lineEdit->setMinimumSize(nodeOwner->minSizeField);
+	lineEdit->setMaximumSize(nodeOwner->maxSizeField);
+	lineEdit->setValidator(nodeOwner->floatValidator);
+
+	QObject::connect(lineEdit, &QLineEdit::textChanged, nodeOwner, &QNEBlock::HandleLostFocusMembers);
+
+	return lineEdit;
+	
+}
+static std::string GetSuffixByNodeType(int type, QNEPort * outPut)
 {
 	string suffix = "";
 	switch (type)
@@ -27,6 +41,19 @@ static std::string GetSuffixByNodeType(int type)
 			suffix = "()";
 			break;
 	}
+
+	QMessageBox box;
+	if (outPut->portName() == "R" || outPut->portName() == "G" || outPut->portName() == "B" || outPut->portName() == "A")
+	{
+		
+		box.setText("Del tipo " + outPut->portName());
+		
+	}
+	else 
+		box.setText("Output principal");
+
+	box.exec();
+
 
 	return suffix;
 }
@@ -51,7 +78,7 @@ static std::string GetMemberStringByPort(QNEPort * port)
 		if (auxNode)
 		{
 			memberNameResult = auxNode->Resolve();
-			std::string suffix = GetSuffixByNodeType(auxNode->GetType());
+			std::string suffix = GetSuffixByNodeType(auxNode->GetType(), auxCon->port1());
 			memberNameResult += suffix;
 
 			return memberNameResult;
@@ -93,14 +120,12 @@ std::string QNMainNode::Resolve()
 	
 	string result =
 		"void main() \n"
-		"{"
+		"{\n\n"
 		"	vec4 colorBase = vec4(" + colorValueString + ");\n"
 		"	vec4 specularLvl = vec4(" + specularValueString + ");\n"
 		"	vec4 normal = vec4(" + normalValueString + ");\n"
 		"	vec4 alpha = vec4(" + alphaValueString + ");\n"
-		"	vec4 lightIntensity = vec4(0.0);"
-		"\n"
-		"	vec4 colorAux = vec4(0.0);\n"
+		"	vec4 lightIntensity = vec4(0.0);"		
 		"\n"
 		"	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb);\n"
 		"\n"
@@ -108,7 +133,7 @@ std::string QNMainNode::Resolve()
 		"\n"
 		"	FragColor.a = alpha.a;\n"
 		"\n"
-		"}\n"
+		"}"
 		;
 
 
@@ -195,7 +220,7 @@ std::string QNConstFloatNode::Resolve()
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
 	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
-	string valueString = ConvertIntToString(value);	
+	string valueString = ConvertFloatToString(value);	
 	
 	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
@@ -217,11 +242,9 @@ QGridLayout *  QNConstFloatNode::GetPropertiesForm()
 
 	// 1. Create Controls
 	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
-	valueTextEdit = new QTextEdit(""); valueTextEdit->setSizePolicy(*policy); valueTextEdit->setMinimumSize(minSizeField); valueTextEdit->setMaximumSize(maxSizeField);
-	
-
 	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(valueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+
+	valueTextEdit = CreateMyNumericLineEdit(value, this);
 	
 	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
 	QLabel * label2 = new QLabel("Value:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
@@ -245,12 +268,19 @@ QGridLayout *  QNConstFloatNode::GetPropertiesForm()
 
 void QNConstFloatNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
-	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	
 	
 	description = descTextEdit->placeholderText().toStdString();
-	value = valueTextEdit->toPlainText().toFloat();
+	//value = valueTextEdit->toPlainText().toFloat();
+	value = valueTextEdit->text().replace(',', '.').toFloat();
+
+	/*QMessageBox msgBox;
+	msgBox.setText(valueTextEdit->text().replace(',', '.'));
+	msgBox.exec();*/
+	cout << "************" << endl;
+	cout << "Text: " << valueTextEdit->text().toStdString() << endl;
+	cout << "TextNoComma: " << valueTextEdit->text().replace(',', '.').toStdString() << endl;
+	cout << "Value: " << value << endl;
 
 }
 
@@ -277,8 +307,8 @@ std::string QNVector2DNode::Resolve()
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
 	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
-	string rValueString = ConvertIntToString(value.r);
-	string gValueString = ConvertIntToString(value.g);
+	string rValueString = ConvertFloatToString(value.r);
+	string gValueString = ConvertFloatToString(value.g);
 
 	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
@@ -300,26 +330,26 @@ QGridLayout *  QNVector2DNode::GetPropertiesForm()
 
 	// 1. Create Controls
 	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
-	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
-	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
-	
-
 	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
 	
+	rValueLineEdit = CreateMyNumericLineEdit(value.r, this);
+	gValueLineEdit = CreateMyNumericLineEdit(value.g, this);
+
 	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
 	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
 	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
-	
+
+
+
 	// 2. Create LayOut
 	QGridLayout * propForm = new QGridLayout();
 
 	propForm->addWidget(label1, 0, 0); 	propForm->addWidget(label2, 1, 0);
 	propForm->addWidget(label3, 2, 0);
+	
 	propForm->addWidget(descTextEdit, 0, 1);
-	propForm->addWidget(rValueTextEdit, 1, 1);
-	propForm->addWidget(gValueTextEdit, 2, 1);
+	propForm->addWidget(rValueLineEdit, 1, 1);
+	propForm->addWidget(gValueLineEdit, 2, 1);
 	
 	// Para que la ultima fila ocupe el resto del layout
 	propForm->setRowStretch(propForm->rowCount(), 1);
@@ -332,11 +362,14 @@ QGridLayout *  QNVector2DNode::GetPropertiesForm()
 
 void QNVector2DNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	value.r = rValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();	
+
 }
 
 
@@ -351,9 +384,10 @@ QNVector3DNode::QNVector3DNode(QGraphicsItem *parent) : QNEBlock(parent)
 void QNVector3DNode::Init()
 {
 	addPort("Color RGB",false, QNEPort::NamePort);
-	addOutputPort("R");
-	addOutputPort("G");
-	addOutputPort("B");
+	addOutputPort("");
+	ROutPut =	addOutputPort("R");
+	GOutPut =	addOutputPort("G");
+	BOutPut =	addOutputPort("B");
 }
 
 QNVector3DNode ::~QNVector3DNode()
@@ -369,9 +403,9 @@ std::string QNVector3DNode::Resolve()
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
 	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
-	string rValueString = ConvertIntToString(value.r);
-	string gValueString = ConvertIntToString(value.g);
-	string bValueString = ConvertIntToString(value.b);
+	string rValueString = ConvertFloatToString(value.r);
+	string gValueString = ConvertFloatToString(value.g);
+	string bValueString = ConvertFloatToString(value.b);
 
 	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
@@ -387,21 +421,14 @@ std::string QNVector3DNode::Resolve()
 QGridLayout *  QNVector3DNode::GetPropertiesForm()
 {
 
-
-
 	// 1. Create Controls
 	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
-	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
-	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
-	bValueTextEdit = new QTextEdit(""); bValueTextEdit->setSizePolicy(*policy); bValueTextEdit->setMinimumSize(minSizeField); bValueTextEdit->setMaximumSize(maxSizeField);
-	
-
 	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(bValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	
 
+	rValueLineEdit = CreateMyNumericLineEdit(value.r, this);
+	gValueLineEdit = CreateMyNumericLineEdit(value.g, this);
+	bValueLineEdit = CreateMyNumericLineEdit(value.b, this);
+	
 	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
 	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
 	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
@@ -416,9 +443,9 @@ QGridLayout *  QNVector3DNode::GetPropertiesForm()
 	
 
 	propForm->addWidget(descTextEdit, 0, 1);
-	propForm->addWidget(rValueTextEdit, 1, 1);
-	propForm->addWidget(gValueTextEdit, 2, 1);
-	propForm->addWidget(bValueTextEdit, 3, 1);
+	propForm->addWidget(rValueLineEdit, 1, 1);
+	propForm->addWidget(gValueLineEdit, 2, 1);
+	propForm->addWidget(bValueLineEdit, 3, 1);
 	
 
 	// Para que la ultima fila ocupe el resto del layout
@@ -431,11 +458,16 @@ QGridLayout *  QNVector3DNode::GetPropertiesForm()
 
 void QNVector3DNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
 	msgBox.exec();
+*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	value.r = rValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.b = bValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	
 }
 
 
@@ -450,10 +482,10 @@ QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
 void QNVector4DNode::Init()
 {
 	addPort("Color RGB", false, QNEPort::NamePort);
-	addOutputPort("R");
-	addOutputPort("G");
-	addOutputPort("B");
-	addOutputPort("A");
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNVector4DNode ::~QNVector4DNode()
@@ -469,10 +501,10 @@ std::string QNVector4DNode::Resolve()
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
 	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
-	string rValueString = ConvertIntToString(value.r);
-	string gValueString = ConvertIntToString(value.g);
-	string bValueString = ConvertIntToString(value.b);
-	string aValueString = ConvertIntToString(value.a);
+	string rValueString = ConvertFloatToString(value.r);
+	string gValueString = ConvertFloatToString(value.g);
+	string bValueString = ConvertFloatToString(value.b);
+	string aValueString = ConvertFloatToString(value.a);
 
 	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
@@ -490,17 +522,13 @@ QGridLayout *  QNVector4DNode::GetPropertiesForm()
 	
 	// 1. Create Controls
 	descTextEdit = new QTextEdit("");	descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
-	rValueTextEdit = new QTextEdit(""); rValueTextEdit->setSizePolicy(*policy); rValueTextEdit->setMinimumSize(minSizeField); rValueTextEdit->setMaximumSize(maxSizeField);
-	gValueTextEdit = new QTextEdit(""); gValueTextEdit->setSizePolicy(*policy); gValueTextEdit->setMinimumSize(minSizeField); gValueTextEdit->setMaximumSize(maxSizeField);
-	bValueTextEdit = new QTextEdit(""); bValueTextEdit->setSizePolicy(*policy); bValueTextEdit->setMinimumSize(minSizeField); bValueTextEdit->setMaximumSize(maxSizeField);
-	aValueTextEdit = new QTextEdit(""); aValueTextEdit->setSizePolicy(*policy); aValueTextEdit->setMinimumSize(minSizeField); aValueTextEdit->setMaximumSize(maxSizeField);
-	
 	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(rValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(gValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(bValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(aValueTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
 
+	rValueLineEdit = CreateMyNumericLineEdit(value.r, this);
+	gValueLineEdit = CreateMyNumericLineEdit(value.g, this);
+	bValueLineEdit = CreateMyNumericLineEdit(value.b, this);
+	aValueLineEdit = CreateMyNumericLineEdit(value.a, this);
+	
 	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
 	QLabel * label2 = new QLabel("R:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
 	QLabel * label3 = new QLabel("G:"); label2->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
@@ -515,10 +543,10 @@ QGridLayout *  QNVector4DNode::GetPropertiesForm()
 	propForm->addWidget(label5, 4, 0);
 
 	propForm->addWidget(descTextEdit, 0, 1);
-	propForm->addWidget(rValueTextEdit, 1, 1);
-	propForm->addWidget(gValueTextEdit, 2, 1);
-	propForm->addWidget(bValueTextEdit, 3, 1);
-	propForm->addWidget(aValueTextEdit, 4, 1);
+	propForm->addWidget(rValueLineEdit, 1, 1);
+	propForm->addWidget(gValueLineEdit, 2, 1);
+	propForm->addWidget(bValueLineEdit, 3, 1);
+	propForm->addWidget(aValueLineEdit, 4, 1);
 
 	// Para que la ultima fila ocupe el resto del layout
 	propForm->setRowStretch(propForm->rowCount(), 1);
@@ -530,11 +558,15 @@ QGridLayout *  QNVector4DNode::GetPropertiesForm()
 
 void QNVector4DNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	value.r = rValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.b = bValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	value.a = aValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 }
 
 
@@ -548,10 +580,11 @@ QNTextureNode::QNTextureNode(QGraphicsItem *parent) : QNEBlock(parent)
 void QNTextureNode::Init()
 {
 	addPort("Texture 2D", false, QNEPort::NamePort);
-	addOutputPort("R");
-	addOutputPort("G");
-	addOutputPort("B");
-	addOutputPort("A");
+	addOutputPort("");
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNTextureNode ::~QNTextureNode()
@@ -604,8 +637,12 @@ void QNAddNode::Init()
 {
 	addPort("Add", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
 	
 	
 	
@@ -693,8 +730,13 @@ void QNSubtractNode::Init()
 {
 	addPort("Subs", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 
 
 }
@@ -781,8 +823,13 @@ void QNMultiplyNode::Init()
 {
 	addPort("Multiply", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 
 }
 
@@ -868,6 +915,12 @@ void QNPowerNode::Init()
 	addOutputPort("");
 	ValuePort =  addInputPort("Val");
 	ExpPort = addInputPort("Exp");
+
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 
 }
 
@@ -955,6 +1008,11 @@ void QNSqrtNode::Init()
 	addPort("Sqrt", false, QNEPort::NamePort);
 	addOutputPort("");
 	ValPort = addInputPort("Val");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNSqrtNode ::~QNSqrtNode()
@@ -1038,6 +1096,11 @@ void QNLogNode::Init()
 	addPort("Log", false, QNEPort::NamePort);
 	addOutputPort("");
 	ValPort = addInputPort("Val");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNLogNode ::~QNLogNode()
@@ -1121,8 +1184,13 @@ void QNMinNode::Init()
 {
 	addPort("Min", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNMinNode ::~QNMinNode()
@@ -1207,8 +1275,13 @@ void QNMaxNode::Init()
 {
 	addPort("Max", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNMaxNode ::~QNMaxNode()
@@ -1292,6 +1365,11 @@ void QNAbsNode::Init()
 	addPort("Abs", false, QNEPort::NamePort);
 	addOutputPort("");
 	ValPort = addInputPort("Val");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNAbsNode ::~QNAbsNode()
@@ -1376,6 +1454,11 @@ void QNSignNode::Init()
 	addPort("Sign", false, QNEPort::NamePort);
 	addOutputPort("");
 	ValPort = addInputPort("Val");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNSignNode ::~QNSignNode()
@@ -1459,8 +1542,13 @@ void QNModNode::Init()
 {
 	addPort("Mod", false, QNEPort::NamePort);
 	addOutputPort("");
-	APort = addInputPort("A");
-	BPort = addInputPort("B");
+	APort = addInputPort("X");
+	BPort = addInputPort("Y");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 }
 
 QNModNode ::~QNModNode()
@@ -1548,6 +1636,11 @@ void QNClampNode::Init()
 	ValPort = addInputPort("Val");
 	MinPort = addInputPort("Min");
 	MaxPort = addInputPort("Max");
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 
 }
 
@@ -1637,9 +1730,15 @@ void QNLerpNode::Init()
 	addPort("Lerp", false, QNEPort::NamePort);
 	addOutputPort("");
 	
-	ValXPort = addInputPort("A");
-	ValYPort = addInputPort("B");
+	ValXPort = addInputPort("X");
+	ValYPort = addInputPort("Y");
 	TPort = addInputPort("T");
+
+
+	ROutPut = addOutputPort("R");
+	GOutPut = addOutputPort("G");
+	BOutPut = addOutputPort("B");
+	AOutPut = addOutputPort("A");
 
 }
 

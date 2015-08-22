@@ -62,6 +62,10 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 	height = vertMargin;
 	
 
+
+	floatValidator = new QDoubleValidator(0, 100, 3, this);
+	
+	
 	MANAGER->RegisterNode(this);
 	std::cout << "Creating Block Completed" << std::endl;
 
@@ -73,7 +77,7 @@ QNEBlock::QNEBlock(QGraphicsItem *parent) : QGraphicsPathItem(parent)
 
 QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int ptr)
 {
-	QNEPort *port = new QNEPort(this);
+	QNEPort *port = new QNEPort(this, name);
 	port->setName(name);
 	port->setIsOutput(isOutput);
 	port->setNEBlock(this);
@@ -81,29 +85,55 @@ QNEPort* QNEBlock::addPort(const QString &name, bool isOutput, int flags, int pt
 	port->setPtr(ptr);
 	if (!scene()) std::cout << "Scene is Null" << std::endl; 
 	QFontMetrics fm(scene()->font());
+	
 	int w = fm.width(name);
 	int h = fm.height();
-	// port->setPos(0, height + h/2);
+	port->setPos(0, height + h/2);
+	
 	if (w > width - horzMargin)
 		width = w + horzMargin;
-	height += h;
-	QPainterPath p;
-	p.addRoundedRect(-width/2, -height/2, width, height, 5, 5);
-	setPath(p);
-	int y = -height / 2 + vertMargin + port->radius();
 	
+	if (GetOutPutsNumber() > GetInPutsNumber())
+		height = h * GetOutPutsNumber() + 25;
+	else
+		height = h * GetInPutsNumber() + 25;
+	
+	//height += h;
+	
+	QPainterPath p;
+	p.addRoundedRect(-width/2, -height/2, width, height, 2.5, 2.5);
+	setPath(p);
+	int y = -height / 2 + vertMargin + port->radius() + 5;
+	
+
+	// Ordenar entradas
 	foreach(QGraphicsItem *port_, childItems()) 
 	{
 		if (port_->type() != QNEPort::Type)
 			continue;
 
 		QNEPort *port = (QNEPort*) port_;
-		if (port->isOutput())
-			port->setPos(width/2 + port->radius(), y);
-		else
-			port->setPos(-width/2 - port->radius(), y);
-		y += h;
+		if (!port->isOutput())
+		{
+			port->setPos(-width / 2 - port->radius(), y);
+			y += h;
+		}
 	}
+	// Ordenar Salidas
+	y = -height / 2 + vertMargin + port->radius() + h + 5;
+	foreach(QGraphicsItem *port_, childItems())
+	{
+		if (port_->type() != QNEPort::Type)
+			continue;
+
+		QNEPort *port = (QNEPort*)port_;
+		if (port->isOutput())
+		{
+			port->setPos(width / 2 + port->radius(), y);
+			y += h;
+		}
+	}
+
 	return port;
 }
 
@@ -187,15 +217,36 @@ void QNEBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
 
-	if (isSelected()) {
-		painter->setPen(QPen(Qt::darkYellow));
-		painter->setBrush(Qt::yellow);
-	} else {
-		painter->setPen(QPen(Qt::darkGreen));
-		painter->setBrush(Qt::green);
+	if (isSelected())
+	{
+		painter->setPen(QPen(QColor(203,203,203)));
+		painter->setBrush(QBrush(QColor(203,203,203)));
+		SetPortFonts(QColor(203, 203, 203));
+
+	} else 
+	{
+		painter->setPen(QPen(QColor(155, 155, 155)));
+		painter->setBrush(QBrush(QColor(155, 155, 155)));
+		SetPortFonts(QColor(155, 155, 155));
 	}
 
 	painter->drawPath(path());
+}
+
+
+void QNEBlock::SetPortFonts(QColor color)
+{
+	
+	foreach(QGraphicsItem *port_, childItems())
+	{
+		if (port_->type() == QNEPort::Type)
+		{
+			QNEPort *port = (QNEPort*)port_;
+			if (port)
+				port->SetLabelColor(color);
+		}
+	}
+	
 }
 
 QNEBlock* QNEBlock::clone()
@@ -224,6 +275,36 @@ QVector<QNEPort*> QNEBlock::ports()
 			res.append((QNEPort*) port_);
 	}
 	return res;
+}
+
+int QNEBlock::GetOutPutsNumber()
+{
+	int count = 0;
+	foreach(QGraphicsItem *port_, childItems())
+	{
+		if (port_->type() == QNEPort::Type)
+		{
+			QNEPort *port = (QNEPort*)port_;
+			if (port->isOutput())
+				count++;
+		}
+	}
+	return count;
+}
+
+int QNEBlock::GetInPutsNumber()
+{
+	int count = 0;
+	foreach(QGraphicsItem *port_, childItems())
+	{
+		if (port_->type() == QNEPort::Type)
+		{
+			QNEPort *port = (QNEPort*)port_;
+			if (!port->isOutput())
+				count++;
+		}
+	}
+	return count;
 }
 
 QVariant QNEBlock::itemChange(GraphicsItemChange change, const QVariant &value)

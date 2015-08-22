@@ -47,6 +47,14 @@ static std::string ConvertIntToString(int i)
 
 	return convert.str();
 }
+static std::string ConvertFloatToString(float f)
+{
+	stringstream convert;
+
+	convert << f;
+
+	return convert.str();
+}
 
 static bool SaveShaderToFile(std::string text, std::string fileName)
 {

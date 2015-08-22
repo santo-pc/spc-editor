@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
+    <width>842</width>
     <height>768</height>
    </rect>
   </property>
@@ -25,13 +25,19 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>821</width>
+     <width>842</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockNodeEditor">
+   <property name="minimumSize">
+    <size>
+     <width>532</width>
+     <height>38</height>
+    </size>
+   </property>
    <property name="autoFillBackground">
     <bool>true</bool>
    </property>
@@ -61,7 +67,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>40</width>
+     <width>286</width>
      <height>250</height>
     </size>
    </property>

@@ -1,11 +1,39 @@
-﻿Compilación iniciada a las 21/08/2015 23:08:00.
+﻿Compilación iniciada a las 23/08/2015 0:45:49.
      1>Proyecto "C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Test3\Test3.vcxproj" en el nodo 2 (Build destinos).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include /I.\GeneratedFiles\Release /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtCore /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtGui /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtOpenGL /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtWidgets /I./include /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Form1.cpp QNEditorNodes.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include /I.\GeneratedFiles\Release /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtCore /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtGui /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtOpenGL /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtWidgets /I./include /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp Form1.cpp GeneratedFiles\Release\moc_Form1.cpp GeneratedFiles\Release\moc_glwidget.cpp Mesh.cpp Shader.cpp Transform.cpp glwidget.cpp main.cpp qneblock.cpp window.cpp
+         Camera.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          Form1.cpp
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-         QNEditorNodes.cpp
+         moc_Form1.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         moc_glwidget.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Mesh.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Shader.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Transform.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         glwidget.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         main.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         qneblock.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         window.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          Generando código...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Win32\Release\\Test3.exe" /NOLOGO /LIBPATH:./lib /LIBPATH:C:\Qt\Qt5.4.2\5.4\msvc2013_opengl\lib /LIBPATH:./lib qtmain.lib Qt5Core.lib Qt5Gui.lib Qt5OpenGL.lib opengl32.lib glu32.lib Qt5Widgets.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib glew32.lib glew32s.lib assimp.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Win32\Release\Test3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Win32\Release\Test3.lib" /MACHINE:X86 /SAFESEH Release\Camera.obj
@@ -41,4 +69,4 @@
 
 Compilación correcta.
 
-Tiempo transcurrido 00:00:04.87
+Tiempo transcurrido 00:00:25.65

@@ -35,21 +35,53 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "qneconnection.h"
 #include <iostream>
+#include <qmessagebox.h>
 
-QNEPort::QNEPort(QGraphicsItem *parent):
+QNEPort::QNEPort(QGraphicsItem *parent, QString name):
 	QGraphicsPathItem(parent)
 {
 	label = new QGraphicsTextItem(this);
 
-	radius_ = 5;
-	margin = 2;
+	/*radius_ = 5;*/
+	margin = 5;
+	radius_ = 10.5;
 
 	QPainterPath p;
-	p.addEllipse(-radius_, -radius_, 2*radius_, 2*radius_);
-	setPath(p);
+	if (name == "R")
+	{
+		radius_ = 7.5;	
+		setPen(QPen(QColor(191, 4, 17)));
+		setBrush(QBrush(QColor(191, 4, 17))); // Fondo
+	}else
+	if (name == "G")
+	{
+		radius_ = 7.5;
+		setPen(QPen(QColor(57, 191, 4)));
+		setBrush(QBrush(QColor(57, 191, 4))); // Fondo
+	}else
+	if (name == "B")
+	{
+		radius_ = 7.5;
+		setPen(QPen(QColor(4, 66, 191)));
+		setBrush(QBrush(QColor(4, 66, 191))); // Fondo
+	}else
+	if (name == "A")
+	{
+		radius_ = 7.5;
+		setPen(QPen(QColor(255, 253, 109)));
+		setBrush(QBrush(QColor(255, 253, 109))); // Fondo
+	}
+	else
+	{
+		radius_ = 9.5;
+		setPen(QPen(QColor(222, 222, 222)));
+		setBrush(QBrush(QColor(222, 222, 222))); // Fondo
+	}
 
-	setPen(QPen(Qt::darkRed));
-	setBrush(Qt::red);
+
+	p.addEllipse(-radius_, -radius_, 2 * radius_, 2 * radius_);
+	
+	setPath(p);
 
 	setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 
@@ -76,8 +108,8 @@ void QNEPort::setName(const QString &n)
 void QNEPort::setIsOutput(bool o)
 {
 	isOutput_ = o;
-	//QFont font("times", 12);
-	QFontMetrics fm(scene()->font());
+	QFont font("Arial", 12, QFont::Light, false);
+	QFontMetrics fm(font);
 	QRect r = fm.boundingRect(name);
 
 	if (isOutput_)
@@ -103,23 +135,27 @@ QVector<QNEConnection*>& QNEPort::connections()
 
 void QNEPort::setPortFlags(int f)
 {
+	/*QMessageBox box;
+	box.setText("SetPortFlags");
+	box.exec();
+*/
 	m_portFlags = f;
 
 	if (m_portFlags & TypePort)
 	{
 		//QFont font("times", 12);
-		QFont font(scene()->font());
-		font.setItalic(true);
+		QFont font("Arial", 62, QFont::Light, false);
 		label->setFont(font);
 		setPath(QPainterPath());
-	} else if (m_portFlags & NamePort)
-	{
-		//QFont font("times", 12);
-		QFont font(scene()->font());
-		font.setBold(true);
-		label->setFont(font);
-		setPath(QPainterPath());
-	}
+
+	} else 
+		if (m_portFlags & NamePort)
+		{
+			//QFont font("times", 12);
+			QFont font("Arial", 12, QFont::Bold, true);		
+			label->setFont(font);
+			setPath(QPainterPath());
+		}
 }
 
 QNEBlock* QNEPort::block() const
@@ -157,4 +193,10 @@ QVariant QNEPort::itemChange(GraphicsItemChange change, const QVariant &value)
 		}
 	}
 	return value;
+}
+
+void QNEPort::SetLabelColor(QColor color)
+{
+	//label->setDefaultTextColor(color);
+
 }

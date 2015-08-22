@@ -47,7 +47,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(821, 768);
+        MainWindow->resize(842, 768);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -63,13 +63,14 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 821, 21));
+        menubar->setGeometry(QRect(0, 0, 842, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         MainWindow->setStatusBar(statusbar);
         dockNodeEditor = new QDockWidget(MainWindow);
         dockNodeEditor->setObjectName(QStringLiteral("dockNodeEditor"));
+        dockNodeEditor->setMinimumSize(QSize(532, 38));
         dockNodeEditor->setAutoFillBackground(true);
         dockNodeEditor->setFloating(false);
         dockNodeEditor->setFeatures(QDockWidget::NoDockWidgetFeatures);
@@ -85,7 +86,7 @@ public:
         sizePolicy1.setVerticalStretch(1);
         sizePolicy1.setHeightForWidth(dock3DViewer->sizePolicy().hasHeightForWidth());
         dock3DViewer->setSizePolicy(sizePolicy1);
-        dock3DViewer->setMinimumSize(QSize(40, 250));
+        dock3DViewer->setMinimumSize(QSize(286, 250));
         dock3DViewer->setAutoFillBackground(true);
         dock3DViewer->setFloating(false);
         dock3DViewer->setFeatures(QDockWidget::NoDockWidgetFeatures);

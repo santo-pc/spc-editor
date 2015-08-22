@@ -28,6 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 //#include <QGraphicsPathItem>
 #include <qgraphicsitem.h>
+#include "StringsAndDefines.h"
 
 
 class QNEBlock;
@@ -39,7 +40,7 @@ public:
 	enum { Type = QGraphicsItem::UserType + 1 };
 	enum { NamePort = 1, TypePort = 2 };
 
-	QNEPort(QGraphicsItem *parent = 0);
+	QNEPort(QGraphicsItem *parent = 0, QString name = "");
 	~QNEPort();
 
 	void setNEBlock(QNEBlock*);
@@ -49,6 +50,7 @@ public:
 	bool isOutput();
 	QVector<QNEConnection*>& connections();
 	void setPortFlags(int);
+	void SetLabelColor(QColor color);
 
 	const QString& portName() const { return name; }
 	int portFlags() const { return m_portFlags; }

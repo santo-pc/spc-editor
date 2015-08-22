@@ -33,6 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <qboxlayout.h>
 #include <qgridlayout.h>
 #include <qtextedit.h>
+#include <qvalidator.h>
 
 class Form1;
 class QNEPort;
@@ -53,6 +54,8 @@ public:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 	QNEBlock* clone();
 	QVector<QNEPort*> ports();
+	int GetOutPutsNumber();
+	int GetInPutsNumber();
 
 
 	QTextEdit * descTextEdit;
@@ -72,6 +75,13 @@ public:
 	QSizePolicy * policy = new QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	QSize minSizeField = QSize(150, 25); QSize maxSizeField = QSize(200, 25);
 	QSize minSizeLabel = QSize(50, 25);	QSize maxSizeLabel = QSize(50, 25);
+	QDoubleValidator * floatValidator;
+
+
+	QNEPort * ROutPut;
+	QNEPort * GOutPut;
+	QNEPort * BOutPut;
+	QNEPort * AOutPut;
 
 protected:
 	Form1 *  form1 = NULL;
@@ -83,6 +93,7 @@ protected:
 	int vertMargin;
 	int width;
 	int height;
+	void SetPortFonts(QColor color);
 };
 
 #endif // QNEBLOCK_H
