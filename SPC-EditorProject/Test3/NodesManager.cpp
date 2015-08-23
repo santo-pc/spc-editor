@@ -37,19 +37,17 @@ int NodesManager::CreateNewId()
 	return devolver;
 }
 
-QNEBlock* NodesManager::GetActorFromID(int id)const
+QNEBlock* NodesManager::GetNodeFromID(int id)const
 {
 
 	// Get a QNEBlock
-	/*cout << id << endl;*/
 	NodesMap::const_iterator it = map.find(id);
 	assert((it != map.end()) && "<QNEBlock::NodeID>: invalid ID");
 	QNEBlock * aux = it->second;
-
 	return aux;
 }
 
-void NodesManager::RemoveActor(QNEBlock * node)
+void NodesManager::RemoveNode(QNEBlock * node)
 {
 	map.erase(map.find(node->GetId()));
 }

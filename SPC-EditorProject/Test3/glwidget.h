@@ -50,6 +50,7 @@ protected:
 	void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
+	void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
 
 private:
 	glm::vec3 initialCameraPos;

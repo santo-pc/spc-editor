@@ -41,6 +41,8 @@ std::string ShaderComposer::RegistrarMiembro(QNEBlock * node)
 		// Guardar en la lista
 		GuardarEnLista(node->GetId(), resultName);
 
+		if (node->GetType() == ID_TYPE_SPTextureNode)
+			listNodeMemberNamesStringTextures.insert(std::pair<int, std::string>(node->GetId(), resultName));
 
 		// Actualizar el contador por tipo
 		membersCounter[node->GetType()]++;
@@ -56,6 +58,9 @@ std::string ShaderComposer::RegistrarMiembro(QNEBlock * node)
 void ShaderComposer::GuardarEnLista(int nodeId, std::string memberString)
 {
 	listNodeMemberNamesString.insert(std::pair<int, std::string>(nodeId, memberString));
+
+
+
 }
 
 
@@ -97,7 +102,7 @@ bool ShaderComposer::AppendCodeTexture(QNEBlock * node, std::string code)
 	assert((it == listNodeCodeTexture.end()) && "<Node::NodeFromId>: invalid ID");
 
 	// Existe devuelvo su nombre
-	if ((it != listNodeCodeTexture.end()))
+	if ((it == listNodeCodeTexture.end()))
 	{
 		listNodeCodeTexture.insert(std::pair<int, std::string>(node->GetId(), code));
 		return true;
@@ -170,11 +175,7 @@ string ShaderComposer::GetHeaderStandard()
 		"in vec3 VexterPosEye;\n"
 		"in vec2 TexCoord;\n"
 		"in vec3 ViewDir;\n"
-		"in vec3 LightDirStaticTan;\n"
-		"\n"
-		"uniform sampler2D ColorTex;\n"
-		"uniform sampler2D NormalMapTex;\n"
-		"uniform sampler2D SpecularMapTex;\n"
+		"in vec3 LightDirStaticTan;\n"		
 		"\n"
 		"uniform int Model;\n"
 		"uniform int LightsCount;  // actual number of lights \n"

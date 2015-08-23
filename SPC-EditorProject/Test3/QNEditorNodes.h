@@ -6,7 +6,7 @@
 #include <qgridlayout.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-
+#include "StringsAndDefines.h"
 class Form1;
 
 /*
@@ -121,13 +121,26 @@ public:
 /************************** TEXTURE NODE **************************/
 class QNTextureNode : public QNEBlock
 {
+private:
+	
+	QTextEdit * pathTextEdit;
+	// Para mostrar imagen
+	QGridLayout * propForm;
+	QPushButton * buttonExaminar;
+	QGraphicsScene * scene;
+	QGraphicsView * view;
+	QGraphicsPixmapItem * item;
+	
 public:
+	std::string path = STANDAR_TEXTURE_PATH;
 	QNTextureNode(QGraphicsItem *parent = 0);
 	~QNTextureNode();
 	void Init();
-	std::string Resolve(){ return ""; };
+	std::string Resolve();
 	QGridLayout *  GetPropertiesForm();
 	void HandleLostFocusMembers();
+	void OpenSelectWindow();
+	void ShowImage(std::string path);
 };
 
 /************************** ADD **************************/

@@ -6,9 +6,10 @@
 #include <iostream>
 #include "Mesh.h"
 #include "qmessagebox.h"
-
-
-
+#include "ShaderComposer.h"
+#include "TextureManager.h"
+#include "NodesManager.h"
+#include "QNEditorNodes.h"
 GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent),//,
 /*  m_xRot(0),
   m_yRot(0),
@@ -127,8 +128,13 @@ void GLWidget::initializeGL()
 	glCullFace(GL_BACK);
 	
 	GLOBAL_CONTAIER->GlobalShader = new Shader("../../Resources/Shaders/phongNormalShader");
-	GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");
-	mesh->LoadMesh("../../Resources/Models/sphere.obj");
+	TEXTURE_MANAGER->SetStandarMode();
+
+	/*GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");*/
+	//mesh->LoadMesh("../../Resources/Models/sphere.obj");
+	mesh->LoadMesh("../../Resources/Models/cruz.obj");
+	probar finalmente lo hecho con los nodos a ver
+
 	
 	initialCameraPos = glm::vec3(0.0, 0.0, -6.0);
 	fov = 80;
@@ -154,6 +160,13 @@ void GLWidget::paintGL()
 	
 	GLOBAL_CONTAIER->GlobalShader->Update(transform, camera);
 	GLOBAL_CONTAIER->GlobalShader->Bind();
+	TEXTURE_MANAGER->DrawTextures1();
+	TEXTURE_MANAGER->DrawTextures2();
+	
+	/*QMessageBox box; 
+	box.setText("ShaderCreado"); 
+	box.exec();*/
+
 	mesh->Render();
 	std::cout << "End Paint" << std::endl;
 }
@@ -180,8 +193,8 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 
 	if (event->buttons() & Qt::LeftButton) 
 	{
-		setXRotation(m_xRot + speedFactor * dy);
-		setYRotation(m_yRot + speedFactor * dx);
+		setXRotation(m_xRot - speedFactor * dy);
+		setYRotation(m_yRot - speedFactor * dx);
 	} 
 	else if (event->buttons() & Qt::RightButton) 
 	{
@@ -215,6 +228,11 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 	event->accept();
 }
 
+void GLWidget::leaveEvent(QEvent * event)
+{
+	m_lastPos = QPoint(0, 0);
+}
+
 
 void GLWidget::RebuildShader(const std::string & fragment)
 {
@@ -224,6 +242,21 @@ void GLWidget::RebuildShader(const std::string & fragment)
 	delete GLOBAL_CONTAIER->GlobalShader;
 
 	GLOBAL_CONTAIER->GlobalShader = new Shader(fragment, true);
+
+	int unitCounter = 0;
+	
+	for (std::map<int, string>::iterator it = SHADER_COMPOSER->listNodeMemberNamesStringTextures.begin();
+		it != SHADER_COMPOSER->listNodeMemberNamesStringTextures.end(); ++it)
+	{
+		
+		QNTextureNode * nodeTexture = dynamic_cast<QNTextureNode*>(MANAGER->GetNodeFromID((*it).first));
+		
+		if (nodeTexture)
+			TEXTURE_MANAGER->AddTexture(unitCounter, unitCounter, (*it).second, nodeTexture->path);
+		
+		unitCounter++;
+	}
+
 	
 
 }

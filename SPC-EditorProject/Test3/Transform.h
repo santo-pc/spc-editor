@@ -25,7 +25,7 @@ struct Transform
 			glm::mat4 rotZ = glm::rotate(rot.z, glm::vec3(0.0, 0.0, 1.0));
 			glm::mat4 rotMat = rotX * rotY * rotZ;
 
-			cout << "Rotando:  " << rot.x << ", " << rot.y << ", " << rot.z << endl;
+			//cout << "Rotando:  " << rot.x << ", " << rot.y << ", " << rot.z << endl;
 			return posMat * rotMat * scaleMat;
 		}
 

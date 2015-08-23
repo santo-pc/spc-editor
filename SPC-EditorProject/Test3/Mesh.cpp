@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include "Shader.h"
-
+#include "TextureManager.h"
 #include <assert.h>
 
 #include "mesh.h"
@@ -101,7 +101,7 @@ bool Mesh::InitFromScene(const aiScene* pScene, const std::string& Filename)
 
 
 	// init materials	
-	return InitMaterials(pScene, Filename);
+	return true; // InitMaterials(pScene, Filename);
 }
 
 
@@ -305,16 +305,18 @@ void Mesh::Render()
 		if (MaterialIndex < m_Textures.size())
 		{
 
-			GLOBAL_CONTAIER->GlobalShader->SetUniform("Material.Ka", m_Materiales[MaterialIndex]->Ka);
+			/*GLOBAL_CONTAIER->GlobalShader->SetUniform("Material.Ka", m_Materiales[MaterialIndex]->Ka);
 			GLOBAL_CONTAIER->GlobalShader->SetUniform("Material.Ks", m_Materiales[MaterialIndex]->Ks);
 			GLOBAL_CONTAIER->GlobalShader->SetUniform("Material.Shininess", m_Materiales[MaterialIndex]->Shininess);
 			GLOBAL_CONTAIER->GlobalShader->SetUniform("ColorTex", DIFFUSE_TEXTURE_UNIT_INDEX);
 			GLOBAL_CONTAIER->GlobalShader->SetUniform("NormalMapTex", NORMAL_TEXTURE_UNIT_INDEX);
-			GLOBAL_CONTAIER->GlobalShader->SetUniform("SpecularMapTex", SPECULAR_TEXTURE_UNIT_INDEX);
+			GLOBAL_CONTAIER->GlobalShader->SetUniform("SpecularMapTex", SPECULAR_TEXTURE_UNIT_INDEX);*/
 
-			m_Materiales[MaterialIndex]->diffuseMap->Bind(DIFFUSE_TEXTURE_UNIT);
-			m_Materiales[MaterialIndex]->normalMap->Bind(NORMAL_TEXTURE_UNIT);
-			m_Materiales[MaterialIndex]->specularMap->Bind(SPECULAR_TEXTURE_UNIT);
+			//m_Materiales[MaterialIndex]->diffuseMap->Bind(DIFFUSE_TEXTURE_UNIT);
+			//m_Materiales[MaterialIndex]->normalMap->Bind(NORMAL_TEXTURE_UNIT);
+			//m_Materiales[MaterialIndex]->specularMap->Bind(SPECULAR_TEXTURE_UNIT);
+			//TEXTURE_MANAGER->DrawTextures1();
+			//TEXTURE_MANAGER->DrawTextures2();
 		}
 
 

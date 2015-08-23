@@ -81,12 +81,12 @@ Shader::Shader(const std::string& fileName)
 	RegisterUniform("NormalMatrix");
 	RegisterUniform("ProjectionMatrix");
 	RegisterUniform("MVP");
-	RegisterUniform("ColorTex");
+	/*RegisterUniform("ColorTex");
 	RegisterUniform("NormalMapTex");
 	RegisterUniform("SpecularMapTex");
 	RegisterUniform("Material.Ka");
 	RegisterUniform("Material.Ks");
-	RegisterUniform("Material.Shininess");
+	RegisterUniform("Material.Shininess");*/
 	RegisterUniform("Model");
 	RegisterUniform("MAX_NUM_LIGHTS");
 	RegisterUniform("AtteConstantTest");
@@ -103,20 +103,17 @@ Shader::Shader(const std::string& fileName)
 
 Shader::Shader(const std::string& fragmentCode, bool usingCode)
 {
-	std::cout << "CREANDO SHADER" << endl;
 	m_program = glCreateProgram();
 	std::string vertexFile = "../../Resources/Shaders/phongNormalShader.vs";
 
-	std::cout << "CREANDO SHADER2" << endl;
 	m_shaders[0] = CreateShader(LoadShader(vertexFile), GL_VERTEX_SHADER);			// carga el standard VS
 	m_shaders[1] = CreateShader(fragmentCode , GL_FRAGMENT_SHADER);					// carga solo el fragment
 
-	std::cout << "CREANDO SHADER 3" << endl;
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 		glAttachShader(m_program, m_shaders[i]);
 
 
-	std::cout << "CREANDO SHADER 4" << endl;
+	
 	glBindAttribLocation(m_program, 0, "VertexPosition");
 	glBindAttribLocation(m_program, 1, "VertexTexCoord");
 	glBindAttribLocation(m_program, 2, "VertexNormal");
@@ -128,18 +125,17 @@ Shader::Shader(const std::string& fragmentCode, bool usingCode)
 	glValidateProgram(m_program);
 	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Invalid shader program ");
 
-	std::cout << "CREANDO SHADER 5" << endl;
 
 	RegisterUniform("ModelViewMatrix");
 	RegisterUniform("NormalMatrix");
 	RegisterUniform("ProjectionMatrix");
 	RegisterUniform("MVP");
-	RegisterUniform("ColorTex");
+	/*RegisterUniform("ColorTex");
 	RegisterUniform("NormalMapTex");
 	RegisterUniform("SpecularMapTex");
 	RegisterUniform("Material.Ka");
 	RegisterUniform("Material.Ks");
-	RegisterUniform("Material.Shininess");
+	RegisterUniform("Material.Shininess");*/
 	RegisterUniform("Model");
 	RegisterUniform("MAX_NUM_LIGHTS");
 	RegisterUniform("AtteConstantTest");
@@ -154,23 +150,28 @@ Shader::Shader(const std::string& fragmentCode, bool usingCode)
 void Shader::RegisterUniform(const char *name)
 {
 	int uniform = glGetUniformLocation(m_program, name);
+	if (uniform == -1)
+		std::cout << "Error getting uniform location: " << name << endl;
+
 	m_uniforms.push_back(uniform);
 	m_uniformLocations.insert(std::pair<std::string, int>(name, uniform));
 	uniformIndex++;
+	std::cout << "Uniform Registered: " << name << endl;
+
 }
 
 
 Shader::~Shader()
 {
-	cout << "Borrando Shader" << endl;
+	
 	for (unsigned int i = 0; i < NUM_SHADERS; i++)
 	{
 		glDetachShader(m_program, m_shaders[i]);
 		glDeleteShader(m_shaders[i]);
 	}
-	cout << "Borrando Shader2" << endl;
+	
 	glDeleteProgram(m_program);
-	cout << "Borrando Shader3" << endl;
+	
 }
 
 void Shader::Bind()
@@ -181,19 +182,43 @@ void Shader::Bind()
 
 void Shader::Update(const Transform& transform, const Camera& camera)
 {
-	
-	
-	
-	glm::mat4 MVP = transform.GetMVP(camera);
-	glm::mat4 ModelView = camera.GetView() * transform.GetModel();
-	glm::mat4 Normal = transform.GetModel();
-	glm::mat4 P = camera.GetProjection();
 
+	
+	// Send the data for the graphics card
+	glm::mat4 M = transform.GetModel();
+	glm::mat4 P = camera.GetProjection();
+	glm::mat4 V = camera.GetView();					// Get The View Matrix
+	glm::mat4 VP = camera.GetViewProjection();		// Get The ViewProjection
+	glm::mat4 MV = V * M;									// Get The ModelView 
+	glm::mat4 MVP = P * V * M;								// Get The ModelViewProjection Matrix
+	glm::mat3 N(glm::transpose(glm::inverse(MV)));			// Get The Normal Matrix
+	
+	//glm::mat4 MVP = transform.GetMVP(camera);
+	//glm::mat4 ModelView = camera.GetView() * transform.GetModel();
+	//glm::mat4 Normal = transform.GetModel();
+	
+
+
+	//SetUniform("ProjectionMatrix", P);
+	
+	//SetUniform("ModelViewMatrix", ModelView);
+	//SetUniform("NormalMatrix", Normal);
+	SetUniform("ProjectionMatrix", P);
+	// Send matrices to the shader
+	SetUniform("ModelViewMatrix", MV);
+	SetUniform("NormalMatrix", N);
 	SetUniform("MVP", MVP);
-	SetUniform("ModelViewMatrix", ModelView);
-	SetUniform("NormalMatrix", MVP);	
-	SetUniform("ProjectionMatrix", MVP);
+	//SetUniform("MVP", MVP);
 	SetUniform("LightDirStatic", glm::vec3(-0.4f, 0.3f, 1.0f));
+
+
+
+	
+	
+
+
+
+
 }
 
 GLuint Shader::GetProgramHandler()
@@ -247,6 +272,8 @@ void Shader::SetUniform(const char *name, float val)
 void Shader::SetUniform(const char *name, int val)
 {
 	GLint loc = GetUniformLocation(name);
+	cout << "Location = " << loc << endl;
+
 	glUniform1i(loc, val);
 }
 

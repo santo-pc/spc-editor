@@ -44,17 +44,18 @@ uniform MaterialInfo Material;
 layout( location = 0 ) out vec4 FragColor;
 
 
-vec3 CWShading(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl)
+vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl)
 {
 	
-	float diffuseIntensity = 0.50;
-	float ambientIntensity = 0.52;
+	float diffuseIntensity = 0.80;
+	float ambientIntensity = 0.82;
+	float shininess = 25;
 	vec3 lighColor = vec3(0.7, 0.7, 0.7);
 	
 	// this is blinn phong
 	vec3 h = normalize(LightDirStaticTan + ViewDir); 
     
-	vec3 ambient = (ambientIntensity *  lighColor) * Material.Ka;
+	vec3 ambient = (ambientIntensity *  lighColor);
 
     float sDotN = max( dot(LightDirStaticTan, norm), 0.0 );
     
@@ -63,57 +64,39 @@ vec3 CWShading(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl)
     vec3 spec = vec3(0.0);
     
 	if( sDotN > 0.0 )
-		spec =  lighColor * specularLvl * pow(max(dot(h,norm), 0.0), Material.Shininess);	
+		spec =  lighColor * specularLvl * pow(max(dot(h,norm), 0.0), shininess);	
 			
-    return ambient +  diffuse + spec;
-}
-
-
-float CalcAttenuation(int i)
-{
-		float Distance = length(VexterPosEye - Light[i].Position.xyz);
-			
-		//float Attenuation = AtteConstantTest +  AtteLinearTest * Distance +  AtteExpTest * Distance * Distance;
-		
-		//float Attenuation = 0.005 +  0.00001 * Distance +  0.000005 * Distance * Distance;
-		float Attenuation = 0.005 +  0.00001 * Distance +   0.000005 * Distance * Distance;  // Si sube esto mas oscuro
-		//float Attenuation = 0.05 +  0.000001 * Distance +  0.00005 * Distance * Distance;
+    
 	
+	//diffuse = vec3(0.0);
+	//ambient = vec3(0.0);
 	
-		//float Attenuation = Light[i].AtteConstant +  Light[i].AtteLinear * 
-		//		Distance +  Light[i].AtteExp * Distance * Distance;
-		
-				
-		return Attenuation;
+	//return vec3(1.0, 0.0, 0.0); /*+  /*diffuse /*+ spec*/;
+	return ambient +  diffuse + spec;
 }
 
-vec4 CalcPointLight(int Index, vec3 diffuse, vec3 normal, vec3 specularLvl)
-{
-    vec3 Color = CWShading(Index, diffuse, normal, specularLvl);    
-	return vec4(Color, 1.0); 
-}
+
 
 void main() 
 {
     // Lookup the normal and color from the normal map and diffuse map
     vec4 normal = 2 * texture( NormalMapTex, TexCoord ) - 1.0;	
+	//vec4 normal = texture( NormalMapTex, TexCoord );	
 	
 	vec4 texColor = texture( ColorTex, TexCoord );
 	
 	vec4 specularLvl = texture( SpecularMapTex, TexCoord );
 	
-	vec4 TotalLight =  vec4(0.0);// noise4(normal.x); // vec4(0.0);
-	
-	vec4 colorAux = vec4(0.0);
+	vec4 TotalLight =  vec4(0.0);
 	
 	FragColor = vec4(0.0);
+
+	TotalLight += vec4(BlinnPhong(0, texColor.rgb, normal.rgb, specularLvl.rgb), 1.0);		
 	
 	
-	TotalLight += CalcPointLight(0, texColor.rgb, normal.rgb, specularLvl.rgb);		
-	
-	
-	FragColor = TotalLight * texColor;	
-	//FragColor = normal;
+	FragColor = TotalLight;// * texColor;	
+	//FragColor = texColor;
+	//FragColor = texture( NormalMapTex, TexCoord );
 	//FragColor = vec4(1.0, 0.0, 0.0, 1.0);	
 	
 	FragColor.a = 1;

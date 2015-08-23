@@ -7,10 +7,6 @@ in vec2 TexCoord;
 in vec3 ViewDir;
 in vec3 LightDirStaticTan;
 
-uniform sampler2D ColorTex;
-uniform sampler2D NormalMapTex;
-uniform sampler2D SpecularMapTex;
-
 uniform int Model;
 uniform int LightsCount;  // actual number of lights 
 
@@ -26,8 +22,6 @@ struct MaterialInfo
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
-const vec3 QNVector3DNode0 = vec3(0, 0, 0);
-
 
 // Textures Section
 
@@ -62,7 +56,7 @@ vec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)
 void main() 
 {
 
-	vec4 colorBase = vec4(QNVector3DNode0);
+	vec4 colorBase = vec4(NO CONNECTION MADE);
 	vec4 specularLvl = vec4(NO CONNECTION MADE);
 	vec4 normal = vec4(NO CONNECTION MADE);
 	vec4 alpha = vec4(NO CONNECTION MADE);
@@ -71,6 +65,7 @@ void main()
 
 	FragColor = lightIntensity;
 
-	FragColor.a = alpha.a;
+	//FragColor.a = alpha.a;
+	FragColor = colorBase;
 
 }

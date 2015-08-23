@@ -10,6 +10,9 @@
 #include <qgridlayout.h>
 #include <qlabel.h>
 #include <qvalidator.h>
+#include <qfiledialog.h>
+#include <qgraphicsscene.h>
+#include <qgraphicsview.h>
 
 static QLineEdit * CreateMyNumericLineEdit(float value, QNEBlock * nodeOwner)
 {
@@ -24,9 +27,11 @@ static QLineEdit * CreateMyNumericLineEdit(float value, QNEBlock * nodeOwner)
 	return lineEdit;
 	
 }
-static std::string GetSuffixByNodeType(int type, QNEPort * outPut)
+static void GetPreffixAndSuffixByNodeType(int type, QNEPort * outPut, std::string &preffix, std::string &suffix)
 {
-	string suffix = "";
+	suffix = "";
+	preffix = "";
+
 	switch (type)
 	{
 		// const values case
@@ -35,27 +40,29 @@ static std::string GetSuffixByNodeType(int type, QNEPort * outPut)
 		case ID_TYPE_SPVector3DNode:
 		case ID_TYPE_SPVector4DNode:
 			suffix = "";
+			preffix = "";
 			break;
-
+		case ID_TYPE_SPTextureNode:
+			suffix = ", TexCoord)";
+			preffix = "texture(";
+			break;
 		default: // Default Case for Functions
 			suffix = "()";
+			preffix = "";
 			break;
 	}
-
-	QMessageBox box;
+	
+	
+	// determinar el componente conectado usando el miembro de vector4d que le corresponde
 	if (outPut->portName() == "R" || outPut->portName() == "G" || outPut->portName() == "B" || outPut->portName() == "A")
 	{
 		
-		box.setText("Del tipo " + outPut->portName());
+		if (outPut->portName() == "R") suffix += ".r";
+		if (outPut->portName() == "G") suffix += ".g";
+		if (outPut->portName() == "B") suffix += ".b";
+		if (outPut->portName() == "A") suffix += ".a";
 		
 	}
-	else 
-		box.setText("Output principal");
-
-	box.exec();
-
-
-	return suffix;
 }
 
 // Util Function, used for get the name of the conected member by a certain port of a node
@@ -78,13 +85,18 @@ static std::string GetMemberStringByPort(QNEPort * port)
 		if (auxNode)
 		{
 			memberNameResult = auxNode->Resolve();
-			std::string suffix = GetSuffixByNodeType(auxNode->GetType(), auxCon->port1());
-			memberNameResult += suffix;
+			std::string suffix;
+			std::string preffix;
 
-			return memberNameResult;
+			GetPreffixAndSuffixByNodeType(auxNode->GetType(), auxCon->port1(), preffix, suffix);
+			
+			std::string result = preffix + memberNameResult + suffix;
+			return result;
 		}
 	}
 
+
+	// Si eso pasa gestionar el error
 	return "NO CONNECTION MADE";
 
 }
@@ -131,7 +143,8 @@ std::string QNMainNode::Resolve()
 		"\n"
 		"	FragColor = lightIntensity;\n"
 		"\n"
-		"	FragColor.a = alpha.a;\n"
+		"	//FragColor.a = alpha.a;\n"
+		"	FragColor = colorBase;\n"
 		"\n"
 		"}"
 		;
@@ -591,29 +604,119 @@ QNTextureNode ::~QNTextureNode()
 {
 }
 
+std::string QNTextureNode::Resolve()
+{
+	QMessageBox msgBox;
+	msgBox.setText("QTexture Resolve");
+	msgBox.exec();
+
+	string codeDefinition;
+	// 1. Obtener un nombre para el miembro
+	string nameMember = SHADER_COMPOSER->RegistrarMiembro(this);
+	
+	// 2. Componer el codigo de este nodo	
+	codeDefinition = "uniform sampler2D " + nameMember + ";\n";
+
+	// 3.Registrar el codigo a la lista que le corresponde
+	SHADER_COMPOSER->AppendCodeTexture(this, codeDefinition); // en este caso a AppendCodeConst
+
+	// 4. Devolver siempre el nombre le miembro
+	return nameMember;
+}
+void QNTextureNode::ShowImage(std::string path)
+{
+	/*if (scene)
+	{
+		delete scene;
+		scene = NULL;
+	}
+	this->grid*/
+
+	
+	QString qpath(path.c_str());
+	QGraphicsPixmapItem * item = new QGraphicsPixmapItem(QPixmap(qpath));
+	
+	
+	scene = new QGraphicsScene();
+	view = new QGraphicsView(scene);
+	
+	view->setMaximumSize(QSize(300, 300));
+	/*view->setMinimumSize(QSize(100, 100));*/
+	propForm->setAlignment(view, Qt::AlignCenter | Qt::AlignTop);
+	propForm->addWidget(view, 2, 0, 3, 0);
+
+	scene->addItem(item);
+
+	view->resize(view->sizeHint());
+
+	view->show();
+}
 QGridLayout *  QNTextureNode::GetPropertiesForm()
 {
-
-
 
 	// 1. Create Controls
 	descTextEdit = new QTextEdit(""); descTextEdit->setSizePolicy(*policy); descTextEdit->setMinimumSize(minSizeField); descTextEdit->setMaximumSize(maxSizeField);
 	QObject::connect(descTextEdit, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
 
-	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	pathTextEdit = new QTextEdit(path.c_str()); pathTextEdit->setSizePolicy(*policy); pathTextEdit->setMinimumSize(minSizeField); pathTextEdit->setMaximumSize(maxSizeField);
+	pathTextEdit->setReadOnly(true);
 
+
+	QLabel * label1 = new QLabel("Description:"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	
+	QLabel * label2 = new QLabel("Path:"); label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+
+	buttonExaminar = new QPushButton("Browse");
+	QObject::connect(buttonExaminar, &QPushButton::clicked, this, &QNTextureNode::OpenSelectWindow);
+
+	
+	
 	// 2. Create LayOut
-	QGridLayout * propForm = new QGridLayout();
+	propForm = new QGridLayout();
 
 	propForm->addWidget(label1, 0, 0);
+	propForm->addWidget(label2, 1, 0);
+	
 	propForm->addWidget(descTextEdit, 0, 1);
+
+	propForm->addWidget(pathTextEdit, 1, 1);
+	propForm->addWidget(buttonExaminar, 1, 2);
+
+	
 
 	// Para que la ultima fila ocupe el resto del layout
 	propForm->setRowStretch(propForm->rowCount(), 1);
+	ShowImage(path);
+	
+
 	propForm->setMargin(10);  propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+
+	
 
 	return propForm;
 
+}
+
+void QNTextureNode::OpenSelectWindow()
+{
+	QFileDialog * modal = new QFileDialog();
+	modal->setFileMode(QFileDialog::ExistingFile);
+	modal->setNameFilter("*.png *.bmp *.gif");
+	QString file =  modal->getOpenFileName();
+	
+	if (file != "")
+	{
+		path = file.toStdString();
+		pathTextEdit->setText(file);
+
+	}
+	else
+	{
+		path = STANDAR_TEXTURE_PATH;
+	}
+
+	ShowImage(path);
+	
 }
 
 void QNTextureNode::HandleLostFocusMembers()

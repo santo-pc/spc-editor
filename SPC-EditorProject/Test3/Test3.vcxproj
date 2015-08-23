@@ -198,6 +198,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.c" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -207,6 +208,7 @@
     <ClInclude Include="NodesManager.h" />
     <ClInclude Include="ShaderComposer.h" />
     <ClInclude Include="SPGraphicsScene.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Utils.h" />
     <CustomBuild Include="Form1.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -23,9 +23,9 @@ class NodesManager
 
 		void RegisterNode(QNEBlock * nodo);
 		int CreateNewId();
-		QNEBlock * GetActorFromID(int id)const;
-		void RemoveActor(QNEBlock * actor);
-		std::vector<QNEBlock * > GetActorsFromGroup(int group);		
+		QNEBlock * GetNodeFromID(int id)const;
+		void RemoveNode(QNEBlock * actor);
+		std::vector<QNEBlock * > GetNodeFromGroup(int group);		
 		void DeleteAll();
 	
 };

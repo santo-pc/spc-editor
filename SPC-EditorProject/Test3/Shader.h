@@ -32,7 +32,7 @@ public:
 	void SetUniform(const char *name, bool val);
 	void SetUniform(const char *name, GLuint val);
 	void Update(const Transform& transform, const Camera& camera);
-
+	void RegisterUniform(const char *name);
 
 
 protected:
@@ -41,7 +41,6 @@ protected:
 	std::vector<GLuint> m_uniforms;
 	std::map<std::string, int> m_uniformLocations;
 	int GetUniformLocation(const char * name);
-	void RegisterUniform(const char *name);
 	int uniformIndex = 0;
 	GLuint m_program;
 private:

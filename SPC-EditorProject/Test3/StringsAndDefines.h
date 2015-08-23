@@ -46,3 +46,13 @@ static const int ID_TYPE_SPClampNode = 18;
 static const int ID_TYPE_SPLerpNode = 19;
 
 static const int TOTAL_TYPES_NODES = 20;
+
+
+static const std::string UNIFORM_NAME_TEXTURE_COLOR = "ColorTex";
+static const std::string UNIFORM_NAME_TEXTURE_NORMAL = "NormalMapTex";
+static const std::string UNIFORM_NAME_TEXTURE_SPECULAR = "SpecularMapTex";
+
+static const std::string STANDAR_TEXTURE_PATH = "../../Resources/Images/standard.png";
+static const std::string STANDAR_TEXTURE_SPECULAR_PATH = "../../Resources/Images/standardSpecular.png";
+static const std::string STANDAR_TEXTURE_NORMAL_PATH = "../../Resources/Images/standardNormal.png";
+static const std::string STANDAR_TEXTURE_ALPHA_PATH = "../../Resources/Images/standardAlpha.png";
