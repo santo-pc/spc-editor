@@ -180,7 +180,7 @@ void Shader::Bind()
 }
 
 
-void Shader::Update(const Transform& transform, const Camera& camera)
+void Shader::Update(Transform& transform, Camera& camera)
 {
 
 	
@@ -272,7 +272,7 @@ void Shader::SetUniform(const char *name, float val)
 void Shader::SetUniform(const char *name, int val)
 {
 	GLint loc = GetUniformLocation(name);
-	cout << "Location = " << loc << endl;
+	//cout << "Location = " << loc << endl;
 
 	glUniform1i(loc, val);
 }

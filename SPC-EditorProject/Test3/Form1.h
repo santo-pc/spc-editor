@@ -12,7 +12,7 @@
 #include "QNEditorNodes.h"
 #include "SPGraphicsScene.h"
 #include "glwidget.h"
-
+#include <qmessagebox.h>
 class QNEBlock;
 class SPGraphicsScene;
 class SPGraphicsView;
@@ -48,6 +48,10 @@ class Form1 : public QMainWindow
 
 		private slots:
 			void on_button_clicked();
+			void on_buttonCubeMesh_clicked();
+			void on_buttonSphereMesh_clicked();
+			void on_buttonCylinderMesh_clicked();
+			void on_buttonTeaPotMesh_clicked();
 };
 
 class SPGraphicsScene : public QGraphicsScene
@@ -64,8 +68,17 @@ public:
 		e->setAccepted(true);
 		cout << "SPGraphicsScene  Mouse Pressed Event " << e->scenePos().x() << ", " << e->scenePos().y() << endl;
 
+		/*QMessageBox box;
+		box.setText("In Scene");
+		box.exec();*/
+
+		
 		if (e->button() == Qt::RightButton)
-			form1->ShowContextMenu(e->scenePos().toPoint());
+		{
+			// Si no se esta pulsando control
+			if (!e->modifiers())
+				form1->ShowContextMenu(e->scenePos().toPoint());
+		}
 		else
 		{
 			

@@ -59,8 +59,9 @@ void GLWidget::setXRotation(int angle)
 	if (angle != m_xRot)
 	{
 		m_xRot = angle;
-		glm::vec3 vecRot = glm::vec3(angle, transform.GetRot()->y, transform.GetRot()->z);
+		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x +angle, transform.GetRot()->y, transform.GetRot()->z);
 		transform.SetRot(vecRot);
+		//transform.SetRotX(angle);
 		emit xRotationChanged(angle);
 		update();
 	}
@@ -72,8 +73,9 @@ void GLWidget::setYRotation(int angle)
 	if (angle != m_yRot) 
 	{
 		m_yRot = angle;
-		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, angle, transform.GetRot()->z);
+		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, transform.GetRot()->y + angle, transform.GetRot()->z);
 		transform.SetRot(vecRot);
+		//transform.SetRotY(angle);
 		emit yRotationChanged(angle);
 		update();
 	}
@@ -85,8 +87,9 @@ void GLWidget::setZRotation(int angle)
 	if (angle != m_zRot) 
 	{
 		m_zRot = angle;
-		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, transform.GetRot()->y, angle);
+		glm::vec3 vecRot = glm::vec3(transform.GetRot()->x, transform.GetRot()->y, transform.GetRot()->z  + angle);
 		transform.SetRot(vecRot);
+		//transform.SetRotZ(angle);
 		emit zRotationChanged(angle);
 		update();
 	}
@@ -123,17 +126,28 @@ void GLWidget::initializeGL()
 		std::cout << "Glew initialized successfully" << std::endl;
 
 	printf("\nOpenGL version supported by this platform (%s): \n", glGetString(GL_VERSION));
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+
+	glEnable(GL_DEPTH_TEST);	// ENABLE  Z BUFFER
+	glEnable(GL_CULL_FACE);		// ENABLE  CULLING
+	glCullFace(GL_BACK);		// ENABLE CULLING BACK FACE TYPE
+
+	glEnable(GL_BLEND);			// ENABLE  BLENDING
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // SET BLEND FUNC
+
+
 	
 	GLOBAL_CONTAIER->GlobalShader = new Shader("../../Resources/Shaders/phongNormalShader");
 	TEXTURE_MANAGER->SetStandarMode();
 
 	/*GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");*/
 	//mesh->LoadMesh("../../Resources/Models/sphere.obj");
-	mesh->LoadMesh("../../Resources/Models/cruz.obj");
-	probar finalmente lo hecho con los nodos a ver
+	//mesh->LoadMesh("../../Resources/Models/cube.obj");
+	//mesh->LoadMesh("../../Resources/Models/cruz.obj");
+	meshCube->LoadMesh("../../Resources/Models/cube.obj");
+	meshSphere->LoadMesh("../../Resources/Models/sphere.obj");
+	meshCylinder->LoadMesh("../../Resources/Models/cylinder.obj");
+	meshTeapot->LoadMesh("../../Resources/Models/teapot.obj");
+	ActiveMeshSphere();
 
 	
 	initialCameraPos = glm::vec3(0.0, 0.0, -6.0);
@@ -153,6 +167,8 @@ void GLWidget::setupVertexAttribs()
 void GLWidget::paintGL()
 {
 	std::cout << "Init Paint" << std::endl;
+	glClearColor(0.4, 0.4, 0.4, 1.0);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -189,8 +205,9 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - m_lastPos.x();
 	int dy = event->y() - m_lastPos.y();
-	int speedFactor = 4;
-
+	float speedFactor = .05;
+	
+	
 	if (event->buttons() & Qt::LeftButton) 
 	{
 		setXRotation(m_xRot - speedFactor * dy);
@@ -228,6 +245,13 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 	event->accept();
 }
 
+void GLWidget::mouseReleaseEvent(QMouseEvent * event)
+{
+	cout << "mouse release" << endl;
+	m_lastPos = QPoint(0,0);
+
+}
+
 void GLWidget::leaveEvent(QEvent * event)
 {
 	m_lastPos = QPoint(0, 0);
@@ -252,13 +276,47 @@ void GLWidget::RebuildShader(const std::string & fragment)
 		QNTextureNode * nodeTexture = dynamic_cast<QNTextureNode*>(MANAGER->GetNodeFromID((*it).first));
 		
 		if (nodeTexture)
-			TEXTURE_MANAGER->AddTexture(unitCounter, unitCounter, (*it).second, nodeTexture->path);
+			TEXTURE_MANAGER->AddTexture(unitCounter, unitCounter, nodeTexture->path,(*it).second);
 		
 		unitCounter++;
 	}
+}
 
-	
+
+void GLWidget::ActiveMeshCube()
+{
+	this->mesh = meshCube;
+	ResetScene();
+	update();
+
+}
+void GLWidget::ActiveMeshSphere()
+{
+	this->mesh = meshSphere;
+	ResetScene();
+	update();
+}
+void GLWidget::ActiveMeshCylinder()
+{
+	this->mesh = meshCylinder;
+	ResetScene();
+	update();
+}
+void GLWidget::ActiveMeshTeaPot()
+{
+	this->mesh = meshTeapot;
+	ResetScene();
+	update();
 
 }
 
+void GLWidget::ResetScene()
+{
+	transform = Transform();
+	/*transform.SetPos(glm::vec3());
+	transform.SetRot(glm::vec3());*/
+	camera.SetFov(fov);
+	camera.SetPos(initialCameraPos);
+	
+}
 

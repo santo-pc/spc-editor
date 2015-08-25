@@ -31,7 +31,7 @@ public:
 	void SetUniform(const char *name, int val);
 	void SetUniform(const char *name, bool val);
 	void SetUniform(const char *name, GLuint val);
-	void Update(const Transform& transform, const Camera& camera);
+	void Update(Transform& transform, Camera& camera);
 	void RegisterUniform(const char *name);
 
 

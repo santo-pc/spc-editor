@@ -158,6 +158,7 @@ void ShaderComposer::ClearAll()
 
 	// Limpiar las listas
 	listNodeMemberNamesString.clear();
+	listNodeMemberNamesStringTextures.clear();
 	listNodeCodeConst.clear();
 	listNodeCodeTexture.clear();
 	listNodeCodeFunction.clear();
@@ -195,7 +196,7 @@ string ShaderComposer::GetHeaderStandard()
 
 string ShaderComposer::GetBlinnPhongStandard()
 {
-	return "\nvec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)\n"
+	return "\nvec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)\n"
 	"{\n"
 	"	MaterialInfo Material;\n"
 	"	Material.Ka = vec3(0.3);\n"
@@ -213,12 +214,12 @@ string ShaderComposer::GetBlinnPhongStandard()
 	"\n"
 	"	float sDotN = max(dot(LightDirStaticTan, norm), 0.0);\n"
 	"\n"
-	"	vec3 diffuse = (diffuseIntensity *  lighColor) * diffuseRef * sDotN;\n"
+	"	vec3 diffuse = (diffuseIntensity *  lighColor) * diffR * sDotN;\n"
 	"\n"
 	"	vec3 spec = vec3(0.0);\n"
 	"\n"
 	"	if (sDotN > 0.0)\n"
-	"		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Material.Shininess);\n"
+	"		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Shininess);\n"
 	"\n"
 	"	return ambient + diffuse + spec;\n"
 	"}\n";

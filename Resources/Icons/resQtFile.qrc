@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="SPTFG">
+    <file>teapot64.png</file>
+    <file>cube.64png.png</file>
+    <file>cylinder64.png</file>
+    <file>sphere64.png</file>
     <file>document_new.png</file>
   </qresource>
 </RCC>

@@ -61,9 +61,9 @@ void TextureManager::DrawTextures1()
 
 		if (info.texture)
 		{
-			cout << "Pintando Textura 1" << count << endl; count++;
+			//cout << "Pintando Textura 1" << count << endl; count++;
 			GLOBAL_CONTAIER->GlobalShader->SetUniform(info.uniformName.c_str(), info.unitIndex);
-			cout << "GLInt = " << GL_TEXTURE0 << " unit = " << info.unit << " IGUAL "<< GL_TEXTURE0 + info.unit << endl;
+			//cout << "GLInt = " << GL_TEXTURE0 << " unit = " << info.unit << " IGUAL "<< GL_TEXTURE0 + info.unit << endl;
 			//info.texture->Bind(GL_TEXTURE0 + info.unit);
 		}
 
@@ -81,9 +81,9 @@ void TextureManager::DrawTextures2()
 
 		if (info.texture)
 		{
-			cout << "Pintando Textura 2" << count << endl; count++;
+			//cout << "Pintando Textura 2" << count << endl; count++;
 			//GLOBAL_CONTAIER->GlobalShader->SetUniform(info.uniformName.c_str(), info.unitIndex);
-			cout << "GLInt = " << GL_TEXTURE0 << " unit = " << info.unit << " IGUAL " << GL_TEXTURE0 + info.unit << endl;
+			//cout << "GLInt = " << GL_TEXTURE0 << " unit = " << info.unit << " IGUAL " << GL_TEXTURE0 + info.unit << endl;
 			info.texture->Bind(GL_TEXTURE0 + info.unit);
 		}
 

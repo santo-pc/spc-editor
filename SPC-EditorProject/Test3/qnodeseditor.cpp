@@ -36,6 +36,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "qneport.h"
 #include "qneconnection.h"
 #include "qneblock.h"
+#include <qmessagebox.h>
+#include <iostream>
+#include "QNEditorNodes.h"
 
 QNodesEditor::QNodesEditor(QObject *parent) :
 	QObject(parent)
@@ -68,11 +71,15 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 	{
 	case QEvent::GraphicsSceneMousePress:
 	{
+		/*QMessageBox box;
+		box.setText("In editor");
+		box.exec();*/
 
 		switch ((int) me->button())
 		{
 		case Qt::LeftButton:
 		{
+			
 			QGraphicsItem *item = itemAt(me->scenePos());
 			if (item && item->type() == QNEPort::Type)
 			{
@@ -94,11 +101,46 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 		}
 		case Qt::RightButton:
 		{
-			QGraphicsItem *item = itemAt(me->scenePos());
-			if (item && (item->type() == QNEConnection::Type || item->type() == QNEBlock::Type))
-				delete item;
-			// if (selBlock == (QNEBlock*) item)
-				// selBlock = 0;
+			// si esta pulsado click derecho
+			if (me->modifiers() & Qt::ControlModifier)
+			{
+			/*	QMessageBox box;
+				box.setText("Right clic + crtl");
+				box.exec();*/
+				QGraphicsItem *item = itemAt(me->scenePos());
+			
+				if (item && (item->type() == QNEBlock::Type))
+				{
+					QNMainNode * node = NULL;
+					try
+					{
+						printf("Crash1\n");
+						node = dynamic_cast<QNMainNode*>(item);
+						printf("Crash2\n");
+					}
+					catch (int e)
+					{
+						printf("Cast failed\n");
+					}
+
+					// Solo se borran los que no son Main Node
+					if (!node)						
+						{
+							printf("Crash11\n");
+							// no se borra 
+							delete item;	
+							item = NULL;
+							printf("Crash12\n");
+						}
+				}
+
+				if (item && (item->type() == QNEConnection::Type))
+					delete item;
+
+			
+				// if (selBlock == (QNEBlock*) item)
+					// selBlock = 0;
+			}
 			break;
 		}
 		}
@@ -123,13 +165,17 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 				QNEPort *port1 = conn->port1();
 				QNEPort *port2 = (QNEPort*) item;
 
-				if (port1->block() != port2->block() && port1->isOutput() != port2->isOutput() && !port1->isConnected(port2))
+				if (port1->block() != port2->block() && port1->isOutput() != port2->isOutput() && !port1->isConnected(port2)
+					&& IsLegalConnection(port1, port2))
 				{
-					conn->setPos2(port2->scenePos());
-					conn->setPort2(port2);
-					conn->updatePath();
-					conn = 0;
-					return true;
+					
+						conn->setPos2(port2->scenePos());
+						conn->setPort2(port2);
+						conn->updatePath();
+						conn = 0;
+						return true;
+					
+
 				}
 			}
 
@@ -142,6 +188,65 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 	}
 	return QObject::eventFilter(o, e);
 }
+
+
+bool QNodesEditor::IsLegalConnection(QNEPort * port1, QNEPort * port2)
+{
+	// Comprobar por tipos de nodos para conectar
+	// Si port 1 es el output
+	if (port1->isOutput())
+	{
+		if (!port2->acceptVector4Node && port1->portName() == "")
+		{
+			QMessageBox box;
+			box.setText("El tipo que intenta conectar solo admite valores no compuestos como vectores, prueba conectar con tipos float o componentes de un vector como R,G o B");
+			box.exec();
+			return false;
+		}
+	}
+	else // Misma pregunta pero en sentido contrario
+	{
+		if (port2->isOutput())
+			if (!port1->acceptVector4Node && port2->portName() == "")
+			{
+				QMessageBox box;
+				box.setText("El tipo que intenta conectar solo admite valores no compuestos como vectores, prueba conectar con tipos float o componentes de un vector como R,G o B");
+				box.exec();
+				return false;
+				
+			}
+	}
+
+	// Comprobar por numero de entradas
+	if (port1->isOutput())
+	{
+		if (port2->connections().count() > 0) // el input tiene  ya tiene una conexion
+		{
+			QMessageBox box;
+			box.setText("Este input ya tiene un valor establecido, pruebe eliminarlo para crear una nueva conexion");
+			box.exec();
+			return false;
+		}
+			
+	}
+	else // Misma pregunta pero en sentido contrario
+	{
+		if (port2->isOutput())
+		{
+			if (port1->connections().count() > 0)
+			{
+				QMessageBox box;
+				box.setText("Este input ya tiene un valor establecido, pruebe eliminarlo para crear una nueva conexion");
+				box.exec();
+				return false;
+			}
+		}
+	}
+
+
+	return true;
+}
+
 
 void QNodesEditor::save(QDataStream &ds)
 {

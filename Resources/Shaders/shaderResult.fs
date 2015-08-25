@@ -27,7 +27,7 @@ layout(location = 0) out vec4 FragColor;
 
 // Functions Section
 
-vec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)
+vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 {
 	MaterialInfo Material;
 	Material.Ka = vec3(0.3);
@@ -44,12 +44,12 @@ vec3 BlinnPhong(int lightIndex, vec3 diffuseRef, vec3 norm, vec3 specularLvl)
 
 	float sDotN = max(dot(LightDirStaticTan, norm), 0.0);
 
-	vec3 diffuse = (diffuseIntensity *  lighColor) * diffuseRef * sDotN;
+	vec3 diffuse = (diffuseIntensity *  lighColor) * diffR * sDotN;
 
 	vec3 spec = vec3(0.0);
 
 	if (sDotN > 0.0)
-		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Material.Shininess);
+		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Shininess);
 
 	return ambient + diffuse + spec;
 }
@@ -58,14 +58,12 @@ void main()
 
 	vec4 colorBase = vec4(NO CONNECTION MADE);
 	vec4 specularLvl = vec4(NO CONNECTION MADE);
-	vec4 normal = vec4(NO CONNECTION MADE);
+	vec4 normal = 2 * vec4( NO CONNECTION MADE)-1;
 	vec4 alpha = vec4(NO CONNECTION MADE);
 	vec4 lightIntensity = vec4(0.0);
-	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb);
+	float shininess = NO CONNECTION MADE;
 
+	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);
 	FragColor = lightIntensity;
-
-	//FragColor.a = alpha.a;
-	FragColor = colorBase;
-
+	FragColor.a = alpha.r;
 }

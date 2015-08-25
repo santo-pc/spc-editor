@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_GLWidget_t {
-    QByteArrayData data[13];
-    char stringdata[149];
+    QByteArrayData data[18];
+    char stringdata[228];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,14 +41,21 @@ QT_MOC_LITERAL(8, 93, 12), // "setZRotation"
 QT_MOC_LITERAL(9, 106, 7), // "cleanup"
 QT_MOC_LITERAL(10, 114, 13), // "RebuildShader"
 QT_MOC_LITERAL(11, 128, 11), // "std::string"
-QT_MOC_LITERAL(12, 140, 8) // "fragment"
+QT_MOC_LITERAL(12, 140, 8), // "fragment"
+QT_MOC_LITERAL(13, 149, 14), // "ActiveMeshCube"
+QT_MOC_LITERAL(14, 164, 16), // "ActiveMeshSphere"
+QT_MOC_LITERAL(15, 181, 18), // "ActiveMeshCylinder"
+QT_MOC_LITERAL(16, 200, 16), // "ActiveMeshTeaPot"
+QT_MOC_LITERAL(17, 217, 10) // "ResetScene"
 
     },
     "GLWidget\0xRotationChanged\0\0angle\0"
     "yRotationChanged\0zRotationChanged\0"
     "setXRotation\0setYRotation\0setZRotation\0"
     "cleanup\0RebuildShader\0std::string\0"
-    "fragment"
+    "fragment\0ActiveMeshCube\0ActiveMeshSphere\0"
+    "ActiveMeshCylinder\0ActiveMeshTeaPot\0"
+    "ResetScene"
 };
 #undef QT_MOC_LITERAL
 
@@ -58,7 +65,7 @@ static const uint qt_meta_data_GLWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,16 +73,21 @@ static const uint qt_meta_data_GLWidget[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   54,    2, 0x06 /* Public */,
-       4,    1,   57,    2, 0x06 /* Public */,
-       5,    1,   60,    2, 0x06 /* Public */,
+       1,    1,   79,    2, 0x06 /* Public */,
+       4,    1,   82,    2, 0x06 /* Public */,
+       5,    1,   85,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    1,   63,    2, 0x0a /* Public */,
-       7,    1,   66,    2, 0x0a /* Public */,
-       8,    1,   69,    2, 0x0a /* Public */,
-       9,    0,   72,    2, 0x0a /* Public */,
-      10,    1,   73,    2, 0x0a /* Public */,
+       6,    1,   88,    2, 0x0a /* Public */,
+       7,    1,   91,    2, 0x0a /* Public */,
+       8,    1,   94,    2, 0x0a /* Public */,
+       9,    0,   97,    2, 0x0a /* Public */,
+      10,    1,   98,    2, 0x0a /* Public */,
+      13,    0,  101,    2, 0x0a /* Public */,
+      14,    0,  102,    2, 0x0a /* Public */,
+      15,    0,  103,    2, 0x0a /* Public */,
+      16,    0,  104,    2, 0x0a /* Public */,
+      17,    0,  105,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -88,6 +100,11 @@ static const uint qt_meta_data_GLWidget[] = {
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 11,   12,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -105,6 +122,11 @@ void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 5: _t->setZRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 6: _t->cleanup(); break;
         case 7: _t->RebuildShader((*reinterpret_cast< const std::string(*)>(_a[1]))); break;
+        case 8: _t->ActiveMeshCube(); break;
+        case 9: _t->ActiveMeshSphere(); break;
+        case 10: _t->ActiveMeshCylinder(); break;
+        case 11: _t->ActiveMeshTeaPot(); break;
+        case 12: _t->ResetScene(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -158,13 +180,13 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 13;
     }
     return _id;
 }

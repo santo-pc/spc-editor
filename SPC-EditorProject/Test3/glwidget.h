@@ -37,11 +37,18 @@ public slots:
 	void cleanup();
 	void RebuildShader(const std::string & fragment);
 
+	void ActiveMeshCube();
+	void ActiveMeshSphere();
+	void ActiveMeshCylinder();
+	void ActiveMeshTeaPot();
+	void ResetScene();
+
 
 signals:
 	void xRotationChanged(int angle);
 	void yRotationChanged(int angle);
 	void zRotationChanged(int angle);
+
 
 protected:
 	void initializeGL() Q_DECL_OVERRIDE;
@@ -51,6 +58,10 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 	void wheelEvent(QWheelEvent * event) Q_DECL_OVERRIDE;
 	void leaveEvent(QEvent * event)Q_DECL_OVERRIDE;
+	void mouseReleaseEvent(QMouseEvent * event)Q_DECL_OVERRIDE;
+
+	
+
 
 private:
 	glm::vec3 initialCameraPos;
@@ -66,7 +77,7 @@ private:
 	int m_xRot;
 	int m_yRot;
 	int m_zRot;
-
+	float aux = 0;
 	/*bool m_core;
 	
 	
@@ -84,6 +95,10 @@ private:
 	bool m_transparent;*/
 
 	Mesh * mesh = new Mesh();
+	Mesh * meshCube = new Mesh();
+	Mesh * meshSphere = new Mesh();
+	Mesh * meshCylinder = new Mesh();
+	Mesh * meshTeapot = new Mesh();
 	Shader * shader;
 	Shader * errorShader;
 	

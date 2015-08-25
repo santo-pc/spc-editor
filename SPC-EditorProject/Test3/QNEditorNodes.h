@@ -32,6 +32,7 @@ private:
 public:
 	QNEPort * ColorBasePort;
 	QNEPort * SpecularPort;
+	QNEPort * ShininessPort;
 	QNEPort * NormalPort;
 	QNEPort * AlphaPort;
 

@@ -13,14 +13,11 @@ uniform sampler2D ColorTex;
 uniform sampler2D NormalMapTex;
 uniform sampler2D SpecularMapTex;
 
-uniform int Model;
+/*uniform int Model;
 uniform int LightsCount;  // actual number of lights 
+*/
 
-uniform float AtteConstantTest;
-uniform float AtteLinearTest;
-uniform float AtteExpTest;
-
-struct PointLightInfo 
+/*struct PointLightInfo 
 {
 	vec3 Color;
 	float AmbientIntensity;
@@ -32,19 +29,19 @@ struct PointLightInfo
 };
 
 uniform PointLightInfo Light[MAX_NUM_LIGHTS];
-
-struct MaterialInfo 
+*/
+/*struct MaterialInfo 
 {
   vec3 Ka;            // Ambient reflectivity
   vec3 Ks;            // Specular reflectivity
   float Shininess;    // Specular shininess factor
 };
 uniform MaterialInfo Material;
-
+*/
 layout( location = 0 ) out vec4 FragColor;
 
 
-vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl)
+vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 {
 	
 	float diffuseIntensity = 0.80;
@@ -64,7 +61,7 @@ vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl)
     vec3 spec = vec3(0.0);
     
 	if( sDotN > 0.0 )
-		spec =  lighColor * specularLvl * pow(max(dot(h,norm), 0.0), shininess);	
+		spec =  lighColor * specularLvl * pow(max(dot(h,norm), 0.0), Shininess);	
 			
     
 	
@@ -91,7 +88,7 @@ void main()
 	
 	FragColor = vec4(0.0);
 
-	TotalLight += vec4(BlinnPhong(0, texColor.rgb, normal.rgb, specularLvl.rgb), 1.0);		
+	TotalLight += vec4(BlinnPhong(0, texColor.rgb, normal.rgb, specularLvl.rgb, 25), 1.0);		
 	
 	
 	FragColor = TotalLight;// * texColor;	

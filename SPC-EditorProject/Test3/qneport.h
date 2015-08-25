@@ -63,6 +63,9 @@ public:
 	void setPtr(quint64);
 
 	bool isConnected(QNEPort*);
+	bool acceptVector4Node = true;
+	bool acceptFloatNode = true;
+
 
 protected:
 	QVariant itemChange(GraphicsItemChange change, const QVariant &value);

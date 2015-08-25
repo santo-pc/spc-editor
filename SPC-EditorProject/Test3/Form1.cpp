@@ -48,27 +48,27 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	string sizeString = ConvertIntToString(width) + " " + ConvertIntToString(height);
 	
 	
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText(QString( sizeString.c_str() ));
-	msgBox.exec();
+	msgBox.exec();*/
 
-
-	//view->resize(width * 0.75, height);
-	//view->setMinimumSize(QSize(width * 0.75, height-250));
-	//ui->verticalLayoutXX->minimumSize
-	/*ui->dock3DViewer*/
-	//ui->verticalLayoutXX->minimumSize( );
-
-	//ui->dockNodeEditor->resize(width * 0.75, height);
-	
-
-	//ui->verticalLayoutXX->widget()->setBaseSize(QSize(w*.25f, h*0.5f));
-	
-
-
-	/*connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_button_clicked()));*/
-	
-
+	// Poner iconos a los buttons
+	QPixmap pixmap("../../Resources/Icons/sphere64.png");
+	QIcon ButtonIcon(pixmap);
+	ui->pushButtonMallaSphere->setIcon(ButtonIcon);
+	ui->pushButtonMallaSphere->setIconSize(QSize(28,28));
+	QPixmap pixmap2("../../Resources/Icons/cube64.png");
+	QIcon ButtonIcon2(pixmap2);
+	ui->pushButtonMallaCube->setIcon(ButtonIcon2);
+	ui->pushButtonMallaCube->setIconSize(QSize(28, 28));
+	QPixmap pixmap3("../../Resources/Icons/cylinder64.png");
+	QIcon ButtonIcon3(pixmap3);
+	ui->pushButtonMallaCylinder->setIcon(ButtonIcon3);
+	ui->pushButtonMallaCylinder->setIconSize(QSize(28, 28));
+	QPixmap pixmap4("../../Resources/Icons/teapot64.png");
+	QIcon ButtonIcon4(pixmap4);
+	ui->pushButtonMallaTeaPot->setIcon(ButtonIcon4);
+	ui->pushButtonMallaTeaPot->setIconSize(QSize(28, 28));
 
 	// NODES
 	
@@ -77,6 +77,8 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	mainNode->Init();
 	mainNode->setPos(0, 0);
 	mainNode->SetForm1(this);
+
+
 }
 
 
@@ -305,4 +307,34 @@ void Form1::ClearLayout(QLayout* layout, bool deleteWidgets = true)
 		
 		delete item;
 	}
+}
+
+void Form1::on_buttonCubeMesh_clicked()
+{
+	this->glwidget->ActiveMeshCube();
+	/*QMessageBox box;
+	box.setText("Cube");
+	box.exec();*/
+}
+void Form1::on_buttonSphereMesh_clicked()
+{
+	//QMessageBox box;
+	//box.setText("Sphere");
+	//box.exec();
+	this->glwidget->ActiveMeshSphere();
+}
+
+void Form1::on_buttonCylinderMesh_clicked()
+{
+	this->glwidget->ActiveMeshCylinder();
+	//QMessageBox box;
+	//box.setText("Cylinder");
+	//box.exec();
+}
+void Form1::on_buttonTeaPotMesh_clicked()
+{	
+	this->glwidget->ActiveMeshTeaPot();
+	/*QMessageBox box;
+	box.setText("TeaPot");
+	box.exec();*/
 }

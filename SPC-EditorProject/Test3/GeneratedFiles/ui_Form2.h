@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDockWidget>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -39,6 +40,12 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayoutXX;
     QPushButton *pushButton;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButtonMallaSphere;
+    QPushButton *pushButtonMallaCube;
+    QPushButton *pushButtonMallaCylinder;
+    QPushButton *pushButtonMallaTeaPot;
     QToolBar *toolBar;
     QDockWidget *dockWidgetProperties_3;
     QWidget *dockWidgetContents_4;
@@ -47,7 +54,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(842, 768);
+        MainWindow->resize(842, 863);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -101,7 +108,43 @@ public:
         verticalLayoutXX->setContentsMargins(0, 0, 0, 0);
         pushButton = new QPushButton(dockWidgetContents_2);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(10, 290, 71, 23));
+        pushButton->setGeometry(QRect(10, 320, 151, 51));
+        widget = new QWidget(dockWidgetContents_2);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(10, 280, 162, 31));
+        horizontalLayout = new QHBoxLayout(widget);
+        horizontalLayout->setSpacing(0);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        pushButtonMallaSphere = new QPushButton(widget);
+        pushButtonMallaSphere->setObjectName(QStringLiteral("pushButtonMallaSphere"));
+        pushButtonMallaSphere->setMinimumSize(QSize(28, 28));
+        pushButtonMallaSphere->setIconSize(QSize(64, 64));
+
+        horizontalLayout->addWidget(pushButtonMallaSphere);
+
+        pushButtonMallaCube = new QPushButton(widget);
+        pushButtonMallaCube->setObjectName(QStringLiteral("pushButtonMallaCube"));
+        pushButtonMallaCube->setMinimumSize(QSize(28, 28));
+        pushButtonMallaCube->setIconSize(QSize(64, 64));
+
+        horizontalLayout->addWidget(pushButtonMallaCube);
+
+        pushButtonMallaCylinder = new QPushButton(widget);
+        pushButtonMallaCylinder->setObjectName(QStringLiteral("pushButtonMallaCylinder"));
+        pushButtonMallaCylinder->setMinimumSize(QSize(28, 28));
+        pushButtonMallaCylinder->setIconSize(QSize(64, 64));
+
+        horizontalLayout->addWidget(pushButtonMallaCylinder);
+
+        pushButtonMallaTeaPot = new QPushButton(widget);
+        pushButtonMallaTeaPot->setObjectName(QStringLiteral("pushButtonMallaTeaPot"));
+        pushButtonMallaTeaPot->setMinimumSize(QSize(28, 28));
+        pushButtonMallaTeaPot->setIconSize(QSize(64, 64));
+
+        horizontalLayout->addWidget(pushButtonMallaTeaPot);
+
         dock3DViewer->setWidget(dockWidgetContents_2);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dock3DViewer);
         toolBar = new QToolBar(MainWindow);
@@ -119,6 +162,10 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(pushButton, SIGNAL(clicked()), MainWindow, SLOT(on_button_clicked()));
+        QObject::connect(pushButtonMallaSphere, SIGNAL(clicked()), MainWindow, SLOT(on_buttonSphereMesh_clicked()));
+        QObject::connect(pushButtonMallaCube, SIGNAL(clicked()), MainWindow, SLOT(on_buttonCubeMesh_clicked()));
+        QObject::connect(pushButtonMallaCylinder, SIGNAL(clicked()), MainWindow, SLOT(on_buttonCylinderMesh_clicked()));
+        QObject::connect(pushButtonMallaTeaPot, SIGNAL(clicked()), MainWindow, SLOT(on_buttonTeaPotMesh_clicked()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -133,6 +180,10 @@ public:
         dockNodeEditor->setWindowTitle(QApplication::translate("MainWindow", "Node Editor", 0));
         dock3DViewer->setWindowTitle(QApplication::translate("MainWindow", "3D Viewer", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Test", 0));
+        pushButtonMallaSphere->setText(QString());
+        pushButtonMallaCube->setText(QString());
+        pushButtonMallaCylinder->setText(QString());
+        pushButtonMallaTeaPot->setText(QString());
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", 0));
     } // retranslateUi
 

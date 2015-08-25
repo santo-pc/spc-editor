@@ -78,9 +78,15 @@ static std::string GetMemberStringByPort(QNEPort * port)
 
 	// Get the first edge conector
 	auxCon = port->connections().at(0);
+	
 	if (auxCon)
 	{
-		auxNode = auxCon->port1()->block();
+		if (auxCon->port1() == port)
+			auxNode = auxCon->port2()->block();
+		else
+			auxNode = auxCon->port1()->block();
+
+		
 
 		if (auxNode)
 		{
@@ -115,8 +121,15 @@ void QNMainNode::Init()
 	addPort("Main Node", false, QNEPort::NamePort);
 	ColorBasePort = addInputPort("Color");
 	SpecularPort = addInputPort("Specular");
+	ShininessPort = addInputPort("Shininess");
 	NormalPort = addInputPort("Normal");
 	AlphaPort = addInputPort("Alpha");
+
+
+	// Alpha and Shineness only accept floats values (nodes)
+	ShininessPort->acceptVector4Node = false;
+	//AlphaPort->acceptVector4Node = false;
+
 	
 }
 std::string QNMainNode::Resolve()
@@ -129,22 +142,21 @@ std::string QNMainNode::Resolve()
 	string specularValueString = GetMemberStringByPort(SpecularPort);
 	string normalValueString = GetMemberStringByPort(NormalPort);
 	string alphaValueString = GetMemberStringByPort(AlphaPort);
+	string shininessValueString = GetMemberStringByPort(ShininessPort);
 	
 	string result =
 		"void main() \n"
 		"{\n\n"
 		"	vec4 colorBase = vec4(" + colorValueString + ");\n"
 		"	vec4 specularLvl = vec4(" + specularValueString + ");\n"
-		"	vec4 normal = vec4(" + normalValueString + ");\n"
+		"	vec4 normal = 2 * vec4( " + normalValueString + ")-1;\n"
 		"	vec4 alpha = vec4(" + alphaValueString + ");\n"
-		"	vec4 lightIntensity = vec4(0.0);"		
+		"	vec4 lightIntensity = vec4(0.0);\n"
+		"	float shininess = " + shininessValueString + ";\n"
 		"\n"
-		"	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb);\n"
-		"\n"
+		"	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);\n"
 		"	FragColor = lightIntensity;\n"
-		"\n"
-		"	//FragColor.a = alpha.a;\n"
-		"	FragColor = colorBase;\n"
+		"	FragColor.a = alpha.r;"
 		"\n"
 		"}"
 		;
@@ -422,7 +434,7 @@ std::string QNVector3DNode::Resolve()
 
 	// 2. Componer el codigo de este nodo
 	//	const float MAX_NUM_LIGHTS = 8; // max number of lights
-	codeDefinition = "const vec3 " + nameMember + " = vec3(" + rValueString + ", " + gValueString + ", " + bValueString + ");\n";
+	codeDefinition = "const vec4 " + nameMember + " = vec4(" + rValueString + ", " + gValueString + ", " + bValueString + ", 0);\n";
 
 	// 3.Registrar el codigo a la lista que le corresponde
 	SHADER_COMPOSER->AppendCodeConst(this, codeDefinition); // en este caso a AppendCodeConst
@@ -495,6 +507,7 @@ QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
 void QNVector4DNode::Init()
 {
 	addPort("Color RGB", false, QNEPort::NamePort);
+	addOutputPort("");
 	ROutPut = addOutputPort("R");
 	GOutPut = addOutputPort("G");
 	BOutPut = addOutputPort("B");
@@ -708,6 +721,9 @@ void QNTextureNode::OpenSelectWindow()
 	{
 		path = file.toStdString();
 		pathTextEdit->setText(file);
+		QMessageBox box;
+		box.setText(path.c_str());
+		box.exec();
 
 	}
 	else
@@ -925,10 +941,10 @@ QNMultiplyNode::QNMultiplyNode(QGraphicsItem *parent) : QNEBlock(parent)
 void QNMultiplyNode::Init()
 {
 	addPort("Multiply", false, QNEPort::NamePort);
-	addOutputPort("");
+	
 	APort = addInputPort("X");
 	BPort = addInputPort("Y");
-
+	addOutputPort("");
 	ROutPut = addOutputPort("R");
 	GOutPut = addOutputPort("G");
 	BOutPut = addOutputPort("B");
@@ -958,8 +974,8 @@ std::string QNMultiplyNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return A * B;\n"
 		"}\n";
 
@@ -1020,6 +1036,7 @@ void QNPowerNode::Init()
 	ExpPort = addInputPort("Exp");
 
 
+
 	ROutPut = addOutputPort("R");
 	GOutPut = addOutputPort("G");
 	BOutPut = addOutputPort("B");
@@ -1050,9 +1067,9 @@ std::string QNPowerNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 val = " + ValueString + ";\n"
-		"	vec4 exp = " + ExpValueString + ";\n"
-		"	return vec4(pow(val.r, exp), pow(val.g, exp), pow(val.b, exp),pow(val.a, exp)) ;\n"
+		"	vec4 val = vec4(" + ValueString + ");\n"
+		"	vec4 exp = vec4(" + ExpValueString + ");\n"
+		"	return pow(val, exp);\n"
 		"}\n";
 
 	// 3.Registrar el codigo a la lista que le corresponde
@@ -1837,6 +1854,11 @@ void QNLerpNode::Init()
 	ValYPort = addInputPort("Y");
 	TPort = addInputPort("T");
 
+	// T only accepts floats values (nodes)
+	TPort->acceptVector4Node = false;
+	
+
+
 
 	ROutPut = addOutputPort("R");
 	GOutPut = addOutputPort("G");
@@ -1870,9 +1892,9 @@ std::string QNLerpNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 ValX = " + valXValueString + ";\n"
-		"	vec4 Valy = " + valYValueString + ";\n"
-		"	vec4 t = " + tValueString + ";\n"
+		"	vec4 ValX = vec4(" + valXValueString + ");\n"
+		"	vec4 Valy = vec4(" + valYValueString + ");\n"
+		"	float t = " + tValueString + ";\n"
 		"	return mix(ValX, Valy, t);\n"
 		"}\n";
 

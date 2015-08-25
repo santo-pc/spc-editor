@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>842</width>
-    <height>768</height>
+    <height>863</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -109,14 +109,108 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>290</y>
-       <width>71</width>
-       <height>23</height>
+       <y>320</y>
+       <width>151</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="text">
       <string>Test</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>280</y>
+       <width>162</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="QPushButton" name="pushButtonMallaSphere">
+        <property name="minimumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonMallaCube">
+        <property name="minimumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonMallaCylinder">
+        <property name="minimumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButtonMallaTeaPot">
+        <property name="minimumSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>64</width>
+          <height>64</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
@@ -168,8 +262,8 @@
    <slot>on_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>522</x>
-     <y>329</y>
+     <x>616</x>
+     <y>444</y>
     </hint>
     <hint type="destinationlabel">
      <x>567</x>
@@ -177,8 +271,76 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButtonMallaSphere</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_buttonSphereMesh_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>580</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>540</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonMallaCube</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_buttonCubeMesh_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>618</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>545</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonMallaCylinder</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_buttonCylinderMesh_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>666</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButtonMallaTeaPot</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_buttonTeaPotMesh_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>706</x>
+     <y>374</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>548</x>
+     <y>109</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_button_clicked()</slot>
+  <slot>on_buttonCubeMesh_clicked()</slot>
+  <slot>on_buttonSphereMesh_clicked()</slot>
+  <slot>on_buttonCylinderMesh_clicked()</slot>
+  <slot>on_buttonTeaPotMesh_clicked()</slot>
  </slots>
 </ui>

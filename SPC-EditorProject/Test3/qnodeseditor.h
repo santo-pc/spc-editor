@@ -34,6 +34,7 @@ class QNEConnection;
 class QGraphicsItem;
 class QPointF;
 class QNEBlock;
+class QNEPort;
 
 class QNodesEditor : public QObject
 {
@@ -52,6 +53,7 @@ private:
 	QGraphicsItem *itemAt(const QPointF&);
 
 private:
+	bool IsLegalConnection(QNEPort * port1, QNEPort * port2);
 	QGraphicsScene *scene;
 	QNEConnection *conn;
 	// QNEBlock *selBlock;
