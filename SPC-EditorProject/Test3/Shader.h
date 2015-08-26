@@ -15,10 +15,12 @@ class Shader
 public:
 	Shader();
 	virtual ~Shader();
-	Shader(const std::string& fileName);
-	Shader(const std::string& fragmentCode, bool usingCode);
+	/*Shader(const std::string& fileName);
+	Shader(const std::string& fragmentCode, bool usingCode);*/
 	void Bind();
-
+	bool Load(const std::string& fileName, std::string vertex, std::string fragment);
+	GLuint CreateShader(const std::string& text, GLenum type);
+	bool CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
 	//void Update(const glm::mat4 MVP, const glm::mat4 model, glm::vec3 color);
 	GLuint GetProgramHandler();
 	void SetUniform(const char *name, float x, float y, float z);
@@ -33,6 +35,7 @@ public:
 	void SetUniform(const char *name, GLuint val);
 	void Update(Transform& transform, Camera& camera);
 	void RegisterUniform(const char *name);
+	bool succes = true;
 
 
 protected:

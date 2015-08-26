@@ -56,3 +56,11 @@ static const std::string STANDAR_TEXTURE_PATH = "../../Resources/Images/standard
 static const std::string STANDAR_TEXTURE_SPECULAR_PATH = "../../Resources/Images/standardSpecular.png";
 static const std::string STANDAR_TEXTURE_NORMAL_PATH = "../../Resources/Images/standardNormal.png";
 static const std::string STANDAR_TEXTURE_ALPHA_PATH = "../../Resources/Images/standardAlpha.png";
+
+
+static const std::string DEFAULT_VALUE_COLOR = "vec4(0.75)";
+static const std::string DEFAULT_VALUE_SPECULAR = "vec4(0.55)";
+static const std::string DEFAULT_VALUE_ALPHA = "vec4(1.0)";
+static const std::string DEFAULT_VALUE_NORMAL = "vec4(0.48, 0.48, 0.99, 1)";
+static const std::string DEFAULT_VALUE_SHININESS = "25";
+static const std::string ERROR_NO_CONNECTION = "NO CONNECTION MADE";

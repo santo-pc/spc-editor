@@ -36,7 +36,8 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	view->setRenderHint(QPainter::Antialiasing, true);
 	view->setBackgroundBrush(QBrush(QColor(27, 36, 46)));
 
-	ui->dockNodeEditor->setWidget(view);
+	//ui->dockNodeEditor->setWidget(view);
+	ui->verticalLayout_3Test->insertWidget(0,view);
 	nodesEditor = new QNodesEditor(this);
 	nodesEditor->install(scene);
 	
@@ -70,6 +71,25 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	ui->pushButtonMallaTeaPot->setIcon(ButtonIcon4);
 	ui->pushButtonMallaTeaPot->setIconSize(QSize(28, 28));
 
+
+	// Set Sliders settings
+	ui->horizontalSliderDiffuse->setRange(0, 100);
+	ui->horizontalSliderDiffuse->setValue(50);
+	ui->horizontalSliderDiffuse->setSingleStep(1);
+	
+	ui->horizontalSliderAmbient->setRange(0, 100);
+	ui->horizontalSliderAmbient->setValue(50);
+	ui->horizontalSliderAmbient->setSingleStep(1);
+
+	// Validator para color light input
+	QDoubleValidator * floatValidator = new QDoubleValidator(0, 100, 3, this);
+	ui->lineEditR->setText("0.7");
+	ui->lineEditG->setText("0.7");
+	ui->lineEditB->setText("0.7");
+	ui->lineEditR->setValidator(floatValidator);
+	ui->lineEditG->setValidator(floatValidator);
+	ui->lineEditB->setValidator(floatValidator);
+
 	// NODES
 	
 	mainNode = new QNMainNode(0);
@@ -78,6 +98,8 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	mainNode->setPos(0, 0);
 	mainNode->SetForm1(this);
 
+	//QObject::connect(nodesEditor, &QNodesEditor::connectionChanged, this, &Form1::on_refresh_nodeEditor());
+	connect(nodesEditor, SIGNAL(connectionChanged()), this, SLOT(on_refresh_nodeEditor()));
 
 }
 
@@ -101,7 +123,7 @@ void Form1::on_button_clicked()
 
 	glwidget->RebuildShader(result);
 
-	SaveShaderToFile(result, "shaderResult.fs");
+	//SaveShaderToFile(result, "shaderResult.fs");
 
 	cout << "FIN BUTTON" << endl;
 	
@@ -260,7 +282,8 @@ void Form1::CreateNodeByType(int typeId, QPoint pos)
 	node->Init();
 	node->setPos(pos.x(), pos.y());
 	node->SetForm1(this);
-
+	
+	//connect(node, SIGNAL(valueChanged()), this, SLOT(on_refresh_nodeEditor()));
 
 	
 }
@@ -337,4 +360,44 @@ void Form1::on_buttonTeaPotMesh_clicked()
 	/*QMessageBox box;
 	box.setText("TeaPot");
 	box.exec();*/
+}
+
+void Form1::on_value_changed_lightColorR()
+{
+	float value = ui->lineEditR->text().toFloat();
+	glwidget->SetLightColorR(value);
+}
+void Form1::on_value_changed_lightColorG()
+{
+	float value = ui->lineEditG->text().toFloat();
+	glwidget->SetLightColorG(value);
+}
+void Form1::on_value_changed_lightColorB()
+{
+	float value = ui->lineEditB->text().toFloat();
+	glwidget->SetLightColorB(value);
+}
+
+void Form1::on_slider_ambient_changed(int value)
+{
+	float valNormalized = (float)value / 100.f;
+	cout << valNormalized << endl;
+	this->glwidget->SetAmbientIntensity(valNormalized);
+
+}
+void Form1::on_slider_diffuse_changed(int value)
+{
+	float valNormalized = (float)value / 100.f;
+	cout << valNormalized << endl;
+	this->glwidget->SetDiffuseIntensity(valNormalized);
+}
+
+void Form1::on_refresh_nodeEditor()
+{
+	RefreshNodeEditor();
+}
+
+void Form1::RefreshNodeEditor()
+{
+	on_button_clicked(); // REFRESH
 }

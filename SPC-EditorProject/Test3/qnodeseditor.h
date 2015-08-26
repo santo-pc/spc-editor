@@ -48,6 +48,9 @@ public:
 
 	void save(QDataStream &ds);
 	void load(QDataStream &ds);
+	
+signals:
+	void connectionChanged();
 
 private:
 	QGraphicsItem *itemAt(const QPointF&);
@@ -57,6 +60,8 @@ private:
 	QGraphicsScene *scene;
 	QNEConnection *conn;
 	// QNEBlock *selBlock;
+
+
 };
 
 #endif // QNODESEDITOR_H

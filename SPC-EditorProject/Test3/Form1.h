@@ -26,6 +26,7 @@ class Form1 : public QMainWindow
 		
 		int ShowContextMenu(const QPoint& pos);
 		int ShowNodeMenu(QNEBlock *node);
+		void RefreshNodeEditor();
 	
 	private:
 		
@@ -52,6 +53,14 @@ class Form1 : public QMainWindow
 			void on_buttonSphereMesh_clicked();
 			void on_buttonCylinderMesh_clicked();
 			void on_buttonTeaPotMesh_clicked();
+			void on_value_changed_lightColorR();
+			void on_value_changed_lightColorG();
+			void on_value_changed_lightColorB();
+			void on_slider_ambient_changed(int value);
+			void on_slider_diffuse_changed(int value);
+			void on_refresh_nodeEditor();
+
+
 };
 
 class SPGraphicsScene : public QGraphicsScene

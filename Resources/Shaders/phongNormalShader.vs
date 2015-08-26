@@ -4,25 +4,7 @@ layout (location = 0) in vec3 VertexPosition;
 layout (location = 1) in vec2 VertexTexCoord;
 layout (location = 2) in vec3 VertexNormal;
 layout (location = 3) in vec4 VertexTangent;
-const int MAX_NUM_LIGHTS = 8; // max number of lights
 
-uniform float AtteConstantTest;
-uniform float AtteLinearTest;
-uniform float AtteExpTest;
-
-struct PointLightInfo 
-{
-	vec3 Color;
-	float AmbientIntensity;
-	float DiffuseIntensity;
-	vec4  Position;			// Eye Space
-	float AtteConstant;
-	float AtteLinear;
-	float AtteExp;
-};
-uniform PointLightInfo Light[MAX_NUM_LIGHTS];
-
-out vec3 LightDir[MAX_NUM_LIGHTS];
 out vec3 VexterPosEye;
 out vec2 TexCoord;
 out vec3 ViewDir;
@@ -32,7 +14,6 @@ uniform mat4 ModelViewMatrix;
 uniform mat3 NormalMatrix;
 uniform mat4 ProjectionMatrix;
 uniform mat4 MVP;
-uniform int LightsCount;  // actual number of lights 
 uniform vec3 LightDirStatic;
 
 void main()

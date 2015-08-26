@@ -35,10 +35,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <qtextedit.h>
 #include <qvalidator.h>
 
+
 class Form1;
 class QNEPort;
 class QNEBlock : public QGraphicsPathItem, public QObject
 {
+
+//Q_OBJECT
+
+//signals :
+//	virtual void valueChanged();
+
 public:
 	enum { Type = QGraphicsItem::UserType + 3 };
 
@@ -82,6 +89,7 @@ public:
 	QNEPort * GOutPut;
 	QNEPort * BOutPut;
 	QNEPort * AOutPut;
+
 
 protected:
 	Form1 *  form1 = NULL;

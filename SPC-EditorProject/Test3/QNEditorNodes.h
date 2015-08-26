@@ -26,6 +26,7 @@ class SPNodesManager
 /************************** MAIN NODE **************************/
 class QNMainNode : public QNEBlock
 {
+
 private:
 	QTextEdit * valueTextEdit;
 
@@ -42,6 +43,7 @@ public:
 	std::string Resolve();
 	QGridLayout *  GetPropertiesForm();
 	void HandleLostFocusMembers();
+
 };
 
 

@@ -5,13 +5,8 @@
 #include <string.h>
 #include <GL/glew.h>
 
-static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
-//static std::string LoadShader(const std::string& fileName);
-static GLuint CreateShader(const std::string& text, GLenum type);
 
-
-
-static GLuint CreateShader(const std::string& text, GLenum type)
+GLuint Shader::CreateShader(const std::string& text, GLenum type)
 {
 	GLuint shader = glCreateShader(type);
 
@@ -26,12 +21,12 @@ static GLuint CreateShader(const std::string& text, GLenum type)
 	glShaderSource(shader, 1, p, lengths);
 	glCompileShader(shader);
 
-	CheckShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
+	succes = CheckShaderError(shader, GL_COMPILE_STATUS, false, "Error compiling shader!");
 
 	return shader;
 }
 
-static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage)
+bool Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage)
 {
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
@@ -49,103 +44,118 @@ static void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const s
 			glGetShaderInfoLog(shader, sizeof(error), NULL, error);
 
 		std::cerr << errorMessage << ": '" << error << "'" << std::endl;
+
+		return false;
 	}
+
+	return true;
 }
 
 
+bool Shader::Load(const std::string& fileName, std::string vertex = "", std::string fragment = "")
+{
+	m_program = glCreateProgram();
 
+	if (vertex == "")
+		vertex = LoadShader(fileName + ".vs");
+	if (fragment == "")
+		fragment = LoadShader(fileName + ".fs");
+
+	succes = true;
+	m_shaders[0] = CreateShader(vertex, GL_VERTEX_SHADER);
+	m_shaders[1] = CreateShader(fragment, GL_FRAGMENT_SHADER);
+
+	if (!succes)
+		return false;
+
+
+	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+		glAttachShader(m_program, m_shaders[i]);
+
+	glBindAttribLocation(m_program, 0, "VertexPosition");
+	glBindAttribLocation(m_program, 1, "VertexTexCoord");
+	glBindAttribLocation(m_program, 2, "VertexNormal");
+	glBindAttribLocation(m_program, 4, "VertexTangent");
+
+	glLinkProgram(m_program);
+	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader linking failed: ");
+
+	glValidateProgram(m_program);
+	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Invalid shader program ");
+
+
+	RegisterUniform("ModelViewMatrix");
+	RegisterUniform("NormalMatrix");
+	RegisterUniform("ProjectionMatrix");
+	RegisterUniform("MVP");	
+	RegisterUniform("LightDirStatic");
+	RegisterUniform("LightColor");
+	RegisterUniform("LightDiffuseIntensity");
+	RegisterUniform("LightAmbientIntensity");
+
+	std::cout << "Shading Program " << m_program << " Created: " << m_uniformLocations.size() << " uniforms" << std::endl;
+	return true;
+}
 
 Shader::Shader(){}
-Shader::Shader(const std::string& fileName)
-{
-	m_program = glCreateProgram();
-	m_shaders[0] = CreateShader(LoadShader(fileName + ".vs"), GL_VERTEX_SHADER);
-	m_shaders[1] = CreateShader(LoadShader(fileName + ".fs"), GL_FRAGMENT_SHADER);
-
-	for (unsigned int i = 0; i < NUM_SHADERS; i++)
-		glAttachShader(m_program, m_shaders[i]);
-
-	glBindAttribLocation(m_program, 0, "VertexPosition");
-	glBindAttribLocation(m_program, 1, "VertexTexCoord");
-	glBindAttribLocation(m_program, 2, "VertexNormal");
-	glBindAttribLocation(m_program, 4, "VertexTangent");
-
-	glLinkProgram(m_program);
-	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader linking failed: ");
-
-	glValidateProgram(m_program);
-	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Invalid shader program ");
-	
-
-	RegisterUniform("ModelViewMatrix");
-	RegisterUniform("NormalMatrix");
-	RegisterUniform("ProjectionMatrix");
-	RegisterUniform("MVP");
-	/*RegisterUniform("ColorTex");
-	RegisterUniform("NormalMapTex");
-	RegisterUniform("SpecularMapTex");
-	RegisterUniform("Material.Ka");
-	RegisterUniform("Material.Ks");
-	RegisterUniform("Material.Shininess");*/
-	RegisterUniform("Model");
-	RegisterUniform("MAX_NUM_LIGHTS");
-	RegisterUniform("AtteConstantTest");
-	RegisterUniform("AtteLinearTest");
-	RegisterUniform("AtteExpTest");
-	RegisterUniform("LightDirStatic");
-
-	std::cout << "Shading Program " << m_program << " Created: " << m_uniformLocations.size() << " uniforms" << std::endl;
-	
-
-
-}
-
-
-Shader::Shader(const std::string& fragmentCode, bool usingCode)
-{
-	m_program = glCreateProgram();
-	std::string vertexFile = "../../Resources/Shaders/phongNormalShader.vs";
-
-	m_shaders[0] = CreateShader(LoadShader(vertexFile), GL_VERTEX_SHADER);			// carga el standard VS
-	m_shaders[1] = CreateShader(fragmentCode , GL_FRAGMENT_SHADER);					// carga solo el fragment
-
-	for (unsigned int i = 0; i < NUM_SHADERS; i++)
-		glAttachShader(m_program, m_shaders[i]);
-
-
-	
-	glBindAttribLocation(m_program, 0, "VertexPosition");
-	glBindAttribLocation(m_program, 1, "VertexTexCoord");
-	glBindAttribLocation(m_program, 2, "VertexNormal");
-	glBindAttribLocation(m_program, 4, "VertexTangent");
-
-	glLinkProgram(m_program);
-	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader linking failed: ");
-
-	glValidateProgram(m_program);
-	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Invalid shader program ");
-
-
-	RegisterUniform("ModelViewMatrix");
-	RegisterUniform("NormalMatrix");
-	RegisterUniform("ProjectionMatrix");
-	RegisterUniform("MVP");
-	/*RegisterUniform("ColorTex");
-	RegisterUniform("NormalMapTex");
-	RegisterUniform("SpecularMapTex");
-	RegisterUniform("Material.Ka");
-	RegisterUniform("Material.Ks");
-	RegisterUniform("Material.Shininess");*/
-	RegisterUniform("Model");
-	RegisterUniform("MAX_NUM_LIGHTS");
-	RegisterUniform("AtteConstantTest");
-	RegisterUniform("AtteLinearTest");
-	RegisterUniform("AtteExpTest");
-	RegisterUniform("LightDirStatic");
-
-	std::cout << "Shading Program " << m_program << " Created: " << m_uniformLocations.size() << " uniforms" << std::endl;
-
-}
+//Shader::Shader(const std::string& fileName)
+//{
+//	
+//	
+//
+//
+//}
+//
+//
+//Shader::Shader(const std::string& fragmentCode, bool usingCode)
+//{
+//	m_program = glCreateProgram();
+//	std::string vertexFile = "../../Resources/Shaders/phongNormalShader.vs";
+//
+//	m_shaders[0] = CreateShader(LoadShader(vertexFile), GL_VERTEX_SHADER);			// carga el standard VS
+//	m_shaders[1] = CreateShader(fragmentCode , GL_FRAGMENT_SHADER);					// carga solo el fragment
+//
+//	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+//		glAttachShader(m_program, m_shaders[i]);
+//
+//
+//	
+//	glBindAttribLocation(m_program, 0, "VertexPosition");
+//	glBindAttribLocation(m_program, 1, "VertexTexCoord");
+//	glBindAttribLocation(m_program, 2, "VertexNormal");
+//	glBindAttribLocation(m_program, 4, "VertexTangent");
+//
+//	glLinkProgram(m_program);
+//	CheckShaderError(m_program, GL_LINK_STATUS, true, "Error: Shader linking failed: ");
+//
+//	glValidateProgram(m_program);
+//	CheckShaderError(m_program, GL_VALIDATE_STATUS, true, "Error: Invalid shader program ");
+//
+//
+//	RegisterUniform("ModelViewMatrix");
+//	RegisterUniform("NormalMatrix");
+//	RegisterUniform("ProjectionMatrix");
+//	RegisterUniform("MVP");
+//	/*RegisterUniform("ColorTex");
+//	RegisterUniform("NormalMapTex");
+//	RegisterUniform("SpecularMapTex");
+//	RegisterUniform("Material.Ka");
+//	RegisterUniform("Material.Ks");
+//	RegisterUniform("Material.Shininess");*/
+//	//RegisterUniform("Model");
+//	//RegisterUniform("MAX_NUM_LIGHTS");
+//	//RegisterUniform("AtteConstantTest");
+//	//RegisterUniform("AtteLinearTest");
+//	//RegisterUniform("AtteExpTest");
+//	RegisterUniform("LightDirStatic");
+//	RegisterUniform("LightColor");
+//	RegisterUniform("LightDiffuseIntensity");
+//	RegisterUniform("LightAmbientIntensity");
+//
+//
+//	std::cout << "Shading Program " << m_program << " Created: " << m_uniformLocations.size() << " uniforms" << std::endl;
+//
+//}
 
 void Shader::RegisterUniform(const char *name)
 {
@@ -178,6 +188,7 @@ void Shader::Bind()
 {
 	glUseProgram(m_program);
 }
+
 
 
 void Shader::Update(Transform& transform, Camera& camera)

@@ -40,6 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <iostream>
 #include "QNEditorNodes.h"
 
+#include "Form1.h"
+
 QNodesEditor::QNodesEditor(QObject *parent) :
 	QObject(parent)
 {
@@ -104,9 +106,6 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 			// si esta pulsado click derecho
 			if (me->modifiers() & Qt::ControlModifier)
 			{
-			/*	QMessageBox box;
-				box.setText("Right clic + crtl");
-				box.exec();*/
 				QGraphicsItem *item = itemAt(me->scenePos());
 			
 				if (item && (item->type() == QNEBlock::Type))
@@ -128,16 +127,21 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 						{
 							printf("Crash11\n");
 							// no se borra 
+							//emit connectionChanged();
 							delete item;	
 							item = NULL;
 							printf("Crash12\n");
+							
 						}
 				}
-
+				printf("Crash13\n");
 				if (item && (item->type() == QNEConnection::Type))
+				{
+					emit connectionChanged();  // Se notifica el cambio
 					delete item;
-
-			
+					
+				}
+				printf("Crash14\n");
 				// if (selBlock == (QNEBlock*) item)
 					// selBlock = 0;
 			}
@@ -173,6 +177,7 @@ bool QNodesEditor::eventFilter(QObject *o, QEvent *e)
 						conn->setPort2(port2);
 						conn->updatePath();
 						conn = 0;
+						emit connectionChanged(); 
 						return true;
 					
 
@@ -233,7 +238,7 @@ bool QNodesEditor::IsLegalConnection(QNEPort * port1, QNEPort * port2)
 	{
 		if (port2->isOutput())
 		{
-			if (port1->connections().count() > 0)
+			if (port1->connections().count() > 1)
 			{
 				QMessageBox box;
 				box.setText("Este input ya tiene un valor establecido, pruebe eliminarlo para crear una nueva conexion");

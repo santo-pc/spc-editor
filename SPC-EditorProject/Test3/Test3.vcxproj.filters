@@ -182,12 +182,6 @@
     <ClInclude Include="qneconnection.h">
       <Filter>Source Files\NodeEditor</Filter>
     </ClInclude>
-    <ClInclude Include="qneblock.h">
-      <Filter>Source Files\NodeEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="QNEditorNodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StringsAndDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -225,6 +219,12 @@
     </CustomBuild>
     <CustomBuild Include="qnodeseditor.h">
       <Filter>Source Files\NodeEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="qneblock.h">
+      <Filter>Source Files\NodeEditor</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QNEditorNodes.h">
+      <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

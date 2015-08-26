@@ -1,15 +1,15 @@
 #version 400
 const int MAX_NUM_LIGHTS = 8; // max number of lights
 
-in vec3 LightDir[MAX_NUM_LIGHTS];
 in vec3 VexterPosEye;
 in vec2 TexCoord;
 in vec3 ViewDir;
 in vec3 LightDirStaticTan;
 
-uniform int Model;
-uniform int LightsCount;  // actual number of lights 
 
+uniform vec3 LightColor;
+uniform float LightDiffuseIntensity;
+uniform float LightAmbientIntensity;
 
 struct MaterialInfo
 {
@@ -22,48 +22,66 @@ struct MaterialInfo
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
+const float QNConstFloatNode0 = 0;
+
+const float QNConstFloatNode1 = 1;
+
+const float QNConstFloatNode2 = 0.1;
+
 
 // Textures Section
+uniform sampler2D QNTextureNode0;
+
+uniform sampler2D QNTextureNode1;
+
 
 // Functions Section
-
-vec3 BlinnPhong(int lightIndex, vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
+vec4 Lerp0()
 {
-	MaterialInfo Material;
-	Material.Ka = vec3(0.3);
-	Material.Ks = vec3(0.2);
-	Material.Shininess = 25;
-	float diffuseIntensity = 0.50;
-	float ambientIntensity = 0.52;
-	vec3 lighColor = vec3(0.7, 0.7, 0.7);
+	vec4 ValX = vec4(QNConstFloatNode0);
+	vec4 Valy = vec4(QNConstFloatNode1);
+	vec4 t = vec4(QNConstFloatNode2);
+	return mix(ValX, Valy, t);
+}
+
+vec4 Multiply0()
+{
+	vec4 A = vec4(Lerp0());
+	vec4 B = vec4(texture(QNTextureNode0, TexCoord));
+	return A * B;
+}
+
+
+vec3 BlinnPhong(vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
+{
 
 	// this is blinn phong
 	vec3 h = normalize(LightDirStaticTan + ViewDir);
 
-	vec3 ambient = (ambientIntensity *  lighColor) * Material.Ka;
+	vec3 ambient = (LightAmbientIntensity *  LightColor);
 
 	float sDotN = max(dot(LightDirStaticTan, norm), 0.0);
 
-	vec3 diffuse = (diffuseIntensity *  lighColor) * diffR * sDotN;
+	vec3 diffuse = (LightDiffuseIntensity *  LightColor) * diffR * sDotN;
 
 	vec3 spec = vec3(0.0);
 
 	if (sDotN > 0.0)
-		spec = lighColor * specularLvl * pow(max(dot(h, norm), 0.0), Shininess);
+		spec = LightColor * specularLvl * pow(max(dot(h, norm), 0.0), Shininess);
 
 	return ambient + diffuse + spec;
 }
 void main() 
 {
 
-	vec4 colorBase = vec4(NO CONNECTION MADE);
-	vec4 specularLvl = vec4(NO CONNECTION MADE);
-	vec4 normal = 2 * vec4( NO CONNECTION MADE)-1;
-	vec4 alpha = vec4(NO CONNECTION MADE);
+	vec4 colorBase = vec4(Multiply0());
+	vec4 specularLvl = vec4(vec4(0.55));
+	vec4 normal = 2 * vec4( texture(QNTextureNode1, TexCoord))-1;
+	vec4 alpha = vec4(vec4(1.0));
 	vec4 lightIntensity = vec4(0.0);
-	float shininess = NO CONNECTION MADE;
+	float shininess = 25;
 
-	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);
+	lightIntensity += BlinnPhong(colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);
 	FragColor = lightIntensity;
 	FragColor.a = alpha.r;
 }

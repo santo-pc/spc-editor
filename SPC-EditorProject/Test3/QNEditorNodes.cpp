@@ -13,6 +13,7 @@
 #include <qfiledialog.h>
 #include <qgraphicsscene.h>
 #include <qgraphicsview.h>
+#include "Form1.h"
 
 static QLineEdit * CreateMyNumericLineEdit(float value, QNEBlock * nodeOwner)
 {
@@ -22,7 +23,8 @@ static QLineEdit * CreateMyNumericLineEdit(float value, QNEBlock * nodeOwner)
 	lineEdit->setMaximumSize(nodeOwner->maxSizeField);
 	lineEdit->setValidator(nodeOwner->floatValidator);
 
-	QObject::connect(lineEdit, &QLineEdit::textChanged, nodeOwner, &QNEBlock::HandleLostFocusMembers);
+	QObject::connect(lineEdit, &QLineEdit::textChanged, nodeOwner, &QNEBlock::HandleLostFocusMembers);	
+	
 
 	return lineEdit;
 	
@@ -70,8 +72,16 @@ static std::string GetMemberStringByPort(QNEPort * port)
 {
 	std::string memberNameResult = "ERROR GETTIG CONECTION MEMBER'S NAME";
 	
+	
 	if (!port) 
 		return memberNameResult;
+	if (port->connections().count() <= 0)
+	{
+		/*QMessageBox box; 
+		box.setText("No conections for this port");
+		box.exec();*/
+		return ERROR_NO_CONNECTION;
+	}
 
 	QNEConnection	* auxCon = NULL;	// Edge connection
 	QNEBlock		* auxNode = NULL;	// Node connected 
@@ -103,7 +113,7 @@ static std::string GetMemberStringByPort(QNEPort * port)
 
 
 	// Si eso pasa gestionar el error
-	return "NO CONNECTION MADE";
+	return ERROR_NO_CONNECTION;
 
 }
 
@@ -134,16 +144,28 @@ void QNMainNode::Init()
 }
 std::string QNMainNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Main Node Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
+	cout << "Main Node Resolver 1 " << endl;
 	string colorValueString = GetMemberStringByPort(ColorBasePort);
+	colorValueString = (colorValueString == ERROR_NO_CONNECTION) ? DEFAULT_VALUE_COLOR : colorValueString;
+	cout << "Main Node Resolver 2 " << endl;
 	string specularValueString = GetMemberStringByPort(SpecularPort);
+	specularValueString = (specularValueString == ERROR_NO_CONNECTION) ? DEFAULT_VALUE_SPECULAR : specularValueString;
+	cout << "Main Node Resolver 3 " << endl;
 	string normalValueString = GetMemberStringByPort(NormalPort);
+	normalValueString = (normalValueString == ERROR_NO_CONNECTION) ? DEFAULT_VALUE_NORMAL : normalValueString;
+	cout << "Main Node Resolver 4 " << endl;
 	string alphaValueString = GetMemberStringByPort(AlphaPort);
+	alphaValueString = (alphaValueString == ERROR_NO_CONNECTION) ? DEFAULT_VALUE_ALPHA : alphaValueString;
+	cout << "Main Node Resolver 5 " << endl;
 	string shininessValueString = GetMemberStringByPort(ShininessPort);
+	shininessValueString = (shininessValueString == ERROR_NO_CONNECTION) ? DEFAULT_VALUE_SHININESS : shininessValueString;
 	
+
+
 	string result =
 		"void main() \n"
 		"{\n\n"
@@ -154,7 +176,7 @@ std::string QNMainNode::Resolve()
 		"	vec4 lightIntensity = vec4(0.0);\n"
 		"	float shininess = " + shininessValueString + ";\n"
 		"\n"
-		"	lightIntensity += BlinnPhong(0, colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);\n"
+		"	lightIntensity += BlinnPhong(colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);\n"
 		"	FragColor = lightIntensity;\n"
 		"	FragColor.a = alpha.r;"
 		"\n"
@@ -175,51 +197,52 @@ QNMainNode ::~QNMainNode()
 QGridLayout *  QNMainNode::GetPropertiesForm()
 {
 
-	QSizePolicy * policy = new QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	QSize minSizeField = QSize(150, 25); QSize maxSizeField = QSize(200, 25);
-	QSize minSizeLabel = QSize(50, 25);	QSize maxSizeLabel = QSize(50, 25);
-	
+	//QSizePolicy * policy = new QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	//QSize minSizeField = QSize(150, 25); QSize maxSizeField = QSize(200, 25);
+	//QSize minSizeLabel = QSize(50, 25);	QSize maxSizeLabel = QSize(50, 25);
+	//
 
-	QTextEdit * button1 = new QTextEdit("Button 1"); button1->setSizePolicy(*policy); button1->setMinimumSize(minSizeField); button1->setMaximumSize(maxSizeField);
-	QTextEdit * button2 = new QTextEdit("Button 2"); button2->setSizePolicy(*policy); button2->setMinimumSize(minSizeField); button2->setMaximumSize(maxSizeField);
-	QTextEdit * button3 = new QTextEdit("Button 3"); button3->setSizePolicy(*policy); button3->setMinimumSize(minSizeField); button3->setMaximumSize(maxSizeField);
-	QTextEdit * button4 = new QTextEdit("Button 4"); button4->setSizePolicy(*policy); button4->setMinimumSize(minSizeField); button4->setMaximumSize(maxSizeField);
+	//QTextEdit * button1 = new QTextEdit("Button 1"); button1->setSizePolicy(*policy); button1->setMinimumSize(minSizeField); button1->setMaximumSize(maxSizeField);
+	//QTextEdit * button2 = new QTextEdit("Button 2"); button2->setSizePolicy(*policy); button2->setMinimumSize(minSizeField); button2->setMaximumSize(maxSizeField);
+	//QTextEdit * button3 = new QTextEdit("Button 3"); button3->setSizePolicy(*policy); button3->setMinimumSize(minSizeField); button3->setMaximumSize(maxSizeField);
+	//QTextEdit * button4 = new QTextEdit("Button 4"); button4->setSizePolicy(*policy); button4->setMinimumSize(minSizeField); button4->setMaximumSize(maxSizeField);
 
-	QObject::connect(button1, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(button2, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(button3, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
-	QObject::connect(button4, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	//QObject::connect(button1, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	//QObject::connect(button2, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	//QObject::connect(button3, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
+	//QObject::connect(button4, &QTextEdit::textChanged, this, &QNEBlock::HandleLostFocusMembers);
 
-	QLabel * label1 = new QLabel("Field1"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
-	QLabel * label2 = new QLabel("Field2");	label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
-	QLabel * label3 = new QLabel("Field3");	label3->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
-	QLabel * label4 = new QLabel("Field4");	label4->setMinimumSize(minSizeLabel); label4->setMaximumSize(maxSizeLabel);
+	//QLabel * label1 = new QLabel("Field1"); label1->setMinimumSize(minSizeLabel); label1->setMaximumSize(maxSizeLabel);
+	//QLabel * label2 = new QLabel("Field2");	label2->setMinimumSize(minSizeLabel); label2->setMaximumSize(maxSizeLabel);
+	//QLabel * label3 = new QLabel("Field3");	label3->setMinimumSize(minSizeLabel); label3->setMaximumSize(maxSizeLabel);
+	//QLabel * label4 = new QLabel("Field4");	label4->setMinimumSize(minSizeLabel); label4->setMaximumSize(maxSizeLabel);
 
-	QGridLayout * propForm = new QGridLayout(); 
+	//QGridLayout * propForm = new QGridLayout(); 
 
-	propForm->addWidget(label1, 0, 0);	propForm->addWidget(label2, 1, 0);
-	propForm->addWidget(label3, 2, 0);	propForm->addWidget(label4, 3, 0);
+	//propForm->addWidget(label1, 0, 0);	propForm->addWidget(label2, 1, 0);
+	//propForm->addWidget(label3, 2, 0);	propForm->addWidget(label4, 3, 0);
 
-	propForm->addWidget(button1, 0, 1); propForm->addWidget(button2, 1, 1);
-	propForm->addWidget(button3, 2, 1);	propForm->addWidget(button4, 3, 1);
-	
-	
-	// Para que la 4 fila ocupe el resto del layout
-	propForm->setRowStretch(4, 1);
-	propForm->setMargin(10);	
-	propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
+	//propForm->addWidget(button1, 0, 1); propForm->addWidget(button2, 1, 1);
+	//propForm->addWidget(button3, 2, 1);	propForm->addWidget(button4, 3, 1);
+	//
+	//
+	//// Para que la 4 fila ocupe el resto del layout
+	//propForm->setRowStretch(4, 1);
+	//propForm->setMargin(10);	
+	//propForm->setHorizontalSpacing(3); propForm->setHorizontalSpacing(5);
 
-	return propForm;
+	return NULL;
 
 }
 
 void QNMainNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -238,9 +261,9 @@ void QNConstFloatNode::Init()
 
 std::string QNConstFloatNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("ConstFloatNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 	
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
@@ -296,16 +319,8 @@ void QNConstFloatNode::HandleLostFocusMembers()
 	
 	
 	description = descTextEdit->placeholderText().toStdString();
-	//value = valueTextEdit->toPlainText().toFloat();
 	value = valueTextEdit->text().replace(',', '.').toFloat();
-
-	/*QMessageBox msgBox;
-	msgBox.setText(valueTextEdit->text().replace(',', '.'));
-	msgBox.exec();*/
-	cout << "************" << endl;
-	cout << "Text: " << valueTextEdit->text().toStdString() << endl;
-	cout << "TextNoComma: " << valueTextEdit->text().replace(',', '.').toStdString() << endl;
-	cout << "Value: " << value << endl;
+	this->form1->RefreshNodeEditor();
 
 }
 
@@ -394,6 +409,9 @@ void QNVector2DNode::HandleLostFocusMembers()
 	description = descTextEdit->placeholderText().toStdString();
 	value.r = rValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();	
+	this->form1->RefreshNodeEditor();
+
+
 
 }
 
@@ -421,9 +439,9 @@ QNVector3DNode ::~QNVector3DNode()
 
 std::string QNVector3DNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNVector3DNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
@@ -492,6 +510,7 @@ void QNVector3DNode::HandleLostFocusMembers()
 	value.r = rValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 	value.b = bValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	this->form1->RefreshNodeEditor();
 	
 }
 
@@ -520,9 +539,9 @@ QNVector4DNode ::~QNVector4DNode()
 
 std::string QNVector4DNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNVector4DNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
@@ -593,6 +612,7 @@ void QNVector4DNode::HandleLostFocusMembers()
 	value.g = gValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 	value.b = bValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
 	value.a = aValueLineEdit->text().replace(QString(","), QString(".")).toFloat();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -619,9 +639,9 @@ QNTextureNode ::~QNTextureNode()
 
 std::string QNTextureNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QTexture Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 	// 1. Obtener un nombre para el miembro
@@ -721,9 +741,11 @@ void QNTextureNode::OpenSelectWindow()
 	{
 		path = file.toStdString();
 		pathTextEdit->setText(file);
-		QMessageBox box;
+		
+		form1->RefreshNodeEditor();
+		/*QMessageBox box;
 		box.setText(path.c_str());
-		box.exec();
+		box.exec();*/
 
 	}
 	else
@@ -737,13 +759,14 @@ void QNTextureNode::OpenSelectWindow()
 
 void QNTextureNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
-}
+	this->form1->RefreshNodeEditor();
 
+}
 
 /************************** ADD NODE **************************/
 QNAddNode::QNAddNode(QGraphicsItem *parent) : QNEBlock(parent)
@@ -773,9 +796,9 @@ QNAddNode ::~QNAddNode()
 
 std::string QNAddNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNAddNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 	
@@ -790,8 +813,8 @@ std::string QNAddNode::Resolve()
 	
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return A + B;\n"
 		"}\n";
 
@@ -829,11 +852,13 @@ QGridLayout *  QNAddNode::GetPropertiesForm()
 
 void QNAddNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
 	msgBox.exec();
-
+*/
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
+	
 }
 
 
@@ -866,10 +891,10 @@ QNSubtractNode ::~QNSubtractNode()
 
 std::string QNSubtractNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNSubtractNode Resolve");
 	msgBox.exec();
-
+*/
 	string codeDefinition;
 
 	// 1. Obtener un nombre para el miembro
@@ -883,8 +908,8 @@ std::string QNSubtractNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return A - B;\n"
 		"}\n";
 
@@ -922,11 +947,12 @@ QGridLayout *  QNSubtractNode::GetPropertiesForm()
 
 void QNSubtractNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -957,9 +983,9 @@ QNMultiplyNode ::~QNMultiplyNode()
 }
 std::string QNMultiplyNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNMultiplyNode Resolve");
-	msgBox.exec();
+	msgBox.exec()*/;
 
 	string codeDefinition;
 
@@ -1013,11 +1039,12 @@ QGridLayout *  QNMultiplyNode::GetPropertiesForm()
 
 void QNMultiplyNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1050,9 +1077,9 @@ QNPowerNode ::~QNPowerNode()
 
 std::string QNPowerNode::Resolve()
 {
-	QMessageBox msgBox;
-	msgBox.setText("QNMultiplyNode Resolve");
-	msgBox.exec();
+	//QMessageBox msgBox;
+	//msgBox.setText("QNMultiplyNode Resolve");
+	//msgBox.exec();
 
 	string codeDefinition;
 
@@ -1106,11 +1133,12 @@ QGridLayout *  QNPowerNode::GetPropertiesForm()
 
 void QNPowerNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1141,9 +1169,9 @@ QNSqrtNode ::~QNSqrtNode()
 
 std::string QNSqrtNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNSqrtNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1158,7 +1186,7 @@ std::string QNSqrtNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 val = " + ValueString + ";\n"		
+		"	vec4 val = vec4(" + ValueString + ");\n"		
 		"	return vec4(sqrt(val));\n"
 		"}\n";
 
@@ -1196,11 +1224,12 @@ QGridLayout *  QNSqrtNode::GetPropertiesForm()
 
 void QNSqrtNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
 	msgBox.exec();
-
+*/
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1229,9 +1258,9 @@ QNLogNode ::~QNLogNode()
 
 std::string QNLogNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNLogNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1246,7 +1275,7 @@ std::string QNLogNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 val = " + ValueString + ";\n"
+		"	vec4 val = vec4(" + ValueString + ");\n"
 		"	return vec4(log(val));\n"
 		"}\n";
 
@@ -1284,11 +1313,12 @@ QGridLayout *  QNLogNode::GetPropertiesForm()
 
 void QNLogNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1319,9 +1349,9 @@ QNMinNode ::~QNMinNode()
 
 std::string QNMinNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNMinNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1336,8 +1366,8 @@ std::string QNMinNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return min(A, B) ;\n"
 		"}\n";
 
@@ -1375,11 +1405,12 @@ QGridLayout *  QNMinNode::GetPropertiesForm()
 
 void QNMinNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1410,10 +1441,10 @@ QNMaxNode ::~QNMaxNode()
 
 std::string QNMaxNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNMaxNode Resolve");
 	msgBox.exec();
-
+*/
 	string codeDefinition;
 
 	// 1. Obtener un nombre para el miembro
@@ -1427,8 +1458,8 @@ std::string QNMaxNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return max(A, B);\n"
 		"}\n";
 
@@ -1466,11 +1497,12 @@ QGridLayout *  QNMaxNode::GetPropertiesForm()
 
 void QNMaxNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 /************************** ABS NODE **************************/
@@ -1498,9 +1530,9 @@ QNAbsNode ::~QNAbsNode()
 
 std::string QNAbsNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNAbsNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1515,7 +1547,7 @@ std::string QNAbsNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 val = " + ValueString + ";\n"
+		"	vec4 val = vec4(" + ValueString + ");\n"
 		"	return vec4(abs(val));\n"
 		"}\n";
 
@@ -1553,11 +1585,12 @@ QGridLayout *  QNAbsNode::GetPropertiesForm()
 
 void QNAbsNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1587,9 +1620,9 @@ QNSignNode ::~QNSignNode()
 
 std::string QNSignNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNSignNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 	cout << "sign resolve1" << endl;
 	string codeDefinition;
 
@@ -1604,7 +1637,7 @@ std::string QNSignNode::Resolve()
 	cout << "sign resolve3" << endl;
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 val = " + ValueString + ";\n"
+		"	vec4 val = vec4(" + ValueString + ");\n"
 		"	return vec4(sign(val));\n"
 		"}\n";
 
@@ -1643,11 +1676,12 @@ QGridLayout *  QNSignNode::GetPropertiesForm()
 
 void QNSignNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 
 }
 
@@ -1677,9 +1711,9 @@ QNModNode ::~QNModNode()
 
 std::string QNModNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNModNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1694,8 +1728,8 @@ std::string QNModNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 A = " + aValueString + ";\n"
-		"	vec4 B = " + bValueString + ";\n"
+		"	vec4 A = vec4(" + aValueString + ");\n"
+		"	vec4 B = vec4(" + bValueString + ");\n"
 		"	return mod(A, B);\n"
 		"}\n";
 
@@ -1733,9 +1767,10 @@ QGridLayout *  QNModNode::GetPropertiesForm()
 
 void QNModNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1770,9 +1805,9 @@ QNClampNode ::~QNClampNode()
 
 std::string QNClampNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNClampNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1789,9 +1824,9 @@ std::string QNClampNode::Resolve()
 
 	codeDefinition = "vec4 " + nameMember + "()\n"
 		"{\n"
-		"	vec4 Val = " + valValueString + ";\n"
-		"	vec4 Min = " + minValueString + ";\n"
-		"	vec4 Max = " + maxValueString + ";\n"
+		"	vec4 Val = vec4(" + valValueString + ");\n"
+		"	vec4 Min = vec4(" + minValueString + ");\n"
+		"	vec4 Max = vec4(" + maxValueString + ");\n"
 		"	return clamp(Val, Min, Max);\n"
 		"}\n";
 
@@ -1829,11 +1864,12 @@ QGridLayout *  QNClampNode::GetPropertiesForm()
 
 void QNClampNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 	
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 
@@ -1873,9 +1909,9 @@ QNLerpNode ::~QNLerpNode()
 
 std::string QNLerpNode::Resolve()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("QNLerpNode Resolve");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	string codeDefinition;
 
@@ -1894,7 +1930,7 @@ std::string QNLerpNode::Resolve()
 		"{\n"
 		"	vec4 ValX = vec4(" + valXValueString + ");\n"
 		"	vec4 Valy = vec4(" + valYValueString + ");\n"
-		"	float t = " + tValueString + ";\n"
+		"	vec4 t = vec4(" + tValueString + ");\n"
 		"	return mix(ValX, Valy, t);\n"
 		"}\n";
 
@@ -1932,11 +1968,12 @@ QGridLayout *  QNLerpNode::GetPropertiesForm()
 
 void QNLerpNode::HandleLostFocusMembers()
 {
-	QMessageBox msgBox;
+	/*QMessageBox msgBox;
 	msgBox.setText("Se ha modificado el valor");
-	msgBox.exec();
+	msgBox.exec();*/
 
 	description = descTextEdit->placeholderText().toStdString();
+	this->form1->RefreshNodeEditor();
 }
 
 

@@ -136,7 +136,12 @@ void GLWidget::initializeGL()
 
 
 	
-	GLOBAL_CONTAIER->GlobalShader = new Shader("../../Resources/Shaders/phongNormalShader");
+	GLOBAL_CONTAIER->GlobalShader = new Shader();
+	GLOBAL_CONTAIER->GlobalShader->Load("../../Resources/Shaders/phongNormalShader", "", "");
+	
+	GLOBAL_CONTAIER->GlobalErrorShader = new Shader();
+	GLOBAL_CONTAIER->GlobalErrorShader->Load("../../Resources/Shaders/phongNormalShader", "", "");
+
 	TEXTURE_MANAGER->SetStandarMode();
 
 	/*GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");*/
@@ -174,15 +179,14 @@ void GLWidget::paintGL()
 	glEnable(GL_CULL_FACE);
 
 	
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightColor", lightColor);
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightDiffuseIntensity", diffuseIntensity);
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightAmbientIntensity", ambientIntensity);
 	GLOBAL_CONTAIER->GlobalShader->Update(transform, camera);
 	GLOBAL_CONTAIER->GlobalShader->Bind();
 	TEXTURE_MANAGER->DrawTextures1();
 	TEXTURE_MANAGER->DrawTextures2();
 	
-	/*QMessageBox box; 
-	box.setText("ShaderCreado"); 
-	box.exec();*/
-
 	mesh->Render();
 	std::cout << "End Paint" << std::endl;
 }
@@ -205,13 +209,13 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
 {
 	int dx = event->x() - m_lastPos.x();
 	int dy = event->y() - m_lastPos.y();
-	float speedFactor = .05;
+	float speedFactor = 5;
 	
 	
 	if (event->buttons() & Qt::LeftButton) 
 	{
-		setXRotation(m_xRot - speedFactor * dy);
-		setYRotation(m_yRot - speedFactor * dx);
+		setXRotation( glm::clamp(glm::abs(dy), 0,15) * -glm::sign(dy));
+		setYRotation(glm::clamp(glm::abs(dx), 0, 15) * glm::sign(dx));
 	} 
 	else if (event->buttons() & Qt::RightButton) 
 	{
@@ -248,7 +252,7 @@ void GLWidget::wheelEvent(QWheelEvent * event)
 void GLWidget::mouseReleaseEvent(QMouseEvent * event)
 {
 	cout << "mouse release" << endl;
-	m_lastPos = QPoint(0,0);
+	m_lastPos = QPoint(event->x(),event->y());
 
 }
 
@@ -261,25 +265,53 @@ void GLWidget::leaveEvent(QEvent * event)
 void GLWidget::RebuildShader(const std::string & fragment)
 {
 	
-	QString fragmentCode(fragment.c_str());
+	Shader * nuevo = new Shader();
 
-	delete GLOBAL_CONTAIER->GlobalShader;
-
-	GLOBAL_CONTAIER->GlobalShader = new Shader(fragment, true);
-
-	int unitCounter = 0;
-	
-	for (std::map<int, string>::iterator it = SHADER_COMPOSER->listNodeMemberNamesStringTextures.begin();
-		it != SHADER_COMPOSER->listNodeMemberNamesStringTextures.end(); ++it)
+	if (nuevo->Load("../../Resources/Shaders/phongNormalShader", "", fragment))
 	{
-		
-		QNTextureNode * nodeTexture = dynamic_cast<QNTextureNode*>(MANAGER->GetNodeFromID((*it).first));
-		
-		if (nodeTexture)
-			TEXTURE_MANAGER->AddTexture(unitCounter, unitCounter, nodeTexture->path,(*it).second);
-		
-		unitCounter++;
+		this->cleanup();
+		delete GLOBAL_CONTAIER->GlobalShader;
+
+		GLOBAL_CONTAIER->GlobalShader = nuevo;
+
+		int unitCounter = 0;
+
+
+		// Set the images
+		for (std::map<int, string>::iterator it = SHADER_COMPOSER->listNodeMemberNamesStringTextures.begin();
+			it != SHADER_COMPOSER->listNodeMemberNamesStringTextures.end(); ++it)
+		{
+
+			QNTextureNode * nodeTexture = dynamic_cast<QNTextureNode*>(MANAGER->GetNodeFromID((*it).first));
+
+			if (nodeTexture)
+				TEXTURE_MANAGER->AddTexture(unitCounter, unitCounter, nodeTexture->path, (*it).second);
+
+			unitCounter++;
+		}
+
+
 	}
+	else // Cargo el provisional
+	{
+		this->cleanup();
+		GLOBAL_CONTAIER->GlobalShader = new Shader();
+		GLOBAL_CONTAIER->GlobalShader->Load("../../Resources/Shaders/phongNormalShader", "", "");
+		TEXTURE_MANAGER->SetStandarMode();
+
+	}
+
+	SaveShaderToFile(fragment, "../../Resources/Shaders/shaderResult.fs");
+	
+	GLOBAL_CONTAIER->GlobalShader->Bind(); 
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightColor", lightColor);
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightDiffuseIntensity", diffuseIntensity);
+	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightAmbientIntensity", ambientIntensity);
+	GLOBAL_CONTAIER->GlobalShader->Update(transform, camera);
+;
+	
+	update();
+	
 }
 
 
@@ -320,3 +352,31 @@ void GLWidget::ResetScene()
 	
 }
 
+void GLWidget::SetLightColorR(float value)
+{
+	lightColor.r = value;
+	cout << value << endl;
+	update();
+}
+void GLWidget::SetLightColorG(float value)
+{
+	lightColor.g = value;
+	update();
+}
+void GLWidget::SetLightColorB(float value)
+{
+	lightColor.b = value;
+	update();
+}
+
+void GLWidget::SetDiffuseIntensity(float value)
+{
+	diffuseIntensity = value;
+	update();
+}
+
+void GLWidget::SetAmbientIntensity(float value)
+{
+	ambientIntensity = value;
+	update();
+}

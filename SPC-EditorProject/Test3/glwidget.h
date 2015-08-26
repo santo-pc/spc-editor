@@ -29,6 +29,12 @@ public:
 
 	QSize minimumSizeHint() const Q_DECL_OVERRIDE;
 	QSize sizeHint() const Q_DECL_OVERRIDE;
+	void SetLightColorR(float value);
+	void SetLightColorG(float value);
+	void SetLightColorB(float value);
+	void SetDiffuseIntensity(float value);
+	void SetAmbientIntensity(float value);
+
 
 public slots:
 	void setXRotation(int angle);
@@ -66,6 +72,9 @@ protected:
 private:
 	glm::vec3 initialCameraPos;
 	glm::vec3 initialCameraTarget;
+	glm::vec3 lightColor = glm::vec3(0.7, 0.7, 0.7);
+	float diffuseIntensity = 0.5;
+	float ambientIntensity = 0.52;
 	float  fov;
 	float aspecRatio;
 	
@@ -78,21 +87,7 @@ private:
 	int m_yRot;
 	int m_zRot;
 	float aux = 0;
-	/*bool m_core;
 	
-	
-	Logo m_logo;
-	QOpenGLVertexArrayObject m_vao;
-	QOpenGLBuffer m_logoVbo;
-	QOpenGLShaderProgram *m_program;
-	int m_projMatrixLoc;
-	int m_mvMatrixLoc;
-	int m_normalMatrixLoc;
-	int m_lightPosLoc;
-	QMatrix4x4 m_proj;
-	QMatrix4x4 m_camera;
-	QMatrix4x4 m_world;
-	bool m_transparent;*/
 
 	Mesh * mesh = new Mesh();
 	Mesh * meshCube = new Mesh();
