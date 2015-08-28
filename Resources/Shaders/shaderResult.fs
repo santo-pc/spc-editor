@@ -22,7 +22,7 @@ struct MaterialInfo
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
-const vec4 QNVector3DNode0 = vec4(0.2, 0.5, 0.9, 0);
+const vec4 QNVector3DNode0 = vec4(0, 1, 0, 0);
 
 
 // Textures Section

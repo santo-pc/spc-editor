@@ -1,17 +1,29 @@
-﻿Compilación iniciada a las 26/08/2015 4:39:41.
+﻿Compilación iniciada a las 27/08/2015 19:50:44.
      1>Proyecto "C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Test3\Test3.vcxproj" en el nodo 2 (Build destinos).
-     1>CustomBuild:
-         Uic'ing GeneratedFiles\Form2.ui...
-     1>C:\Dev\GitHubRep\spc-editor\spc-editor\SPC-EditorProject\Test3\GeneratedFiles\Form2.ui : warning : The name 'layoutWidget' (QWidget) is already in use, defaulting to 'layoutWidget1'.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include /I.\GeneratedFiles\Release /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtCore /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtGui /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtOpenGL /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtWidgets /I./include /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Form1.cpp GeneratedFiles\Release\moc_Form1.cpp QNEditorNodes.cpp main.cpp qneblock.cpp qnodeseditor.cpp
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I. /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include /I.\GeneratedFiles\Release /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtCore /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtGui /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtOpenGL /IC:\Qt\Qt5.4.2\5.4\msvc2013_opengl\include\QtWidgets /I./include /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D WIN64 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /D QT_WIDGETS_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Form1.cpp GeneratedFiles\Release\moc_Form1.cpp GeneratedFiles\Release\moc_glwidget.cpp Mesh.cpp QNEditorNodes.cpp Shader.cpp TextureManager.cpp glwidget.cpp main.cpp qneblock.cpp qnodeseditor.cpp window.cpp
          Form1.cpp
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          moc_Form1.cpp
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         moc_glwidget.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Mesh.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          QNEditorNodes.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         Shader.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         TextureManager.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         glwidget.cpp
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          main.cpp
@@ -21,6 +33,9 @@
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          qnodeseditor.cpp
+         GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
+         window.cpp
          GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
          Generando código...
@@ -59,4 +74,4 @@
 
 Compilación correcta.
 
-Tiempo transcurrido 00:00:18.65
+Tiempo transcurrido 00:00:26.75
