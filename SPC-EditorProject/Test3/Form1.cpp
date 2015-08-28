@@ -371,6 +371,8 @@ void Form1::on_value_changed_lightColorG()
 {
 	float value = ui->lineEditG->text().toFloat();
 	glwidget->SetLightColorG(value);
+	
+
 }
 void Form1::on_value_changed_lightColorB()
 {
@@ -401,3 +403,5 @@ void Form1::RefreshNodeEditor()
 {
 	on_button_clicked(); // REFRESH
 }
+
+

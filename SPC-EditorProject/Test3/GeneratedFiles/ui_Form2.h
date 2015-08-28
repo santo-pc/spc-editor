@@ -298,6 +298,7 @@ public:
         QObject::connect(lineEditB, SIGNAL(textChanged(QString)), MainWindow, SLOT(on_value_changed_lightColorB()));
         QObject::connect(horizontalSliderDiffuse, SIGNAL(valueChanged(int)), MainWindow, SLOT(on_slider_diffuse_changed(int)));
         QObject::connect(horizontalSliderAmbient, SIGNAL(valueChanged(int)), MainWindow, SLOT(on_slider_ambient_changed(int)));
+        QObject::connect(lineEditG, SIGNAL(textChanged(QString)), MainWindow, SLOT(on_value_changed_lightColorG()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi

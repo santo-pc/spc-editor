@@ -22,11 +22,13 @@ struct MaterialInfo
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
-const vec4 QNVector3DNode0 = vec4(0, 1, 0, 0);
-
 
 // Textures Section
 uniform sampler2D QNTextureNode0;
+
+uniform sampler2D QNTextureNode2;
+
+uniform sampler2D QNTextureNode1;
 
 
 // Functions Section
@@ -53,9 +55,9 @@ vec3 BlinnPhong(vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 void main() 
 {
 
-	vec4 colorBase = vec4(QNVector3DNode0);
-	vec4 specularLvl = vec4(vec4(0.55));
-	vec4 normal = 2 * vec4( texture(QNTextureNode0, TexCoord))-1;
+	vec4 colorBase = vec4(texture(QNTextureNode0, TexCoord));
+	vec4 specularLvl = vec4(texture(QNTextureNode1, TexCoord));
+	vec4 normal = 2 * vec4( texture(QNTextureNode2, TexCoord))-1;
 	vec4 alpha = vec4(vec4(1.0));
 	vec4 lightIntensity = vec4(0.0);
 	float shininess = 25;
