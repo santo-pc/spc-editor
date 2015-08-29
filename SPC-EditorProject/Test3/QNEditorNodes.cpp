@@ -525,7 +525,7 @@ QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
 
 void QNVector4DNode::Init()
 {
-	addPort("Color RGB", false, QNEPort::NamePort);
+	addPort("Color RGBA", false, QNEPort::NamePort);
 	addOutputPort("");
 	ROutPut = addOutputPort("R");
 	GOutPut = addOutputPort("G");
