@@ -34,6 +34,7 @@ public:
 	void SetLightColorB(float value);
 	void SetDiffuseIntensity(float value);
 	void SetAmbientIntensity(float value);
+	string GetCurrentFragmentString();
 
 
 public slots:
@@ -70,6 +71,7 @@ protected:
 
 
 private:
+	string currentFragmentString;
 	glm::vec3 initialCameraPos;
 	glm::vec3 initialCameraTarget;
 	glm::vec3 lightColor = glm::vec3(0.7, 0.7, 0.7);

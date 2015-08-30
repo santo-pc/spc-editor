@@ -254,7 +254,7 @@ void QNMainNode::HandleLostFocusMembers()
 /************************** CONST FLOAT NODE **************************/
 QNConstFloatNode::QNConstFloatNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNConstFloatNode";
+	titulo = "SPC_ConstFloatNode";
 	m_type = ID_TYPE_SPConstFloatNode;
 }
 
@@ -336,7 +336,7 @@ void QNConstFloatNode::HandleLostFocusMembers()
 /************************** VECTOR 2 NODE **************************/
 QNVector2DNode::QNVector2DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNVector2DNode";
+	titulo = "SPC_Vector2DNode";
 	m_type = ID_TYPE_SPVector2DNode;
 }
 
@@ -425,7 +425,7 @@ void QNVector2DNode::HandleLostFocusMembers()
 /************************** VECTOR 3 NODE **************************/
 QNVector3DNode::QNVector3DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNVector3DNode";
+	titulo = "SPC_Vector3DNode";
 	m_type = ID_TYPE_SPVector3DNode;
 }
 
@@ -524,7 +524,7 @@ void QNVector3DNode::HandleLostFocusMembers()
 /************************** VECTOR 4 NODE **************************/
 QNVector4DNode::QNVector4DNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNVector4DNode";
+	titulo = "SPC_Vector4DNode";
 	m_type = ID_TYPE_SPVector4DNode;
 }
 
@@ -624,7 +624,7 @@ void QNVector4DNode::HandleLostFocusMembers()
 /************************** TEXTURE NODE **************************/
 QNTextureNode::QNTextureNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNTextureNode";
+	titulo = "SPC_TextureNode";
 	m_type = ID_TYPE_SPTextureNode;
 }
 
@@ -776,7 +776,7 @@ void QNTextureNode::HandleLostFocusMembers()
 /************************** ADD NODE **************************/
 QNAddNode::QNAddNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNAddNode";
+	titulo = "SPC_AddNode";
 	m_type = ID_TYPE_SPAddNode;
 }
 
@@ -871,7 +871,7 @@ void QNAddNode::HandleLostFocusMembers()
 /************************** SUBTRACT NODE **************************/
 QNSubtractNode::QNSubtractNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNSubstract";
+	titulo = "SPC_Substract";
 	m_type = ID_TYPE_SPSubtractNode;
 }
 
@@ -965,7 +965,7 @@ void QNSubtractNode::HandleLostFocusMembers()
 /************************** MULTIPLY NODE **************************/
 QNMultiplyNode::QNMultiplyNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Multiply";
+	titulo = "SPC_MultiplyNode";
 	m_type = ID_TYPE_SPMultiplyNode;
 }
 
@@ -1056,7 +1056,7 @@ void QNMultiplyNode::HandleLostFocusMembers()
 /************************** POWER NODE **************************/
 QNPowerNode::QNPowerNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "QNPowerNode";
+	titulo = "SPC_PowerNode";
 	m_type = ID_TYPE_SPPowerNode;
 }
 
@@ -1152,7 +1152,7 @@ void QNPowerNode::HandleLostFocusMembers()
 /************************** SQRT NODE **************************/
 QNSqrtNode::QNSqrtNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Sqrt";
+	titulo = "SPC_SqrtNode";
 	m_type = ID_TYPE_SPSqrtNode;
 }
 
@@ -1241,7 +1241,7 @@ void QNSqrtNode::HandleLostFocusMembers()
 /************************** LOG NODE **************************/
 QNLogNode::QNLogNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Log";
+	titulo = "SPC_LogNode";
 	m_type = ID_TYPE_SPLogNode;
 }
 
@@ -1423,7 +1423,7 @@ void QNMinNode::HandleLostFocusMembers()
 /************************** MAX NODE **************************/
 QNMaxNode::QNMaxNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Max";
+	titulo = "SPC_MaxNode";
 	m_type = ID_TYPE_SPMaxNode;
 }
 
@@ -1513,7 +1513,7 @@ void QNMaxNode::HandleLostFocusMembers()
 /************************** ABS NODE **************************/
 QNAbsNode::QNAbsNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Abs";
+	titulo = "SPC_AbsNode";
 	m_type = ID_TYPE_SPAbsNode;
 }
 
@@ -1603,7 +1603,7 @@ void QNAbsNode::HandleLostFocusMembers()
 /************************** SIGN NODE **************************/
 QNSignNode::QNSignNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Sign";
+	titulo = "SPC_SignNode";
 	m_type = ID_TYPE_SPSignNode;
 }
 
@@ -1693,7 +1693,7 @@ void QNSignNode::HandleLostFocusMembers()
 /************************** MOD NODE **************************/
 QNModNode::QNModNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Mod";
+	titulo = "SPC_ModNode";
 	m_type = ID_TYPE_SPModNode;
 }
 
@@ -1783,7 +1783,7 @@ void QNModNode::HandleLostFocusMembers()
 /************************** CLAMP NODE **************************/
 QNClampNode::QNClampNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Clamp";
+	titulo = "SPC_ClampNode";
 	m_type = ID_TYPE_SPClampNode;
 }
 
@@ -1882,7 +1882,7 @@ void QNClampNode::HandleLostFocusMembers()
 /************************** LERP NODE **************************/
 QNLerpNode::QNLerpNode(QGraphicsItem *parent) : QNEBlock(parent)
 {
-	titulo = "Lerp";
+	titulo = "SPC_LerpNode";
 	m_type = ID_TYPE_SPLerpNode;
 }
 

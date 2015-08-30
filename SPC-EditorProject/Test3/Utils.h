@@ -56,11 +56,12 @@ static std::string ConvertFloatToString(float f)
 	return convert.str();
 }
 
-static bool SaveShaderToFile(std::string text, std::string fileName)
+static bool SaveShaderToFile(std::string text, std::string fileName = "")
 {
 
 	cout << "Guardando Shader Strings: " << fileName << endl;
-	ofstream myfile("../../Resources/Shaders/" + fileName, ios::out | ios::trunc);
+	
+	ofstream myfile(fileName, ios::out | ios::trunc);
 
 	cout << "Saving File Path:" << "../../Resources/Shaders/" + fileName << endl;
 	

@@ -141,7 +141,7 @@ void GLWidget::initializeGL()
 	
 	GLOBAL_CONTAIER->GlobalErrorShader = new Shader();
 	GLOBAL_CONTAIER->GlobalErrorShader->Load("../../Resources/Shaders/phongNormalShader", "", "");
-
+	currentFragmentString = GLOBAL_CONTAIER->GlobalShader->GetFragmentString();
 	TEXTURE_MANAGER->SetStandarMode();
 
 	/*GLOBAL_CONTAIER->GlobalErrorShader = new Shader("../../Resources/Shaders/errorShader");*/
@@ -290,6 +290,8 @@ void GLWidget::RebuildShader(const std::string & fragment)
 			unitCounter++;
 		}
 
+		currentFragmentString = fragment;
+
 
 	}
 	else // Cargo el provisional
@@ -298,20 +300,28 @@ void GLWidget::RebuildShader(const std::string & fragment)
 		GLOBAL_CONTAIER->GlobalShader = new Shader();
 		GLOBAL_CONTAIER->GlobalShader->Load("../../Resources/Shaders/phongNormalShader", "", "");
 		TEXTURE_MANAGER->SetStandarMode();
+		currentFragmentString = GLOBAL_CONTAIER->GlobalShader->GetFragmentString();
 
 	}
 
-	SaveShaderToFile(fragment, "../../Resources/Shaders/shaderResult.fs");
+	//SaveShaderToFile(fragment, "../../Resources/Shaders/shaderResult.fs");
 	
 	GLOBAL_CONTAIER->GlobalShader->Bind(); 
 	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightColor", lightColor);
 	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightDiffuseIntensity", diffuseIntensity);
 	GLOBAL_CONTAIER->GlobalShader->SetUniform("LightAmbientIntensity", ambientIntensity);
 	GLOBAL_CONTAIER->GlobalShader->Update(transform, camera);
+
 ;
 	
 	update();
 	
+}
+
+
+string GLWidget::GetCurrentFragmentString()
+{
+	return currentFragmentString;
 }
 
 

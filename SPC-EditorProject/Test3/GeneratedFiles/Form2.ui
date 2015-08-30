@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1072</width>
-    <height>891</height>
+    <height>918</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -461,8 +461,8 @@
    <slot>on_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1133</x>
-     <y>234</y>
+     <x>1063</x>
+     <y>255</y>
     </hint>
     <hint type="destinationlabel">
      <x>567</x>
@@ -477,7 +477,7 @@
    <slot>on_buttonSphereMesh_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1125</x>
+     <x>1055</x>
      <y>82</y>
     </hint>
     <hint type="destinationlabel">
@@ -493,7 +493,7 @@
    <slot>on_buttonCubeMesh_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1125</x>
+     <x>1055</x>
      <y>116</y>
     </hint>
     <hint type="destinationlabel">
@@ -509,7 +509,7 @@
    <slot>on_buttonCylinderMesh_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1125</x>
+     <x>1055</x>
      <y>150</y>
     </hint>
     <hint type="destinationlabel">
@@ -525,7 +525,7 @@
    <slot>on_buttonTeaPotMesh_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1125</x>
+     <x>1055</x>
      <y>184</y>
     </hint>
     <hint type="destinationlabel">
@@ -541,7 +541,7 @@
    <slot>on_value_changed_lightColorR()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>929</x>
+     <x>859</x>
      <y>354</y>
     </hint>
     <hint type="destinationlabel">
@@ -557,7 +557,7 @@
    <slot>on_value_changed_lightColoG()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1010</x>
+     <x>940</x>
      <y>354</y>
     </hint>
     <hint type="destinationlabel">
@@ -573,7 +573,7 @@
    <slot>on_value_changed_lightColorB()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1091</x>
+     <x>1021</x>
      <y>354</y>
     </hint>
     <hint type="destinationlabel">
@@ -589,7 +589,7 @@
    <slot>on_slider_diffuse_changed(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1102</x>
+     <x>1032</x>
      <y>402</y>
     </hint>
     <hint type="destinationlabel">
@@ -605,7 +605,7 @@
    <slot>on_slider_ambient_changed(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1102</x>
+     <x>1032</x>
      <y>449</y>
     </hint>
     <hint type="destinationlabel">
@@ -621,12 +621,28 @@
    <slot>on_value_changed_lightColorG()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>990</x>
-     <y>339</y>
+     <x>940</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>754</x>
      <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_viewShader</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_showShaderButton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1042</x>
+     <y>222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>685</x>
+     <y>214</y>
     </hint>
    </hints>
   </connection>
@@ -642,5 +658,6 @@
   <slot>on_value_changed_lightColorB()</slot>
   <slot>on_slider_diffuse_changed(int)</slot>
   <slot>on_slider_ambient_changed(int)</slot>
+  <slot>on_showShaderButton()</slot>
  </slots>
 </ui>

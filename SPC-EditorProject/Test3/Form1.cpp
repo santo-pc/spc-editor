@@ -9,7 +9,7 @@
 #include "ShaderComposer.h"
 #include "qapplication.h"
 #include "qmessagebox.h"
-
+#include "modalshader.h"
 #include <qgridlayout.h>
 #include "qneblock.h"
 
@@ -127,15 +127,14 @@ void Form1::on_button_clicked()
 
 	string mainString = mainNode->Resolve();
 
-	string cadenaX = STRINGDEFINES->SampleFragmet();
-
-	cout << "Pintando cadena\n\n" << cadenaX << endl;	
-
+	
 	std::string result = SHADER_COMPOSER->Compose(mainString);
+
+	
 
 	glwidget->RebuildShader(result);
 
-	//SaveShaderToFile(result, "shaderResult.fs");
+	SaveShaderToFile(result, "../../Resources/Shaders/shaderResult.fs");
 
 	cout << "FIN BUTTON" << endl;
 	
@@ -417,3 +416,13 @@ void Form1::RefreshNodeEditor()
 }
 
 
+void Form1::on_showShaderButton()
+{
+	
+	ModalShader modal;
+
+	modal.SetShaderString(glwidget->GetCurrentFragmentString());
+	modal.setWindowModality(Qt::ApplicationModal);
+	modal.exec();
+	
+}

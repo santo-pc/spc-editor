@@ -59,7 +59,12 @@ bool Shader::Load(const std::string& fileName, std::string vertex = "", std::str
 	if (vertex == "")
 		vertex = LoadShader(fileName + ".vs");
 	if (fragment == "")
+	{
 		fragment = LoadShader(fileName + ".fs");
+		
+	}
+
+	currentFragmentString = fragment;
 
 	succes = true;
 	m_shaders[0] = CreateShader(vertex, GL_VERTEX_SHADER);
@@ -313,6 +318,13 @@ int Shader::GetUniformLocation(const char * name)
 
 	return m_uniformLocations[name];
 }
+
+
+string Shader::GetFragmentString()
+{
+	return currentFragmentString;
+}
+
 
 
 GlobalContainer * GlobalContainer::Instance()

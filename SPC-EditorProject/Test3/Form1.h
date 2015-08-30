@@ -46,6 +46,7 @@ class Form1 : public QMainWindow
 		void ClearLayout(QLayout* layout, bool deleteWidgets);
 
 		bool fistTime = true;
+		string	ultimoShader;
 
 		private slots:
 			void on_button_clicked();
@@ -59,6 +60,7 @@ class Form1 : public QMainWindow
 			void on_slider_ambient_changed(int value);
 			void on_slider_diffuse_changed(int value);
 			void on_refresh_nodeEditor();
+			void on_showShaderButton();
 
 
 };

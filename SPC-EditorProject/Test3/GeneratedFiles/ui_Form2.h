@@ -75,7 +75,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1072, 891);
+        MainWindow->resize(1072, 918);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -303,6 +303,7 @@ public:
         QObject::connect(horizontalSliderDiffuse, SIGNAL(valueChanged(int)), MainWindow, SLOT(on_slider_diffuse_changed(int)));
         QObject::connect(horizontalSliderAmbient, SIGNAL(valueChanged(int)), MainWindow, SLOT(on_slider_ambient_changed(int)));
         QObject::connect(lineEditG, SIGNAL(textChanged(QString)), MainWindow, SLOT(on_value_changed_lightColorG()));
+        QObject::connect(pushButton_viewShader, SIGNAL(clicked()), MainWindow, SLOT(on_showShaderButton()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi

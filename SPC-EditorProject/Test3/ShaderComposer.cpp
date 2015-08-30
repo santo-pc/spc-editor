@@ -169,8 +169,6 @@ void ShaderComposer::ClearAll()
 string ShaderComposer::GetHeaderStandard()
 {
 	return "#version 400\n"
-
-		"const int MAX_NUM_LIGHTS = 8; // max number of lights\n"
 		"\n"
 		"in vec3 VexterPosEye;\n"
 		"in vec2 TexCoord;\n"

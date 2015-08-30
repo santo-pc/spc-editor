@@ -36,7 +36,7 @@ public:
 	void Update(Transform& transform, Camera& camera);
 	void RegisterUniform(const char *name);
 	bool succes = true;
-
+	string GetFragmentString();
 
 protected:
 	static const unsigned int NUM_SHADERS = 2;
@@ -47,7 +47,7 @@ protected:
 	int uniformIndex = 0;
 	GLuint m_program;
 private:
-
+	string currentFragmentString;
 	GLuint m_shaders[NUM_SHADERS];
 	//GLuint m_uniforms[NUM_UNIFORMS];
 
