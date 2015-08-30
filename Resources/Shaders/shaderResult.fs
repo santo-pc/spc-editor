@@ -6,32 +6,35 @@ in vec2 TexCoord;
 in vec3 ViewDir;
 in vec3 LightDirStaticTan;
 
-
 uniform vec3 LightColor;
 uniform float LightDiffuseIntensity;
 uniform float LightAmbientIntensity;
-
-struct MaterialInfo
-{
-	vec3 Ka;            // Ambient reflectivity
-	vec3 Ks;            // Specular reflectivity
-	float Shininess;    // Specular shininess factor
-};
-//uniform MaterialInfo Material;
-
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
+const float QNConstFloatNode0 = 0.3;
+
+const float QNConstFloatNode1 = 1;
+
+const float QNConstFloatNode2 = 1;
+
+const float QNConstFloatNode3 = 40;
+
 
 // Textures Section
 uniform sampler2D QNTextureNode0;
-
-uniform sampler2D QNTextureNode2;
 
 uniform sampler2D QNTextureNode1;
 
 
 // Functions Section
+vec4 QNAddNode0()
+{
+	vec4 A = vec4(QNConstFloatNode0);
+	vec4 B = vec4(texture(QNTextureNode0, TexCoord));
+	return A + B;
+}
+
 
 vec3 BlinnPhong(vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 {
@@ -55,12 +58,12 @@ vec3 BlinnPhong(vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 void main() 
 {
 
-	vec4 colorBase = vec4(texture(QNTextureNode0, TexCoord));
-	vec4 specularLvl = vec4(texture(QNTextureNode1, TexCoord));
-	vec4 normal = 2 * vec4( texture(QNTextureNode2, TexCoord))-1;
-	vec4 alpha = vec4(vec4(1.0));
+	vec4 colorBase = vec4(QNAddNode0());
+	vec4 specularLvl = vec4(QNConstFloatNode1);
+	vec4 normal = 2 * vec4( texture(QNTextureNode1, TexCoord))-1;
+	vec4 alpha = vec4(QNConstFloatNode2);
 	vec4 lightIntensity = vec4(0.0);
-	float shininess = 25;
+	float shininess = QNConstFloatNode3;
 
 	lightIntensity += BlinnPhong(colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);
 	FragColor = lightIntensity;

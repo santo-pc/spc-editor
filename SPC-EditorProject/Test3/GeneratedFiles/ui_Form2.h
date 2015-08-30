@@ -67,6 +67,7 @@ public:
     QLabel *label_6;
     QSlider *horizontalSliderAmbient;
     QPushButton *pushButton;
+    QPushButton *pushButton_viewShader;
     QDockWidget *dockWidgetProperties_3;
     QWidget *dockWidgetContents_4;
 
@@ -74,7 +75,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1142, 891);
+        MainWindow->resize(1072, 891);
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -97,7 +98,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1142, 21));
+        menubar->setGeometry(QRect(0, 0, 1072, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -129,7 +130,7 @@ public:
         scrollAreaWidgetContents->setSizePolicy(sizePolicy2);
         verticalLayoutWidget = new QWidget(scrollAreaWidgetContents);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(0, 0, 251, 231));
+        verticalLayoutWidget->setGeometry(QRect(0, 0, 241, 231));
         verticalLayoutXX = new QVBoxLayout(verticalLayoutWidget);
         verticalLayoutXX->setObjectName(QStringLiteral("verticalLayoutXX"));
         verticalLayoutXX->setSizeConstraint(QLayout::SetDefaultConstraint);
@@ -274,7 +275,10 @@ public:
 
         pushButton = new QPushButton(scrollAreaWidgetContents);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(250, 140, 41, 41));
+        pushButton->setGeometry(QRect(250, 190, 41, 41));
+        pushButton_viewShader = new QPushButton(scrollAreaWidgetContents);
+        pushButton_viewShader->setObjectName(QStringLiteral("pushButton_viewShader"));
+        pushButton_viewShader->setGeometry(QRect(250, 150, 41, 41));
         scrollArea->setWidget(scrollAreaWidgetContents);
         dock3DViewer->setWidget(dockWidgetContents_2);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(2), dock3DViewer);
@@ -311,9 +315,21 @@ public:
         actionNew->setToolTip(QApplication::translate("MainWindow", "<html><head/><body><p>Create New Material</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         dock3DViewer->setWindowTitle(QApplication::translate("MainWindow", "3D Viewer", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButtonMallaSphere->setToolTip(QApplication::translate("MainWindow", "Cambiar malla a esfera", 0));
+#endif // QT_NO_TOOLTIP
         pushButtonMallaSphere->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButtonMallaCube->setToolTip(QApplication::translate("MainWindow", "Cambiar malla a cubo", 0));
+#endif // QT_NO_TOOLTIP
         pushButtonMallaCube->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButtonMallaCylinder->setToolTip(QApplication::translate("MainWindow", "Cambiar malla a cilindro", 0));
+#endif // QT_NO_TOOLTIP
         pushButtonMallaCylinder->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButtonMallaTeaPot->setToolTip(QApplication::translate("MainWindow", "Cambiar malla a tetera", 0));
+#endif // QT_NO_TOOLTIP
         pushButtonMallaTeaPot->setText(QString());
         groupBox->setTitle(QApplication::translate("MainWindow", "Light Settings", 0));
         label->setText(QApplication::translate("MainWindow", "Color", 0));
@@ -322,7 +338,14 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "B:", 0));
         label_5->setText(QApplication::translate("MainWindow", "Diffuse Intensity", 0));
         label_6->setText(QApplication::translate("MainWindow", "Ambient Intensity", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "Apply", 0));
+#ifndef QT_NO_TOOLTIP
+        pushButton->setToolTip(QApplication::translate("MainWindow", "Aplicar Cambios", 0));
+#endif // QT_NO_TOOLTIP
+        pushButton->setText(QString());
+#ifndef QT_NO_TOOLTIP
+        pushButton_viewShader->setToolTip(QApplication::translate("MainWindow", "Mostrar Shader Generado", 0));
+#endif // QT_NO_TOOLTIP
+        pushButton_viewShader->setText(QString());
         dockWidgetProperties_3->setWindowTitle(QApplication::translate("MainWindow", "Properties", 0));
     } // retranslateUi
 

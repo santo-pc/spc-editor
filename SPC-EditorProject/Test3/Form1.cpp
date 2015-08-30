@@ -70,6 +70,16 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 	QIcon ButtonIcon4(pixmap4);
 	ui->pushButtonMallaTeaPot->setIcon(ButtonIcon4);
 	ui->pushButtonMallaTeaPot->setIconSize(QSize(28, 28));
+	QPixmap pixmap5("../../Resources/Icons/search99.png");
+	QIcon ButtonIcon5(pixmap5);	
+	ui->pushButton_viewShader->setIcon(ButtonIcon5);
+	ui->pushButton_viewShader->setIconSize(QSize(28, 28));
+	QPixmap pixmap6("../../Resources/Icons/tick7.png");
+	QIcon ButtonIcon6(pixmap6);
+	ui->pushButton->setIcon(ButtonIcon6);
+	ui->pushButton->setIconSize(QSize(28, 28));
+
+
 
 
 	// Set Sliders settings
@@ -100,6 +110,8 @@ Form1::Form1(QWidget *parent) :   QMainWindow(parent), ui(new Ui::MainWindow)
 
 	//QObject::connect(nodesEditor, &QNodesEditor::connectionChanged, this, &Form1::on_refresh_nodeEditor());
 	connect(nodesEditor, SIGNAL(connectionChanged()), this, SLOT(on_refresh_nodeEditor()));
+
+
 
 }
 

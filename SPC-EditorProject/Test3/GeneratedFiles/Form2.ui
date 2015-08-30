@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1142</width>
+    <width>1072</width>
     <height>891</height>
    </rect>
   </property>
@@ -31,7 +31,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1142</width>
+     <width>1072</width>
      <height>21</height>
     </rect>
    </property>
@@ -98,7 +98,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>251</width>
+         <width>241</width>
          <height>231</height>
         </rect>
        </property>
@@ -129,6 +129,9 @@
             <height>28</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Cambiar malla a esfera</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -147,6 +150,9 @@
             <width>28</width>
             <height>28</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Cambiar malla a cubo</string>
           </property>
           <property name="text">
            <string/>
@@ -167,6 +173,9 @@
             <height>28</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>Cambiar malla a cilindro</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -185,6 +194,9 @@
             <width>28</width>
             <height>28</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Cambiar malla a tetera</string>
           </property>
           <property name="text">
            <string/>
@@ -375,13 +387,32 @@
        <property name="geometry">
         <rect>
          <x>250</x>
-         <y>140</y>
+         <y>190</y>
          <width>41</width>
          <height>41</height>
         </rect>
        </property>
+       <property name="toolTip">
+        <string>Aplicar Cambios</string>
+       </property>
        <property name="text">
-        <string>Apply</string>
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_viewShader">
+       <property name="geometry">
+        <rect>
+         <x>250</x>
+         <y>150</y>
+         <width>41</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Mostrar Shader Generado</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>

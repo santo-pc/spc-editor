@@ -67,10 +67,10 @@ void main()
 	TotalLight += vec4(BlinnPhong(texColor.rgb, normal.rgb, specularLvl.rgb, 25), 1.0);
 
 
-	FragColor = TotalLight;// * texColor;	
+	//FragColor = TotalLight;// * texColor;	
 	//FragColor = texColor;
 	//FragColor = texture( NormalMapTex, TexCoord );
-	//FragColor = vec4(1.0, 0.0, 0.0, 1.0);	
+	FragColor = vec4(0.75, 0.10, 0.1, 1.0);	
 
 	FragColor.a = 1;
 

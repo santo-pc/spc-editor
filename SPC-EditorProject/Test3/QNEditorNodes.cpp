@@ -54,7 +54,12 @@ static void GetPreffixAndSuffixByNodeType(int type, QNEPort * outPut, std::strin
 			break;
 	}
 	
-	
+	//if (type == ID_TYPE_SPTextureNode)
+	//{
+	//	QMessageBox box;
+	//	box.setText(outPut->portName());
+	//	box.exec();
+	//}
 	// determinar el componente conectado usando el miembro de vector4d que le corresponde
 	if (outPut->portName() == "R" || outPut->portName() == "G" || outPut->portName() == "B" || outPut->portName() == "A")
 	{
