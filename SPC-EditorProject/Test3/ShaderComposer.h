@@ -7,6 +7,19 @@
 #include <vector>
 
 #define SHADER_COMPOSER ShaderComposer::Instance()
+class CodeStringData
+{
+	
+	public:
+		int IdNode;
+		string Code;
+		CodeStringData(int idNode, string code)
+		{
+			IdNode = idNode;
+			Code = code;
+		};
+
+};
 
 class ShaderComposer
 {
@@ -16,9 +29,13 @@ class ShaderComposer
 
 		std::map<int, std::string> listNodeMemberNamesString;
 		
-		std::map<int, std::string> listNodeCodeFunction;
-		std::map<int, std::string> listNodeCodeConst;
-		std::map<int, std::string> listNodeCodeTexture;
+		//std::map<int, std::string> listNodeCodeFunction;
+		//std::map<int, std::string> listNodeCodeConst;
+		//std::map<int, std::string> listNodeCodeTexture;
+		std::vector<CodeStringData> vectorNodeCodeFunction;
+		std::vector<CodeStringData> vectorNodeCodeConst;
+		std::vector<CodeStringData> vectorNodeCodeTexture;
+
 
 		
 		

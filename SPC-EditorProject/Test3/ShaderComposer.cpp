@@ -64,15 +64,26 @@ void ShaderComposer::GuardarEnLista(int nodeId, std::string memberString)
 }
 
 
+
+
 bool ShaderComposer::AppendCodeFunction(QNEBlock * node, std::string code)
 {
-	std::map<int, std::string>::const_iterator it = listNodeCodeFunction.find(node->GetId());
-	assert((it != listNodeCodeFunction.end()) && "<Node::NodeFromId>: invalid ID");
-
-	// Existe devuelvo su nombre
-	if ((it == listNodeCodeFunction.end()))
+	bool existe = false;
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeFunction.begin(); 
+		 it != vectorNodeCodeFunction.end();
+		++it)
 	{
-		listNodeCodeFunction.insert(std::pair<int, std::string>(node->GetId(), code));
+		if (node->GetId() == (*it).IdNode)
+		{
+			existe = true;
+			break;
+		}
+	}
+
+	
+	if (!existe)
+	{
+		vectorNodeCodeFunction.push_back(CodeStringData(node->GetId(), code));
 		return true;
 	}
 
@@ -82,13 +93,22 @@ bool ShaderComposer::AppendCodeFunction(QNEBlock * node, std::string code)
 
 bool ShaderComposer::AppendCodeConst(QNEBlock * node, std::string code)
 {
-	std::map<int, std::string>::const_iterator it = listNodeCodeConst.find(node->GetId());
-	assert((it != listNodeCodeConst.end()) && "<Node::NodeFromId>: invalid ID");
-
-	// Existe devuelvo su nombre
-	if ((it == listNodeCodeConst.end()))
+	bool existe = false;
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeConst.begin();
+		it != vectorNodeCodeConst.end();
+		++it)
 	{
-		listNodeCodeConst.insert(std::pair<int, std::string>(node->GetId(), code));
+		if (node->GetId() == (*it).IdNode)
+		{
+			existe = true;
+			break;
+		}
+	}
+
+
+	if (!existe)
+	{
+		vectorNodeCodeConst.push_back(CodeStringData(node->GetId(), code));
 		return true;
 	}
 
@@ -98,13 +118,22 @@ bool ShaderComposer::AppendCodeConst(QNEBlock * node, std::string code)
 
 bool ShaderComposer::AppendCodeTexture(QNEBlock * node, std::string code)
 {
-	std::map<int, std::string>::const_iterator it = listNodeCodeTexture.find(node->GetId());
-	assert((it == listNodeCodeTexture.end()) && "<Node::NodeFromId>: invalid ID");
-
-	// Existe devuelvo su nombre
-	if ((it == listNodeCodeTexture.end()))
+	bool existe = false;
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeTexture.begin();
+		it != vectorNodeCodeTexture.end();
+		++it)
 	{
-		listNodeCodeTexture.insert(std::pair<int, std::string>(node->GetId(), code));
+		if (node->GetId() == (*it).IdNode)
+		{
+			existe = true;
+			break;
+		}
+	}
+
+
+	if (!existe)
+	{
+		vectorNodeCodeTexture.push_back(CodeStringData(node->GetId(), code));
 		return true;
 	}
 
@@ -119,23 +148,23 @@ string ShaderComposer::Compose(string mainString)
 
 	
 	result += "\n// Const Section\n";
-	for (std::map<int, std::string>::const_iterator it = listNodeCodeConst.begin(); it != listNodeCodeConst.end(); ++it)
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeConst.begin(); it != vectorNodeCodeConst.end(); ++it)
 	{
-		result += (*it).second + "\n";
+		result += (*it).Code+ "\n";
 	}
 
 	result += "\n// Textures Section\n";
 
-	for (std::map<int, std::string>::const_iterator it = listNodeCodeTexture.begin(); it != listNodeCodeTexture.end(); ++it)
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeTexture.begin(); it != vectorNodeCodeTexture.end(); ++it)
 	{
-		result += (*it).second + "\n";
+		result += (*it).Code + "\n";
 	}
 
 	result += "\n// Functions Section\n";
 
-	for (std::map<int, std::string>::const_iterator it = listNodeCodeFunction.begin(); it != listNodeCodeFunction.end(); ++it)
+	for (std::vector<CodeStringData>::const_iterator it = vectorNodeCodeFunction.begin(); it != vectorNodeCodeFunction.end(); ++it)
 	{
-		result += (*it).second + "\n";
+		result += (*it).Code + "\n";
 	}
 
 	result += GetBlinnPhongStandard();
@@ -159,9 +188,12 @@ void ShaderComposer::ClearAll()
 	// Limpiar las listas
 	listNodeMemberNamesString.clear();
 	listNodeMemberNamesStringTextures.clear();
-	listNodeCodeConst.clear();
+	/*listNodeCodeConst.clear();
 	listNodeCodeTexture.clear();
-	listNodeCodeFunction.clear();
+	listNodeCodeFunction.clear();*/
+	vectorNodeCodeConst.clear();
+	vectorNodeCodeTexture.clear();
+	vectorNodeCodeFunction.clear();
 	
 
 	
