@@ -37,7 +37,7 @@ public:
     {
         if (ModalShader->objectName().isEmpty())
             ModalShader->setObjectName(QStringLiteral("ModalShader"));
-        ModalShader->resize(581, 679);
+        ModalShader->resize(604, 679);
         verticalLayout_2 = new QVBoxLayout(ModalShader);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
