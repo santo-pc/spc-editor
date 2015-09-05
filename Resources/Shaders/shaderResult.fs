@@ -11,7 +11,7 @@ uniform float LightAmbientIntensity;
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
-const vec4 SPC_Vector4DNode0 = vec4(1, 0, 1, 0);
+const vec4 SPC_Vector4DNode0 = vec4(0, 1, 0, 0);
 
 const float SPC_ConstFloatNode0 = 50;
 
@@ -29,17 +29,10 @@ uniform sampler2D SPC_TextureNode4;
 
 
 // Functions Section
-vec4 SPC_MultiplyNode0()
-{
-	vec4 A = vec4(SPC_Vector4DNode0);
-	vec4 B = vec4(texture(SPC_TextureNode0, TexCoord).r);
-	return A * B;
-}
-
 vec4 SPC_LerpNode0()
 {
-	vec4 ValX = vec4(SPC_MultiplyNode0());
-	vec4 Valy = vec4(texture(SPC_TextureNode0, TexCoord));
+	vec4 ValX = vec4(texture(SPC_TextureNode0, TexCoord));
+	vec4 Valy = vec4(SPC_Vector4DNode0);
 	vec4 t = vec4(texture(SPC_TextureNode1, TexCoord).r);
 	return mix(ValX, Valy, t);
 }
