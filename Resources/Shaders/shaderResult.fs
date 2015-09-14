@@ -11,30 +11,17 @@ uniform float LightAmbientIntensity;
 layout(location = 0) out vec4 FragColor;
 
 // Const Section
-const vec4 SPC_Vector4DNode0 = vec4(0, 1, 0, 0);
-
-const float SPC_ConstFloatNode0 = 50;
-
 
 // Textures Section
 uniform sampler2D SPC_TextureNode0;
 
-uniform sampler2D SPC_TextureNode1;
-
-uniform sampler2D SPC_TextureNode2;
-
-uniform sampler2D SPC_TextureNode3;
-
-uniform sampler2D SPC_TextureNode4;
-
 
 // Functions Section
-vec4 SPC_LerpNode0()
+vec4 SPC_AddNode0()
 {
-	vec4 ValX = vec4(texture(SPC_TextureNode0, TexCoord));
-	vec4 Valy = vec4(SPC_Vector4DNode0);
-	vec4 t = vec4(texture(SPC_TextureNode1, TexCoord).r);
-	return mix(ValX, Valy, t);
+	vec4 A = vec4(texture(SPC_TextureNode0, TexCoord));
+	vec4 B = vec4(texture(SPC_TextureNode0, TexCoord));
+	return A + B;
 }
 
 
@@ -60,12 +47,12 @@ vec3 BlinnPhong(vec3 diffR, vec3 norm, vec3 specularLvl, float Shininess)
 void main() 
 {
 
-	vec4 colorBase = vec4(SPC_LerpNode0());
-	vec4 specularLvl = vec4(texture(SPC_TextureNode2, TexCoord));
-	vec4 normal = 2 * vec4( texture(SPC_TextureNode3, TexCoord))-1;
-	vec4 alpha = vec4(texture(SPC_TextureNode4, TexCoord));
+	vec4 colorBase = vec4(SPC_AddNode0());
+	vec4 specularLvl = vec4(vec4(0.55));
+	vec4 normal = 2 * vec4( SPC_AddNode0().r)-1;
+	vec4 alpha = vec4(vec4(1.0));
 	vec4 lightIntensity = vec4(0.0);
-	float shininess = SPC_ConstFloatNode0;
+	float shininess = 25;
 
 	lightIntensity += BlinnPhong(colorBase.rgb, normal.rgb, specularLvl.rgb, shininess);
 	FragColor = lightIntensity;
