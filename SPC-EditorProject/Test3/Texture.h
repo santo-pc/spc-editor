@@ -43,6 +43,7 @@ class Texture
 
 		bool Load();
 		void Bind(int unit);
+		void Delete();
 
 	private:
 		std::string m_fileName;

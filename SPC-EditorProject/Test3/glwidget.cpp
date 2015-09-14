@@ -128,8 +128,8 @@ void GLWidget::initializeGL()
 	printf("\nOpenGL version supported by this platform (%s): \n", glGetString(GL_VERSION));
 
 	glEnable(GL_DEPTH_TEST);	// ENABLE  Z BUFFER
-	glEnable(GL_CULL_FACE);		// ENABLE  CULLING
-	glCullFace(GL_BACK);		// ENABLE CULLING BACK FACE TYPE
+	//glEnable(GL_CULL_FACE);		// ENABLE  CULLING
+	//glCullFace(GL_BACK);		// ENABLE CULLING BACK FACE TYPE
 
 	glEnable(GL_BLEND);			// ENABLE  BLENDING
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // SET BLEND FUNC
@@ -266,6 +266,7 @@ void GLWidget::RebuildShader(const std::string & fragment)
 {
 	
 	Shader * nuevo = new Shader();
+	
 
 	if (nuevo->Load("../../Resources/Shaders/phongNormalShader", "", fragment))
 	{
@@ -276,6 +277,7 @@ void GLWidget::RebuildShader(const std::string & fragment)
 
 		int unitCounter = 0;
 
+		TEXTURE_MANAGER->FreeTextures();
 
 		// Set the images
 		for (std::map<int, string>::iterator it = SHADER_COMPOSER->listNodeMemberNamesStringTextures.begin();

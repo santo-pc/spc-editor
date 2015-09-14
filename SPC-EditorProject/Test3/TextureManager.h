@@ -30,6 +30,7 @@ public:
 	bool AddTexture(int unitIndex, int unit, string path, string memberName);
 	void DrawTextures1();
 	void DrawTextures2();
+	void FreeTextures();
 	//void DrawTextures();
 
 

@@ -46,3 +46,10 @@ void Texture::Bind(int unit)
 	glActiveTexture(unit);
 	glBindTexture(m_textureTarget, m_textureObj);
 }
+
+
+void Texture::Delete()
+{
+	glDeleteTextures(1, &m_textureObj);
+
+}

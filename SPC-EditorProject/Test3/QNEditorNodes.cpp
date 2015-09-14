@@ -740,6 +740,7 @@ void QNTextureNode::OpenSelectWindow()
 	QFileDialog * modal = new QFileDialog();
 	modal->setFileMode(QFileDialog::ExistingFile);
 	modal->setNameFilter("*.png *.bmp *.gif");
+	modal->setDirectory(QDir("../../Resources/Images/MapsMaterials"));
 	QString file =  modal->getOpenFileName();
 	
 	if (file != "")

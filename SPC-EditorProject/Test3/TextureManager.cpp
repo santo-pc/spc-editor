@@ -90,3 +90,24 @@ void TextureManager::DrawTextures2()
 	}
 
 }
+
+
+void TextureManager::FreeTextures()
+{
+	cout << "Liberando texturas..." << endl;
+	vector<TextureInfo>::const_iterator it;
+	for (it = textureVector.begin(); it != textureVector.end(); ++it)
+	{
+		if ((*it).texture)
+		{
+			(*it).texture->Delete();
+
+			delete (*it).texture;
+		}
+
+		//(*it).texture = NULL;
+	}
+
+	textureVector.clear();
+	cout << "Texturas liberas OK"<< endl;
+}
