@@ -128,8 +128,8 @@ void GLWidget::initializeGL()
 	printf("\nOpenGL version supported by this platform (%s): \n", glGetString(GL_VERSION));
 
 	glEnable(GL_DEPTH_TEST);	// ENABLE  Z BUFFER
-	//glEnable(GL_CULL_FACE);		// ENABLE  CULLING
-	//glCullFace(GL_BACK);		// ENABLE CULLING BACK FACE TYPE
+	glEnable(GL_CULL_FACE);		// ENABLE  CULLING
+	glCullFace(GL_BACK);		// ENABLE CULLING BACK FACE TYPE
 
 	glEnable(GL_BLEND);			// ENABLE  BLENDING
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // SET BLEND FUNC
@@ -172,7 +172,7 @@ void GLWidget::setupVertexAttribs()
 void GLWidget::paintGL()
 {
 	std::cout << "Init Paint" << std::endl;
-	glClearColor(0.4, 0.4, 0.4, 1.0);
+	glClearColor(0.9, 0.9, 0.9, 1.0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
